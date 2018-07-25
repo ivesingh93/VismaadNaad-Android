@@ -330,7 +330,6 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
         miniPlayerLayout = findViewById(R.id.mini_player);
         shabadName = findViewById(R.id.shabad_name_mini_player);
         raagiName = findViewById(R.id.raagi_name_mini_player);
-        sha = findViewById(R.id.sha);
         extraView = findViewById(R.id.extra_view);
         extraRaagiImage = findViewById(R.id.extra_raagi_image);
         extraRaagiName = findViewById(R.id.raagi_name_extra);
