@@ -1,0 +1,334 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="settings"
+            type="com.vismaad.naad.navigation.Settings" />
+    </data>
+
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#2c363e">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+
+            </com.google.android.gms.ads.AdView>
+
+            <ScrollView
+
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+
+                    android:gravity="center"
+                    android:orientation="vertical"
+                   >
+
+                    <!-- <android.support.v4.widget.NestedScrollView
+                         android:id="@+id/scrollView"
+                         android:layout_width="match_parent"
+                         android:layout_height="match_parent"
+                        >-->
+
+                    <LinearLayout
+                        android:id="@+id/ln"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_bg"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txtAbout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="20dp"
+                                android:text="Got Question"
+                                android:textColor="#e75e59"
+                                android:textSize="20sp" />
+
+
+                            <TextView
+                                android:id="@+id/txtAboutShow"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txtAbout"
+                                android:layout_centerVertical="true"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:padding="10dp"
+                                android:paddingBottom="10dp"
+                                android:text="We value your feedback and welcome your question and concern. Fill out the form below. One of our support team members will help you."
+                                android:textColor="#b2b2b2"
+                                android:textSize="18sp" />
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:orientation="vertical">
+
+
+                            <EditText
+                                android:id="@+id/username_ET"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginTop="25dp"
+                                android:background="@drawable/edittext_bg"
+                                android:ellipsize="end"
+                                android:ems="10"
+                                android:fontFamily="@font/tinos"
+                                android:hint="Name"
+                                android:inputType="text"
+                                android:padding="10dp"
+                                android:textColor="@color/gray"
+                                android:textColorHint="@color/gray"
+                                android:textSize="20sp" />
+
+
+                            <EditText
+                                android:id="@+id/email_username_ET"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginTop="15dp"
+                                android:background="@drawable/edittext_bg"
+                                android:ellipsize="end"
+                                android:ems="10"
+                                android:fontFamily="@font/tinos"
+                                android:hint="Email"
+                                android:inputType="textEmailAddress"
+                                android:padding="10dp"
+                                android:textColor="@color/gray"
+                                android:textColorHint="@color/gray"
+                                android:textSize="20sp" />
+
+
+                            <EditText
+                                android:id="@+id/meg_ET"
+                                android:layout_width="match_parent"
+                                android:layout_height="120dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginTop="15dp"
+                                android:background="@drawable/edittext_bg"
+                                android:ellipsize="end"
+                                android:ems="10"
+                                android:fontFamily="@font/tinos"
+                                android:gravity="top"
+                                android:hint="Messsage"
+                                android:inputType="textEmailAddress"
+                                android:padding="10dp"
+                                android:textColor="@color/gray"
+                                android:textColorHint="@color/gray"
+                                android:textSize="20sp" />
+
+
+                            <Button
+                                android:id="@+id/btnSubmit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="30dp"
+                                android:layout_marginRight="30dp"
+                                android:layout_marginTop="20dp"
+                                android:layout_weight=".5"
+                                android:width="150dp"
+                                android:background="#e75e59"
+                                android:text="Submit"
+                                android:textColor="@color/white" />
+
+
+                            <RelativeLayout
+                                android:id="@+id/rl_fb_like"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="30dp"
+                                android:layout_marginRight="30dp"
+                                android:layout_marginTop="20dp"
+                                android:background="@color/facebook"
+                                android:padding="10dp">
+
+                                <ImageView
+                                    android:id="@+id/imageLike"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_marginRight="7dp"
+                                    android:layout_toLeftOf="@+id/txtLikeFb"
+                                    android:src="@mipmap/like" />
+
+
+                                <TextView
+                                    android:id="@+id/txtLikeFb"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:text="Like us on Facebook"
+                                    android:textColor="@color/white" />
+
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/rl1"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="7dp"
+                                android:gravity="center">
+
+                                <ImageView
+
+                                    android:id="@+id/shabad_thumbnail_IV"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:clickable="true"
+                                    android:padding="4dp"
+                                    android:scaleType="fitXY"
+                                    android:tint="@color/appThemeColor"
+                                    app:srcCompat="@drawable/logout" />
+
+
+                                <TextView
+
+                                    android:id="@+id/txtLogout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/shabad_thumbnail_IV"
+                                    android:text="Logout"
+                                    android:textColor="@color/white" />
+
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:background="#ffffff"
+                            android:visibility="gone" />
+
+                        <LinearLayout
+                            android:id="@+id/rl3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/txtSupport"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="Support"
+                                android:textColor="#b2b2b2" />
+
+
+                            <TextView
+                                android:id="@+id/txtSupportShow"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txtAbout"
+                                android:layout_centerVertical="true"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:paddingBottom="10dp"
+                                android:text="Get help from us and community."
+                                android:textColor="#b2b2b2" />
+
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:background="#ffffff"
+                            android:visibility="gone" />
+
+                        <LinearLayout
+                            android:id="@+id/rl2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/txtCache"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="Delete cache and saved data"
+                                android:textColor="#b2b2b2" />
+
+
+                            <TextView
+                                android:id="@+id/txtDelete"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txtAbout"
+                                android:layout_centerVertical="true"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:paddingBottom="10dp"
+                                android:text="Get rid of everything but the appitself."
+                                android:textColor="#b2b2b2" />
+
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:background="#ffffff"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+                    <!-- </android.support.v4.widget.NestedScrollView>-->
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</layout>

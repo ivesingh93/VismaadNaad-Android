@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- normal -->
+    <dimen name="action_bar_size">56dp</dimen>
+
+    <dimen name="image_size">40dp</dimen>
+
+    <!-- app_bar_main -->
+    <dimen name="abm_mini_player_song">15sp</dimen>
+    <dimen name="abm_mini_player_artist">13sp</dimen>
+    <dimen name="abm_mini_player_height">56dp</dimen>
+    <dimen name="abm_mini_player_padd_left_right">5dp</dimen>
+    <dimen name="abm_title_and_art_padd_combined">5dp</dimen>
+    <dimen name="abm_title_and_art_padd">10dp</dimen>
+    <dimen name="abm_play_next_padd">3dp</dimen>
+
+
+ <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="header_view_start_margin_left">16dp</dimen>
+    <dimen name="header_view_end_margin_left">40dp</dimen>
+    <dimen name="header_view_end_margin_right">14dp</dimen>
+    <dimen name="header_view_start_margin_bottom">14dp</dimen>
+    <dimen name="header_view_start_text_size">32sp</dimen>
+    <dimen name="header_view_end_text_size">18sp</dimen>
+
+
+
+
+
+
+
+    <dimen name="toolbar_height">250dp</dimen>
+
+    <dimen name="default_collapsed_padding">72dp</dimen>
+    <dimen name="default_expanded_padding">16dp</dimen>
+    <dimen name="default_collapsed_image_size">40dp</dimen>
+    <dimen name="default_expanded_image_size">60dp</dimen>
+    <dimen name="default_collapsed_text_size">18sp</dimen>
+    <dimen name="default_expanded_text_size">19sp</dimen>
+
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+    <dimen name="image_left_margin_collapsed">20dp</dimen>
+    <dimen name="image_top_margin_collapsed">10dp</dimen>
+    <dimen name="title_left_margin_collapsed">72dp</dimen>
+    <dimen name="title_top_margin_collapsed">25dp</dimen>
+    <dimen name="subtitle_left_margin_collapsed">72dp</dimen>
+    <dimen name="subtitle_top_margin_collapsed">40dp</dimen>
+
+
+
+
+    <dimen name="image_width">100dp</dimen>
+    <dimen name="image_final_width">32dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
+    <dimen name="expanded_toolbar_height">200dp</dimen>
+    <dimen name="textsize_large">20sp</dimen>
+    <dimen name="textsize_medium">18sp</dimen>
+    <dimen name="textsize_xlarge">30sp</dimen>
+    <dimen name="spacing_small">12dp</dimen>
+    <dimen name="spacing_xsmall">8dp</dimen>
+    <dimen name="spacing_xxsmall">4dp</dimen>
+    <dimen name="border_width">2dp</dimen>
+
+
+
+
+
+ <!-- Default screen margins, per the Android Design guidelines. -->
+    <!--<dimen name="activity_horizontal_margin">16dp</dimen>-->
+    <!--<dimen name="activity_vertical_margin">16dp</dimen>-->
+    <!--<dimen name="image_width">110dp</dimen>-->
+    <dimen name="image_small_width">32dp</dimen>
+
+
+</resources>

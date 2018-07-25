@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2c363e"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="#2c363e"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <TextView
+
+            android:id="@+id/textDialog"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:text="You can only create playlist when you signup to app."
+            android:textColor="#FFF"
+            android:textSize="20sp" />
+
+
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textDialog"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/colorAccent"
+            android:gravity="center_horizontal"
+            android:hint="Playlist Name"
+            android:singleLine="true"
+            android:textColor="#FFF"
+            android:textColorHint="@color/white"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:id="@+id/ln"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editName"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="100px"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/imageDialog"
+                android:layout_weight=".5"
+                android:background="@color/appThemeColor"
+                android:text=" Skip "
+                android:textColor="#FFF" />
+
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="100px"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textDialog"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/imageDialog"
+                android:layout_weight=".5"
+                android:background="@color/appThemeColor"
+                android:text=" Signup "
+                android:textColor="#FFF" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">VismaadNaad</string>
+
+    <string-array name="colors">
+        <item>White</item>
+        <item>Light Blue</item>
+        <item>Sepia</item>
+        <item>Green</item>
+    </string-array>
+    <string name="facebook_app_id">372352669918123</string>
+    <string name="fb_login_protocol_scheme">fb169515120407757</string>
+    <string name="server_client_id">211545200322-ojfo7rtpbdi5tnfqma74f3dv4tsk91ia.apps.googleusercontent.com</string>
+
+    <string name="sign_up_free">SIGN UP FREE</string>
+    <string name="continue_with_facebook">CONTINUE WITH FACEBOOK</string>
+    <string name="login">LOG IN</string>
+    <string name="existing_user">Existing User</string>
+    <string name="loading">Loading...</string>
+    <array name="apptour">
+        <item>@drawable/one_gold</item>
+        <item>@drawable/two_gold</item>
+        <item>@drawable/three_gold</item>
+        <item>@drawable/four_gold</item>
+        <item>@drawable/five_gold</item>
+        <item>@drawable/six_gold</item>
+        <item>@drawable/sveen_gold</item>
+        <item>@drawable/eight_gold</item>
+        <item>@drawable/nine_gold</item>
+    </array>
+    <string name="YOUR_ADMOB_APP_ID">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="UNIT_ID">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="hintSearchMess">Search ragies</string>
+
+</resources><!--
+
+    //4e1ab053b38360b326ac5edebbd36f58-->

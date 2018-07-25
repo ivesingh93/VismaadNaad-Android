@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#2c363e"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!--
+    In this layout i have done some worthy changes. There was weight in your previous layout.
+    It was correct but not meant to be used for this layout. Why?
+    Because here you have one thing fixed at the bottom which is the play buttons.
+    So what i did was i set this layout to get working from the bottom to top side.
+    It is not created from top to bottom because the top lyrics section is not fixed.
+    It is dynamically created according to the height of the devices
+    Due to this the lyric section may get smaller in smaller devices as it is not to stay fixed
+    The only thing that is fixed is the bottom buttons. rest all the things will get displayed
+    accordingly with the height and space available in the devices.
+
+    I have also changed the height and width of the playing buttons to some smaller as you said.
+    And yes the vector drawables was not working due to not setting the scaleType in the imageviews
+    You had to add that in them. I added it and it was applied.
+    -->
+    <RelativeLayout
+        android:id="@+id/layout1"
+        android:layout_above="@id/layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/raagi_info"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/raagi_name_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_horizontal"
+                android:text="Raagi Name"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/shabad_title_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_horizontal"
+                android:text="Shabad Name"
+                android:textColor="@android:color/white"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_above="@id/raagi_info"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="15dp"
+            android:elevation="3dp"
+            app:cardElevation="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:id="@+id/gurbani_SV"
+                android:background="@color/sepia"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical">
+
+                <TextView
+                    android:id="@+id/gurbani_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="5dp"
+                    android:gravity="center"
+                    android:text="Shabad" />
+            </ScrollView>
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:orientation="vertical">
+
+            <com.google.android.exoplayer2.ui.DefaultTimeBar
+                android:id="@+id/exo_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:touch_target_height="30dp"
+                app:scrubber_enabled_size="15dp"
+                app:scrubber_dragged_size="25dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                app:played_color="@color/appThemeColor"
+                app:buffered_color="@color/appThemeColor"
+                app:scrubber_color="@color/appThemeColor" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/exo_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="left"
+                    android:text="00:00"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/exo_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="right"
+                    android:text="12:45"
+                    android:textColor="@android:color/white" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/exo_prev"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:tint="@color/appThemeColor"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_skip_previous" />
+
+            <ImageButton
+                android:id="@+id/exo_rew"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:layout_weight="1.3"
+                android:tint="@color/appThemeColor"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_fast_rewind" />
+
+            <ImageButton
+                android:id="@+id/exo_play"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:scaleType="fitCenter"
+                android:tint="@color/appThemeColor"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_play_circle_filled" />
+
+            <ImageButton
+                android:id="@+id/exo_pause"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:scaleType="fitCenter"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:tint="@color/appThemeColor"
+                app:srcCompat="@drawable/ic_pause_circle_outline" />
+
+            <ImageButton
+                android:id="@+id/exo_ffwd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3"
+                android:scaleType="fitCenter"
+                android:tint="@color/appThemeColor"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_fast_forward" />
+
+            <ImageButton
+                android:id="@+id/exo_next"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:layout_weight="1"
+                android:tint="@color/appThemeColor"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_skip_next" />
+
+        </LinearLayout>
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView_mini"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mini_player1"
+            android:layout_centerHorizontal="true"
+            android:visibility="visible"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+
+        </com.google.android.gms.ads.AdView>
+    </LinearLayout>
+
+</RelativeLayout>

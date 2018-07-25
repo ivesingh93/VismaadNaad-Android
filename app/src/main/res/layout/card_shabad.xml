@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/shabad_card_view"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <RelativeLayout
+                android:id="@+id/rlplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/shabad_menu_IV">
+
+                <ImageView
+                    android:id="@+id/shabad_thumbnail_IV"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:focusable="false"
+                    android:padding="4dp"
+                    android:scaleType="fitXY"
+                    android:tint="@color/appThemeColor"
+                    app:srcCompat="@drawable/ic_audiotrack_black_24dp" />
+
+                <TextView
+                    android:id="@+id/shabad_title_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/shabad_thumbnail_IV"
+                    android:layout_toLeftOf="@+id/raagi_menu_IV"
+                    android:layout_toRightOf="@+id/shabad_thumbnail_IV"
+                    android:layout_toStartOf="@+id/raagi_menu_IV"
+                    android:focusable="false"
+                    android:fontFamily="@font/tinos"
+                    android:gravity=""
+                    android:paddingTop="5dp"
+                    android:text="Shabad Title"
+                    android:textColor="#fff"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/shabads_raggi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/shabad_title_TV"
+                    android:layout_toEndOf="@+id/shabad_thumbnail_IV"
+                    android:layout_toLeftOf="@+id/raagi_menu_IV"
+                    android:layout_toRightOf="@+id/shabad_thumbnail_IV"
+                    android:layout_toStartOf="@+id/raagi_menu_IV"
+                    android:text="Shabad Time"
+                    android:textColor="#b2b2b2"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/shabads_length_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/shabads_raggi"
+                    android:layout_toEndOf="@+id/shabad_thumbnail_IV"
+                    android:layout_toLeftOf="@+id/raagi_menu_IV"
+                    android:layout_toRightOf="@+id/shabad_thumbnail_IV"
+                    android:layout_toStartOf="@+id/raagi_menu_IV"
+                    android:paddingBottom="10dp"
+                    android:text="Shabad Time"
+                    android:textColor="#b2b2b2"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/shabad_menu_IV"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_more_vert_white_24dp" />
+
+            <!--<ImageView-->
+            <!--android:focusable="false"-->
+            <!--android:id="@+id/check"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="5dp"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:visibility="gone"-->
+            <!--app:srcCompat="@drawable/check" />-->
+
+            <!--<ImageView-->
+            <!--android:focusable="false"-->
+            <!--android:id="@+id/row_list_checkbox_image"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:visibility="gone"-->
+            <!--app:srcCompat="@drawable/check" />-->
+
+            <!--<CheckedTextView-->
+
+            <!--android:id="@+id/row_list_checkedtextview"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="70dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_toRightOf="@+id/rlplay"-->
+            <!--android:visibility="visible" />-->
+
+
+        </RelativeLayout>
+
+
+</LinearLayout>

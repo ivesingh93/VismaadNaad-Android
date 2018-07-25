@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/raagi_card_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:clickable="true"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackground">
+
+        <!--z
+        set wrap_content for height as it was getting full height.
+         But now you can set match_parent also. Its not showing any differences.
+         I think both will work
+        -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--
+            Set the height to wrap_content so that the image will wrap
+            it according to screens height and not fixed height. Using fixed height the image will
+            display vertical rectangle
+
+            Added adjustviewbounds to adjust the views all side to fit the imageview in the screen
+            scaletype should be fitcenter always because fitxy will stretch your image. That is not
+            what you need all the time
+            -->
+            <ImageView
+                android:id="@+id/raagi_thumbnail_IV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_launcher"
+                android:transitionName="raagi_image"/>
+
+            <!--
+            For textviews setting margin from right is not good if the name will increade than it
+            may overlap the options button as it was seen in the preview. so i changed it added
+            layout_toLeftOf property for aligning the textviews to left side of the image.
+            Same for both raagi_name_TV and shabads_count_TV
+            -->
+            <TextView
+                android:id="@+id/raagi_name_TV"
+                android:transitionName="raagi_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/raagi_thumbnail_IV"
+                android:layout_toLeftOf="@id/raagi_menu_IV"
+                android:fontFamily="@font/tinos"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:gravity=""
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:text="Hello"
+                android:textColor="#fff"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/shabads_count_TV"
+                android:transitionName="raagi_shabads_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/raagi_name_TV"
+                android:layout_toLeftOf="@id/raagi_menu_IV"
+                android:text="hello"
+                android:textColor="#b2b2b2"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:paddingBottom="10dp"
+                android:paddingRight="10dp"
+                android:textSize="12sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:foreground="?attr/selectableItemBackground"
+                android:id="@+id/raagi_card_view"/>
+
+            <!--NOTE: Uncomment the following lines to view the 3 dots.-->
+            <!--<ImageView-->
+                <!--android:id="@+id/raagi_menu_IV"-->
+                <!--android:layout_width="24dp"-->
+                <!--android:layout_height="24dp"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_below="@id/raagi_thumbnail_IV"-->
+                <!--android:layout_marginTop="18dp"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--app:srcCompat="@drawable/ic_more_vert_white_24dp" />-->
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

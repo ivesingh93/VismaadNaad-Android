@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/mini_player_bg"
+    android:paddingLeft="@dimen/abm_mini_player_padd_left_right"
+    android:paddingRight="@dimen/abm_mini_player_padd_left_right">
+
+    <RelativeLayout
+
+        android:id="@+id/mini_player"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+            android:id="@+id/mini_player1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/abm_mini_player_height">
+
+            <ImageView
+                android:id="@+id/album_art_mini_player"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_up_arrow"
+                tools:ignore="ContentDescription" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/abm_title_and_art_padd"
+                android:layout_marginRight="@dimen/abm_title_and_art_padd"
+                android:layout_toEndOf="@id/album_art_mini_player"
+                android:layout_toLeftOf="@id/play_pause_mini_player"
+                android:layout_toRightOf="@id/album_art_mini_player"
+                android:layout_toStartOf="@id/play_pause_mini_player"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/shabad_name_mini_player"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="title title title tile title title"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/abm_mini_player_song"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/raagi_name_mini_player"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="title title title tile title title"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/abm_mini_player_artist" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/play_pause_mini_player"
+                android:layout_width="@dimen/image_size"
+                android:layout_height="@dimen/image_size"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_play_circle_filled"
+                tools:ignore="ContentDescription" />
+
+        </RelativeLayout>
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView_mini"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mini_player1"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+
+        </com.google.android.gms.ads.AdView>
+    </RelativeLayout>
+</RelativeLayout>

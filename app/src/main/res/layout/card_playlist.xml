@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+        <RelativeLayout
+            android:clickable="true"
+            android:id="@+id/shabad_card_view"
+            android:background="?attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_toLeftOf="@+id/shabad_menu_IV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/shabad_thumbnail_IV"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerVertical="true"
+                    android:padding="0dp"
+                    android:scaleType="fitXY"
+                    android:tint="@color/appThemeColor"
+                    app:srcCompat="@drawable/ic_queue_music_black_24dp" />
+
+                <TextView
+                    android:id="@+id/txtPlayListName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/shabad_thumbnail_IV"
+                    android:layout_toLeftOf="@+id/raagi_menu_IV"
+                    android:layout_toRightOf="@+id/shabad_thumbnail_IV"
+                    android:layout_toStartOf="@+id/raagi_menu_IV"
+                    android:fontFamily="@font/tinos"
+                    android:text="Shabad Title"
+                    android:padding="4dp"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/shabads_raggi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/shabad_title_TV"
+                    android:layout_toEndOf="@+id/shabad_thumbnail_IV"
+                    android:layout_toLeftOf="@+id/raagi_menu_IV"
+                    android:layout_toRightOf="@+id/shabad_thumbnail_IV"
+                    android:layout_toStartOf="@+id/raagi_menu_IV"
+                    android:text="Shabad Time"
+                    android:textColor="#b2b2b2"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/txtCreated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtPlayListName"
+                    android:layout_toEndOf="@+id/shabad_thumbnail_IV"
+                    android:layout_toLeftOf="@+id/raagi_menu_IV"
+                    android:layout_toRightOf="@+id/shabad_thumbnail_IV"
+                    android:layout_toStartOf="@+id/raagi_menu_IV"
+                    android:paddingBottom="10dp"
+                    android:text=""
+                    android:textColor="#b2b2b2"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/shabad_menu_IV"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_more_vert_white_24dp" />
+
+        </RelativeLayout>
+
+</LinearLayout>

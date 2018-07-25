@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.vismaad.naad">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- To support mutiple screen devices and any density screen sizes.
+    Here xlargeScreens is false because it refers to tablet screens.
+    if you want, then you can set it true to support the app for tablets -->
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"
+        android:xlargeScreens="false" />
+
+    <application
+        android:name=".player.service.App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <!--<activity android:name=".MainActivity" android:theme="@style/AppThemes.StatusBarTransparent">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.MAIN" />-->
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--</intent-filter>-->
+        <!--</activity>-->
+        <activity
+            android:name=".whatsapp_toolbar.CollapsingImageViewActivity"
+            android:theme="@style/AppThemes.StatusBarTransparent">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity
+            android:name=".whatsapp_toolbar.customcoordiantorbehavior.CollapsingActivity"
+            android:theme="@style/AppThemes.StatusBarTransparent">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity android:name="com.vismaad.naad.AddPlayList.AddPlayListPopup">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+
+        <activity
+            android:name=".whatsapp_toolbar.ScrollingActivity"
+            android:theme="@style/AppThemes.StatusBarTransparent">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name="com.vismaad.naad.welcome.WelcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name="com.vismaad.naad.AddPlayList.ShabadsPlayList" />
+
+
+        <activity android:name="com.vismaad.naad.AddPlayList.AddPlayList" />
+        <activity android:name="com.vismaad.naad.AddPlayList.SelectPlayListShabads" />
+
+
+        <activity
+            android:name=".welcome.signup.SignupActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".navigation.NavigationActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            />
+
+        <activity
+            android:name="com.vismaad.naad.welcome.login.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize"
+
+            />
+
+
+        <activity
+            android:name="com.vismaad.naad.AddPlayList.PlaylistShabads"
+            android:theme="@style/AppThemes.StatusBarTransparent" />
+
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <receiver android:name=".player.service.ShabadPlayerForegroundService$HeadphoneReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.HEADSET_PLUG" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".player.ShabadPlayerActivity$ShowShabadReceiver" />
+        <receiver android:name=".navigation.NavigationActivity$UpdateUIReceiver" />
+        <receiver android:name=".navigation.home.raagi_detail.RaagiDetailActivity$UpdateUIReceiver" />
+
+        <activity
+            android:name=".navigation.home.raagi_detail.RaagiDetailActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/AppThemes.StatusBarTransparent">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".player.ShabadPlayerActivity"
+            android:launchMode="singleTop" />
+
+        <service android:name=".player.service.ShabadPlayerForegroundService" />
+
+    </application>
+
+</manifest>

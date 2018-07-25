@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient_1"
+    tools:context=".player.ShabadPlayerActivity">
+
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/player"
+        app:show_timeout="0"
+        app:auto_show="true"
+        app:show_shuffle_button="true"
+        app:rewind_increment="5000"
+        app:repeat_toggle_modes="all"
+        app:fastforward_increment="5000"
+        app:hide_on_touch="false"
+        app:use_controller="true"
+        app:controller_layout_id="@layout/player_view"
+        android:layout_alignParentBottom="true"
+        app:default_artwork="@drawable/exo_controls_next"
+        app:surface_type="none"
+        app:use_artwork="true" />
+
+
+</android.support.constraint.ConstraintLayout>
