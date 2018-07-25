@@ -1,5 +1,6 @@
 package com.vismaad.naad.navigation;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -139,6 +140,20 @@ public class Settings extends Fragment implements View.OnClickListener {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.clear();
                 editor.commit();
+
+//                ActivityManager manager = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
+//                assert manager != null;
+//                for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+//                    String serviceStr = "com.sehaj.bani.player.service.ShabadPlayerForegroundService";
+//                    if (serviceStr.equals(service.service.getClassName())) {
+//                        manager.killBackgroundProcesses(serviceStr);
+//                    }
+//                }
+//
+//                ShabadPlayerForegroundService foregroundService = new ShabadPlayerForegroundService();
+//                if(foregroundService.getInstance() != null){
+//                    foregroundService.getInstance().stop();
+//                }
                // getActivity().stopService(new Intent(getActivity(), ShabadPlayerForegroundService.class));
 
          /*       i = new Intent(getActivity(), WelcomeActivity.class);

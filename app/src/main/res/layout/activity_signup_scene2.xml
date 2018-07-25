@@ -153,6 +153,7 @@
         android:layout_alignRight="@+id/linearLayout"
         android:background="@drawable/done_button_states"
         android:gravity="bottom"
+        android:layout_marginBottom="20dp"
         android:onClick="create_account"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 

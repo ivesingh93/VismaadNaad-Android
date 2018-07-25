@@ -67,7 +67,7 @@ public class ShabadPlayerForegroundService extends Service {
     private DefaultTrackSelector trackSelector;
     private static SimpleExoPlayer player;
     private DefaultDataSourceFactory dataSourceFactory;
-    private ShabadPlayerForegroundService instance;
+    static ShabadPlayerForegroundService instance;
     private static boolean headsetConnected = false;
     private String[] shabad_links, shabad_titles;
     private String raagi_name;
@@ -383,6 +383,10 @@ public class ShabadPlayerForegroundService extends Service {
         public ShabadPlayerForegroundService getService() {
             return ShabadPlayerForegroundService.this;
         }
+    }
+
+    public ShabadPlayerForegroundService getInstance(){
+        return instance;
     }
 
     public class HeadphoneReceiver extends BroadcastReceiver {

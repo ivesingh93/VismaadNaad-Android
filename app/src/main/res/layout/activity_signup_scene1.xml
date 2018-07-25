@@ -33,7 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-
             android:onClick="exit_scene1"
             app:srcCompat="@drawable/left_arrow" />
 
@@ -108,6 +107,7 @@
         android:layout_alignRight="@+id/linearLayout"
         android:background="@drawable/next_button_states"
         android:onClick="enter_scene2"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.975"

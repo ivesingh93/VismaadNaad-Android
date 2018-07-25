@@ -14,7 +14,7 @@
     <string name="sign_up_free">SIGN UP FREE</string>
     <string name="continue_with_facebook">CONTINUE WITH FACEBOOK</string>
     <string name="login">LOG IN</string>
-    <string name="existing_user">Existing User</string>
+    <string name="existing_user">Existing User?</string>
     <string name="loading">Loading...</string>
     <array name="apptour">
         <item>@drawable/one_gold</item>

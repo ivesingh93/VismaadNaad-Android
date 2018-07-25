@@ -162,7 +162,7 @@ public class SignupActivity extends AppCompatActivity implements ISignupView {
         activity_signup_scene2 = (ViewGroup) getLayoutInflater().inflate(R.layout.activity_signup_scene2, root_scene_transition, false);
         //getWindow().setSoftInputMode(SOFT_INPUT_ADJUST_PAN);
         animation_drawable = (AnimationDrawable) root_scene_background.getBackground();
-        animation_drawable.setEnterFadeDuration(4000);
+        animation_drawable.setEnterFadeDuration(500);
         animation_drawable.setExitFadeDuration(1500);
 
         transition = TransitionInflater.from(this).inflateTransition(R.transition.transition);

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:fillViewport="true"
-    android:background="@drawable/signup_gradient_1"
+    android:background="@drawable/background_gradient_1"
     android:layout_height="match_parent">
 
 
@@ -108,7 +108,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignRight="@+id/linearLayout"
             android:background="@drawable/done_button_states"
-
+            android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.975"
