@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -30,7 +29,6 @@ android {
             abortOnError false
         }
     }
-
     dependencies {
 
         implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -81,6 +79,8 @@ android {
             url "https://maven.google.com"
         }
     }
-
     apply plugin: 'kotlin-android-extensions'
+    buildToolsVersion '27.0.3'
+}
+dependencies {
 }

@@ -149,20 +149,30 @@ public class ShabadPlayerForegroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent != null && intent.hasExtra(MediaPlayerState.SHABAD_LINKS)) {
 
-            raagi_name = intent.getStringExtra(MediaPlayerState.RAAGI_NAME);
-            shabad_links = intent.getExtras().getStringArray(MediaPlayerState.SHABAD_LINKS);
-            shabad_titles = intent.getExtras().getStringArray(MediaPlayerState.SHABAD_TITLES);
-            original_shabad_ind = intent.getExtras().getInt(MediaPlayerState.ORIGINAL_SHABAD);
-            currentShabad = intent.getExtras().getParcelable(MediaPlayerState.SHABAD);
-            shabadList = intent.getParcelableArrayListExtra(MediaPlayerState.shabad_list);
-            boolean play = intent.getBooleanExtra(MediaPlayerState.Action_Play, false);
-            long duration = intent.getLongExtra(MediaPlayerState.SHABAD_DURATION, 0);
+        if (intent.getAction().equals(Constants.STARTFOREGROUND_ACTION)) {
+            if (intent != null && intent.hasExtra(MediaPlayerState.SHABAD_LINKS)) {
 
-            setPlaylist(shabad_links, original_shabad_ind, play, duration);
+                raagi_name = intent.getStringExtra(MediaPlayerState.RAAGI_NAME);
+                shabad_links = intent.getExtras().getStringArray(MediaPlayerState.SHABAD_LINKS);
+                shabad_titles = intent.getExtras().getStringArray(MediaPlayerState.SHABAD_TITLES);
+                original_shabad_ind = intent.getExtras().getInt(MediaPlayerState.ORIGINAL_SHABAD);
+                currentShabad = intent.getExtras().getParcelable(MediaPlayerState.SHABAD);
+                shabadList = intent.getParcelableArrayListExtra(MediaPlayerState.shabad_list);
+                boolean play = intent.getBooleanExtra(MediaPlayerState.Action_Play, false);
+                long duration = intent.getLongExtra(MediaPlayerState.SHABAD_DURATION, 0);
 
-            saveLastShabadToPlay();
+                setPlaylist(shabad_links, original_shabad_ind, play, duration);
+
+                saveLastShabadToPlay();
+            }
+        } else {
+            if (intent.getAction().equals(
+                    Constants.STOPFOREGROUND_ACTION)) {
+                stop();
+            }
+            // stopForeground(true);
+            // stopSelf();
         }
         return START_STICKY;
     }
@@ -385,7 +395,7 @@ public class ShabadPlayerForegroundService extends Service {
         }
     }
 
-    public ShabadPlayerForegroundService getInstance(){
+    public ShabadPlayerForegroundService getInstance() {
         return instance;
     }
 

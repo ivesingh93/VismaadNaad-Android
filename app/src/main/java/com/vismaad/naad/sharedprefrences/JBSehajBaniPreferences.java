@@ -27,4 +27,13 @@ public class JBSehajBaniPreferences {
     public static String getRaggiId(SharedPreferences preferences) {
         return preferences.getString(SehajBaniPreferences.RAGGI_ID, SehajBaniPreferences.RAGGI_ID_VALUE);
     }
+
+    public static void setAdsCount(SharedPreferences preferences, int raggi) {
+        preferences.edit().putInt(SehajBaniPreferences.ADS_SHABADS, raggi).commit();
+    }
+
+    public static int getAdsCount(SharedPreferences preferences) {
+        return preferences.getInt(SehajBaniPreferences.ADS_SHABADS, SehajBaniPreferences.ADS_SHABADS_VALUE);
+    }
+
 }

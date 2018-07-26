@@ -26,6 +26,7 @@ import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
 import com.vismaad.naad.databinding.SettingsBinding;
 import com.vismaad.naad.player.service.App;
+import com.vismaad.naad.player.service.MediaPlayerState;
 import com.vismaad.naad.player.service.ShabadPlayerForegroundService;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
@@ -49,6 +50,7 @@ public class Settings extends Fragment implements View.OnClickListener {
     Intent intent;
     private static SimpleExoPlayer player;
     private static int status = STOPPED;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -70,11 +72,11 @@ public class Settings extends Fragment implements View.OnClickListener {
         mAdView.loadAd(adRequest);
         mSharedPreferences = getActivity().getSharedPreferences(
                 SehajBaniPreferences.Atree_PREFERENCES, Context.MODE_PRIVATE);
-       // binding.rl1.setOnClickListener(this);
+        // binding.rl1.setOnClickListener(this);
         binding.rl2.setOnClickListener(this);
         binding.btnSubmit.setOnClickListener(this);
         binding.shabadThumbnailIV.setOnClickListener(this);
-       // binding.txtLogout.setOnClickListener(this);
+        // binding.txtLogout.setOnClickListener(this);
         binding.rlFbLike.setOnClickListener(this);
         binding.txtLikeFb.setOnClickListener(this);
         binding.imageLike.setOnClickListener(this);
@@ -121,25 +123,23 @@ public class Settings extends Fragment implements View.OnClickListener {
 
 
             case R.id.shabad_thumbnail_IV:
-               // player.setPlayWhenReady(false);
-                App.setPreferencesInt(Constants.PLAYER_STATE, 0);
-               // status= STOPPED;
+                // player.setPlayWhenReady(false);
+                // App.setPreferencesInt(Constants.PLAYER_STATE, 0);
+                // status= STOPPED;
               /*  getActivity().stopForeground(true);
                 stopSelf();*/
-               // doUnbindService();
+                // doUnbindService();
                 //getActivity().stopService(new Intent(getActivity().getBaseContext(), ShabadPlayerForegroundService.class));
 
-                Intent intent2 = new Intent(getActivity(), ShabadPlayerForegroundService.class);
-                intent2.addCategory(ShabadPlayerForegroundService.TAG);
-                getActivity().stopService(intent2);
+                Intent stopIntent = new Intent(getActivity(), ShabadPlayerForegroundService.class);
+                stopIntent.setAction(Constants.STOPFOREGROUND_ACTION);
+                getActivity().startService(stopIntent);
 
                 JBSehajBaniPreferences.setRaggiId(mSharedPreferences, "");
                 JBSehajBaniPreferences.setLoginId(mSharedPreferences, "");
                 JBSehajBaniPreferences.setJwtToken(mSharedPreferences, "");
-                SharedPreferences preferences = getActivity().getSharedPreferences("shabadSettingsData", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.clear();
-                editor.commit();
+                App.setPreferences(MediaPlayerState.SHABAD, "");
+                App.setPreferences(MediaPlayerState.shabad_list, "");
 
 //                ActivityManager manager = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
 //                assert manager != null;
@@ -154,7 +154,7 @@ public class Settings extends Fragment implements View.OnClickListener {
 //                if(foregroundService.getInstance() != null){
 //                    foregroundService.getInstance().stop();
 //                }
-               // getActivity().stopService(new Intent(getActivity(), ShabadPlayerForegroundService.class));
+                // getActivity().stopService(new Intent(getActivity(), ShabadPlayerForegroundService.class));
 
          /*       i = new Intent(getActivity(), WelcomeActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -21,6 +21,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -207,6 +208,14 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
 
     }
 
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            onBackPressed();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -496,6 +505,7 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
         intent.putExtra(MediaPlayerState.Action_Play, true);
         intent.putExtra(MediaPlayerState.SHABAD_DURATION, App.getPreferenceLong(MediaPlayerState.SHABAD_DURATION));
         intent.addCategory(ShabadPlayerForegroundService.TAG);
+        intent.setAction(Constants.STARTFOREGROUND_ACTION);
         startService(intent);
         App.setPreferencesInt(Constants.PLAYER_STATE, 1);
     }

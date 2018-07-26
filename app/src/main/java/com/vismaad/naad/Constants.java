@@ -6,7 +6,8 @@ package com.vismaad.naad;
 
 public final class Constants {
 
-    private Constants(){}
+    private Constants() {
+    }
 
     public static final String GURBANI_FONT = "<big><font color=#000000>";
     public static final String PUNJABI_FONT = "<font color=#996633>";
@@ -18,7 +19,7 @@ public final class Constants {
     public static final String BIG_FONT_SINGLE_BREAK = "</font></big><br>";
     public static final String BIG_FONT_DOUBLE_BREAK = "</font></big><br><br>";
     public static final String BIG_BOLD_FONT_SINGLE_BREAK = "</font></big></b><br>";
-    public static final String BIG_BOLD_FONT_COLOR= "<b><big><font color=#FF0000>";
+    public static final String BIG_BOLD_FONT_COLOR = "<b><big><font color=#FF0000>";
 
     public static final String HOME_SCREEN = "HOME_SCREEN";
     public static final String RAAGI_DETAIL_SCREEN = "RAAGI_DETAIL_SCREEN";
@@ -33,6 +34,9 @@ public final class Constants {
     public static final String ENGLISH_CB = "ENGLISH_CB";
     public static final String FONT_SIZE = "FONT_SIZE";
 
+
+    public static String STARTFOREGROUND_ACTION = "com.vismaad.naad.player.service.startforeground";
+    public static String STOPFOREGROUND_ACTION = "com.vismaad.naad.player.service.stopforeground";
 }
 
 
