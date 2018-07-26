@@ -505,6 +505,7 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
         intent.putExtra(MediaPlayerState.Action_Play, true);
         intent.putExtra(MediaPlayerState.SHABAD_DURATION, App.getPreferenceLong(MediaPlayerState.SHABAD_DURATION));
         intent.addCategory(ShabadPlayerForegroundService.TAG);
+        intent.setAction(Constants.STARTFOREGROUND_ACTION);
         startService(intent);
         App.setPreferencesInt(Constants.PLAYER_STATE, 1);
     }

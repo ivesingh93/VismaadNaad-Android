@@ -318,6 +318,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
             intent.putExtra(MediaPlayerState.ORIGINAL_SHABAD, originalShabadIndex);
             intent.putExtra(MediaPlayerState.SHABAD, current_shabad);
             intent.putExtra(MediaPlayerState.shabad_list, shabadsList);
+            intent.setAction(Constants.STARTFOREGROUND_ACTION);
             intent.addCategory(ShabadPlayerForegroundService.TAG);
             if (playSong) {
                 intent.putExtra(MediaPlayerState.Action_Play, true);
@@ -346,6 +347,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
             intent.putExtra(MediaPlayerState.SHABAD, current_shabad);
             intent.putExtra(MediaPlayerState.shabad_list, shabadsList);
             intent.addCategory(ShabadPlayerForegroundService.TAG);
+            intent.setAction(Constants.STARTFOREGROUND_ACTION);
             if (playSong) {
                 intent.putExtra(MediaPlayerState.Action_Play, true);
                 startService(intent);
