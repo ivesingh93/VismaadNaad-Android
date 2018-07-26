@@ -2,6 +2,7 @@ package com.vismaad.naad.AddPlayList.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ import com.vismaad.naad.R;
 import com.vismaad.naad.player.ShabadPlayerActivity;
 import com.vismaad.naad.player.service.MediaPlayerState;
 import com.vismaad.naad.rest.model.raagi.Shabad;
+import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
+import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -41,14 +44,15 @@ public class ShabadsListAdaters extends BaseAdapter {
     //ArrayList<Integer> position1;
     private InterstitialAd mInterstitialAd;
     int count;
-
+    private SharedPreferences mSharedPreferences;
     public ShabadsListAdaters(Context mContext, ArrayList<Shabad> shabadList) {
         this.mContext = mContext;
         this.shabadList = shabadList;
         inflter = (LayoutInflater.from(mContext));
         isSelected = new boolean[shabadList.size()];
         // position1 = new ArrayList<Integer>();
-
+        mSharedPreferences = mContext.getSharedPreferences(
+                SehajBaniPreferences.Atree_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -128,13 +132,16 @@ public class ShabadsListAdaters extends BaseAdapter {
         mViewholder.rlplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (JBSehajBaniPreferences.getAdsCount(mSharedPreferences) > 0) {
+                    count = JBSehajBaniPreferences.getAdsCount(mSharedPreferences);
+                }
+
                 count++;
+
+                JBSehajBaniPreferences.setAdsCount(mSharedPreferences, count);
                 if (count % 5 == 0) {
                     MobileAds.initialize(mContext,
                             mContext.getResources().getString(R.string.YOUR_ADMOB_APP_ID));
-
-                    MobileAds.initialize(mContext,
-                            "ca-app-pub-3940256099942544~3347511713");
 
                     mInterstitialAd = new InterstitialAd(mContext);
                     mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");

@@ -150,7 +150,13 @@ public class ShabadAdapter extends RecyclerView.Adapter<ShabadAdapter.ShabadView
     }
 
     private void create_intent(final ShabadAdapter.ShabadViewHolder holder, Shabad shabad) {
+        if (JBSehajBaniPreferences.getAdsCount(mSharedPreferences) > 0) {
+            count = JBSehajBaniPreferences.getAdsCount(mSharedPreferences);
+        }
+
         count++;
+
+        JBSehajBaniPreferences.setAdsCount(mSharedPreferences, count);
         if (count % 5 == 0) {
             MobileAds.initialize(context,
                     context.getResources().getString(R.string.YOUR_ADMOB_APP_ID));

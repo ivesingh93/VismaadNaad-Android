@@ -16,5 +16,8 @@ public class SehajBaniPreferences {
     public static String PLAY_LIST_SHABADS = "shabadlist";
     public static String PLAY_LIST_SHABADS_VALUE = "";
 
+    public static String ADS_SHABADS = "ads";
+    public static int ADS_SHABADS_VALUE = 0;
+
 
 }

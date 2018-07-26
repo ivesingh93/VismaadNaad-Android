@@ -54,7 +54,7 @@ import static com.vismaad.naad.Constants.PLAY_SONG;
  */
 
 public class PlayListShabadsAdapter extends RecyclerView.Adapter<PlayListShabadsAdapter.ShabadViewHolder>
-        implements com.vismaad.naad.addshabads.view.IPlayListView ,Filterable {
+        implements com.vismaad.naad.addshabads.view.IPlayListView, Filterable {
 
     private Context context;
     private ArrayList<Shabad> shabadList;
@@ -153,7 +153,14 @@ public class PlayListShabadsAdapter extends RecyclerView.Adapter<PlayListShabads
     }
 
     private void create_intent(final PlayListShabadsAdapter.ShabadViewHolder holder, Shabad shabad) {
+        if (JBSehajBaniPreferences.getAdsCount(mSharedPreferences) > 0) {
+            count = JBSehajBaniPreferences.getAdsCount(mSharedPreferences);
+        }
+
         count++;
+
+        JBSehajBaniPreferences.setAdsCount(mSharedPreferences, count);
+
         if (count % 5 == 0) {
             MobileAds.initialize(context,
                     context.getResources().getString(R.string.YOUR_ADMOB_APP_ID));
@@ -300,7 +307,7 @@ public class PlayListShabadsAdapter extends RecyclerView.Adapter<PlayListShabads
     class ShabadViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView shabad_thumbnail_IV, shabad_menu_IV;
-        private TextView shabad_title_TV, shabads_length_TV,shabads_raggi;
+        private TextView shabad_title_TV, shabads_length_TV, shabads_raggi;
         private View shabad_card_view;
 
 
@@ -311,7 +318,7 @@ public class PlayListShabadsAdapter extends RecyclerView.Adapter<PlayListShabads
             shabads_length_TV = itemView.findViewById(R.id.shabads_length_TV);
             shabad_menu_IV = itemView.findViewById(R.id.shabad_menu_IV);
             shabad_card_view = itemView.findViewById(R.id.shabad_card_view);
-            shabads_raggi  = itemView.findViewById(R.id.shabads_raggi);
+            shabads_raggi = itemView.findViewById(R.id.shabads_raggi);
 
         }
     }
@@ -351,6 +358,7 @@ public class PlayListShabadsAdapter extends RecyclerView.Adapter<PlayListShabads
         });
 
     }
+
     @Override
     public Filter getFilter() {
         return new Filter() {
