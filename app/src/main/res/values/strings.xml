@@ -9,8 +9,12 @@
     </string-array>
     <string name="facebook_app_id">372352669918123</string>
     <string name="fb_login_protocol_scheme">fb169515120407757</string>
-    <string name="server_client_id">211545200322-ojfo7rtpbdi5tnfqma74f3dv4tsk91ia.apps.googleusercontent.com</string>
 
+    <!--Debug-->
+    <!--<string name="server_client_id">211545200322-ojfo7rtpbdi5tnfqma74f3dv4tsk91ia.apps.googleusercontent.com</string>-->
+
+    <!--Live-->
+    <string name="server_client_id">211545200322-qphkue7943gu8ha1po63bblba4f31hig.apps.googleusercontent.com</string>
     <string name="sign_up_free">SIGN UP FREE</string>
     <string name="continue_with_facebook">CONTINUE WITH FACEBOOK</string>
     <string name="login">LOG IN</string>
