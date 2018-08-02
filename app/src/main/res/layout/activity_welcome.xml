@@ -47,6 +47,57 @@
 
         <!--</LinearLayout>-->
 
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintBottom_toTopOf="@+id/sign_up_free_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:paddingBottom="5dp"
+                android:src="@mipmap/logo_new" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewEnd"
+                    android:textSize="22sp"
+                    android:text="Vismaad"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:layout_weight="1"
+                    android:text="Naad" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/sign_up_free_button"
             android:layout_width="match_parent"
@@ -135,53 +186,8 @@
             app:layout_constraintHorizontal_bias="0.974"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <LinearLayout
-            android:layout_width="395dp"
-            android:layout_height="343dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:orientation="vertical"
-            android:gravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/sign_up_free_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:paddingBottom="5dp"
-                android:src="@mipmap/logo_new" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="viewEnd"
-                    android:textSize="22sp"
-                    android:text="Vismaad"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/textView16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="22sp"
-                    android:layout_weight="1"
-                    android:text="Naad" />
-            </LinearLayout>
-        </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -21,6 +21,7 @@ import com.vismaad.naad.navigation.NavigationActivity;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 import com.vismaad.naad.utils.Utils;
+import com.vismaad.naad.welcome.WelcomeActivity;
 import com.vismaad.naad.welcome.login.presenter.ILoginPresenter;
 import com.vismaad.naad.welcome.login.presenter.LoginPresenterCompl;
 import com.vismaad.naad.welcome.login.view.ILoginView;

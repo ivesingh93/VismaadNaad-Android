@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 
 import com.google.android.gms.ads.AdRequest;
@@ -36,6 +37,8 @@ import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.home.adapter.RaagiInfoAdapter;
 import com.vismaad.naad.navigation.home.presenter.HomePresenterImpl;
 import com.vismaad.naad.navigation.home.view.HomeView;
+import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
+import com.vismaad.naad.welcome.WelcomeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +89,7 @@ public class HomeFragment extends Fragment implements HomeView {
         super.onStop();
         // ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
+
 
     @Nullable
     @Override

@@ -89,6 +89,7 @@ public class WelcomeActivity extends Activity implements View.OnClickListener,
     GoogleSignInAccount acct;
     String firstName, secondName, email;
     String id, FBfirstName, FBLastName, FBEmail;
+    public static Activity welcomeActivity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,6 +102,7 @@ public class WelcomeActivity extends Activity implements View.OnClickListener,
             startActivity(mIntent);
             finish();
         }
+        welcomeActivity = this;
         //binding.rl.setImageBitmap
         Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.gold);
         Bitmap blurredBitmap = BlurBuilder.blur(this, originalBitmap);
@@ -215,7 +217,6 @@ public class WelcomeActivity extends Activity implements View.OnClickListener,
                 mIntent = new Intent(WelcomeActivity.this, LoginActivity.class);
                 mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(mIntent);
-                finish();
                 break;
 
             case R.id.btnSkip:
