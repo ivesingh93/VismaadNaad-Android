@@ -165,11 +165,9 @@ public class PlayListShabadsAdapter extends RecyclerView.Adapter<PlayListShabads
             MobileAds.initialize(context,
                     context.getResources().getString(R.string.YOUR_ADMOB_APP_ID));
 
-            MobileAds.initialize(context,
-                    "ca-app-pub-3940256099942544~3347511713");
 
             mInterstitialAd = new InterstitialAd(context);
-            mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+            mInterstitialAd.setAdUnitId(context.getResources().getString(R.string.ads_full));
             mInterstitialAd.loadAd(new AdRequest.Builder().build());
             mInterstitialAd.setAdListener(new AdListener() {
                 public void onAdLoaded() {

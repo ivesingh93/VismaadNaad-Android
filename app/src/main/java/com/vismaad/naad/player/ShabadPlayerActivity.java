@@ -67,6 +67,9 @@ import android.support.v7.app.AlertDialog;
 import java.util.ArrayList;
 import java.util.Random;
 
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressFlower;
+
 import static com.vismaad.naad.Constants.BIG_FONT_SINGLE_BREAK;
 import static com.vismaad.naad.Constants.DOUBLE_BREAK;
 import static com.vismaad.naad.Constants.ENGLISH_FONT;
@@ -107,6 +110,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
     private SharedPreferences mSharedPreferences;
     Random mRandom;
     int randomNumber;
+    ACProgressFlower dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -263,9 +267,16 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
         AdRequest adRequest = new AdRequest.Builder().build();
         adView_mini.loadAd(adRequest);
 
-
+        dialog = new ACProgressFlower.Builder(ShabadPlayerActivity.this)
+                .direction(ACProgressConstant.DIRECT_CLOCKWISE)
+                .themeColor(Color.WHITE)
+                .bgColor(Color.TRANSPARENT)
+                .bgAlpha(0)
+                .bgCornerRadius(0)
+                .fadeColor(Color.DKGRAY).build();
+        dialog.setCanceledOnTouchOutside(true);
         //loadRewardedVideoAd();
-
+        dialog.show();
         mRandom = new Random();
     }
 
@@ -306,8 +317,10 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
 
     @Override
     public void initPlayer() {
+
         if (!isServiceRunning()) {
             simpleExoPlayerView = findViewById(R.id.player);
+            dialog.dismiss();
             player = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector());
             simpleExoPlayerView.setPlayer(player);
             player.seekTo(shabadDuration);
@@ -334,6 +347,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
         } else {
             if (!mServiceConnected) {
                 doBindService();
+                dialog.dismiss();
                 simpleExoPlayerView = findViewById(R.id.player);
                 player = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector());
                 simpleExoPlayerView.setPlayer(player);
