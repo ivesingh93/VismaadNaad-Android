@@ -349,6 +349,7 @@ public class ShabadPlayerForegroundService extends Service {
                 .setChannelId(CHANNEL_ID)
                 .setPriority(Notification.PRIORITY_MAX)
                 .setVisibility(Notification.VISIBILITY_PUBLIC)
+                .setSmallIcon(R.drawable.status_icon)
                 .build();
 
         startForeground(MediaPlayerState.NOTIF_ID, builder.build());
