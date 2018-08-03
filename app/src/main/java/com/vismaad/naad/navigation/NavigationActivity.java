@@ -193,7 +193,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mIntent = new Intent(NavigationActivity.this, SignupActivity.class);
+                Intent mIntent = new Intent(NavigationActivity.this, WelcomeActivity.class);
                 startActivity(mIntent);
                 finish();
                 dialog.dismiss();

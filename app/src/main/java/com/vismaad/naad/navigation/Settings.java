@@ -23,6 +23,9 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
 import com.vismaad.naad.databinding.SettingsBinding;
@@ -34,6 +37,8 @@ import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 import com.vismaad.naad.utils.Utils;
 import com.vismaad.naad.welcome.WelcomeActivity;
 import com.vismaad.naad.welcome.login.LoginActivity;
+
+import java.util.concurrent.Executor;
 
 /**
  * Created by satnamsingh on 25/06/18.
