@@ -1,5 +1,6 @@
 package com.vismaad.naad.welcome;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
