@@ -67,7 +67,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:paddingBottom="5dp"
-                android:src="@mipmap/logo_new" />
+                android:src="@mipmap/logo" />
 
             <LinearLayout
                 android:layout_width="match_parent"

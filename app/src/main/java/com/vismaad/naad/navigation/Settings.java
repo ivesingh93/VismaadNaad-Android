@@ -81,6 +81,10 @@ public class Settings extends Fragment implements View.OnClickListener {
         binding.rlFbLike.setOnClickListener(this);
         binding.txtLikeFb.setOnClickListener(this);
         binding.imageLike.setOnClickListener(this);
+        if (JBSehajBaniPreferences.getLoginId(mSharedPreferences).equalsIgnoreCase("")) {
+            binding.shabadThumbnailIV.setVisibility(View.GONE);
+            binding.txtLogout.setVisibility(View.GONE);
+        }
 
         // binding.txtLog.setText("You are logged is as " + JBSehajBaniPreferences.getLoginId(mSharedPreferences));
 
