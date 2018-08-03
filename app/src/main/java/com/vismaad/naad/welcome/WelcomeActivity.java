@@ -150,16 +150,17 @@ public class WelcomeActivity extends Activity implements View.OnClickListener,
 
                 break;
             case R.id.continue_with_facebook_button:
-               /* AccessToken accessToken = AccessToken.getCurrentAccessToken();
-                boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-                if (isLoggedIn) {
+                AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                //boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+                Log.d("Access Token", accessToken + "  ");
+                if (accessToken != null) {
                     Intent mIntent = new Intent(WelcomeActivity.this, NavigationActivity.class);
                     mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(mIntent);
                     finish();
-                } else {*/
+                } else {
                     fbLogin();
-               // }
+                }
                 break;
             case R.id.connect_using_google_button:
                /* if (isGmailLoginAlready == true) {

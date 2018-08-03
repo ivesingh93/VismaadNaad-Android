@@ -8,7 +8,7 @@
         <item>Green</item>
     </string-array>
     <string name="facebook_app_id">372352669918123</string>
-    <string name="fb_login_protocol_scheme">fb169515120407757</string>
+    <string name="fb_login_protocol_scheme">fb372352669918123</string>
 
     <!--Debug-->
     <!--<string name="server_client_id">211545200322-ojfo7rtpbdi5tnfqma74f3dv4tsk91ia.apps.googleusercontent.com</string>-->

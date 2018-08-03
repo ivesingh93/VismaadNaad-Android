@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -140,6 +141,7 @@ public class Settings extends Fragment implements View.OnClickListener {
                 JBSehajBaniPreferences.setJwtToken(mSharedPreferences, "");
                 App.setPreferences(MediaPlayerState.SHABAD, "");
                 App.setPreferences(MediaPlayerState.shabad_list, "");
+                LoginManager.getInstance().logOut();
 
 //                ActivityManager manager = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
 //                assert manager != null;

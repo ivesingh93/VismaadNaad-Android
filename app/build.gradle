@@ -68,7 +68,7 @@ android {
         implementation 'cc.cloudist.acplibrary:library:1.2.1'
         implementation 'com.facebook.fresco:fresco:0.9.0' //fresco dependency
         implementation 'jp.wasabeef:fresco-processors:2.1.0'
-        implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+        implementation 'com.facebook.android:facebook-login:4.35.0'
         compile 'jp.wasabeef:blurry:2.1.1'
         implementation 'com.google.android.gms:play-services-ads:15.0.0'
         compile 'com.facebook.android:audience-network-sdk:4.99.1'
