@@ -346,8 +346,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     public void fbLogin() {
 
         LoginManager.getInstance().logInWithReadPermissions
-                (this, Arrays.asList("user_photos", "email",
-                        "user_birthday", "public_profile"));
+                (this, Arrays.asList( "email", "public_profile"));
         /*LoginManager.getInstance().logInWithPublishPermissions(this,
                 Arrays.asList("publish_actions"));*/
         LoginManager.getInstance().registerCallback(mFacebookCallbackManager,

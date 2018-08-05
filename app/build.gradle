@@ -1,13 +1,21 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 android {
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword '123456'
+            storeFile file('/Users/ivesingh/Desktop/Non-Class Projects/Android Projects/VismaadNaad/v.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.vismaad.naad"
         minSdkVersion 19
         multiDexEnabled true
         targetSdkVersion 27
-        versionCode 4
+        versionCode 5
         versionName "1.1-beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true

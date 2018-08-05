@@ -59,7 +59,7 @@ public class ShabadPlayerForegroundService extends Service {
     private static final String CHANNEL_ID = "PlayerShabad";
     private static final long MAX_POSITION_FOR_SEEK_TO_PREVIOUS = 3000;
     private final IBinder mBinder = new LocalBinder();
-    private Context context;
+    public static Context context;
     private Timeline.Window window;
     private HeadphoneReceiver headphoneReceiver;
     private NotificationManager notificationManager;
@@ -152,8 +152,8 @@ public class ShabadPlayerForegroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (intent.getAction().equals(Constants.STARTFOREGROUND_ACTION)) {
-            if (intent != null && intent.hasExtra(MediaPlayerState.SHABAD_LINKS)) {
+        if (intent != null && intent.getAction().equals(Constants.STARTFOREGROUND_ACTION)) {
+            if (intent.hasExtra(MediaPlayerState.SHABAD_LINKS)) {
 
                 raagi_name = intent.getStringExtra(MediaPlayerState.RAAGI_NAME);
                 shabad_links = intent.getExtras().getStringArray(MediaPlayerState.SHABAD_LINKS);
@@ -475,7 +475,7 @@ public class ShabadPlayerForegroundService extends Service {
     private boolean playingBeforeInterruption = false;
 
     public void getAudioFocusAndPlay(){
-        am = (AudioManager) this.getBaseContext().getSystemService(Context.AUDIO_SERVICE);
+        am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
         // Request Audio Focus
         int result = am.requestAudioFocus(afChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
