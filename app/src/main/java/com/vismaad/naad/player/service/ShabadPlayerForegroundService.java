@@ -169,7 +169,7 @@ public class ShabadPlayerForegroundService extends Service {
                 saveLastShabadToPlay();
             }
         } else {
-            if (intent.getAction().equals(
+            if (intent != null && intent.getAction().equals(
                     Constants.STOPFOREGROUND_ACTION)) {
                 stop();
             }
@@ -273,6 +273,7 @@ public class ShabadPlayerForegroundService extends Service {
     }
 
     private void showShabad(int showShabadIndex) {
+        Log.i("index-number", "" + showShabadIndex);
         Intent intent = new Intent(MediaPlayerState.SHOW_SHABAD);
         intent.putExtra(MediaPlayerState.SHOW_SHABAD, showShabadIndex);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
@@ -445,6 +446,7 @@ public class ShabadPlayerForegroundService extends Service {
                     case MediaPlayerState.Action_Previous:
                         if (instance != null) {
                             instance.previous();
+
                             showShabad(player.getCurrentWindowIndex());
                         }
                         break;
@@ -474,13 +476,13 @@ public class ShabadPlayerForegroundService extends Service {
     private AudioManager am;
     private boolean playingBeforeInterruption = false;
 
-    public void getAudioFocusAndPlay(){
+    public void getAudioFocusAndPlay() {
         am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
         // Request Audio Focus
         int result = am.requestAudioFocus(afChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 
-        if(result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
+        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             player.setPlayWhenReady(true);
         }
     }
@@ -491,17 +493,17 @@ public class ShabadPlayerForegroundService extends Service {
         public void onAudioFocusChange(int focusChange) {
 
             // For Receiving phone calls
-            if(focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT){
-                if(getStatus() == PLAYING){
+            if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
+                if (getStatus() == PLAYING) {
                     playingBeforeInterruption = true;
-                }else{
+                } else {
                     playingBeforeInterruption = false;
                 }
                 pause();
-            }else if(focusChange == AudioManager.AUDIOFOCUS_GAIN){
-                if(playingBeforeInterruption == true)
+            } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                if (playingBeforeInterruption == true)
                     play();
-            }else if(focusChange == AudioManager.AUDIOFOCUS_LOSS){
+            } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
                 pause();
                 //am.abandonAudioFocusRequest(afChangeListener);
             }

@@ -36,4 +36,13 @@ public class JBSehajBaniPreferences {
         return preferences.getInt(SehajBaniPreferences.ADS_SHABADS, SehajBaniPreferences.ADS_SHABADS_VALUE);
     }
 
+
+    public static void setBtnSkip(SharedPreferences preferences, String raggi) {
+        preferences.edit().putString(SehajBaniPreferences.SKIP_BUTTON, raggi).commit();
+    }
+
+    public static String getBtnSkip(SharedPreferences preferences) {
+        return preferences.getString(SehajBaniPreferences.SKIP_BUTTON, SehajBaniPreferences.SKIP_BUTTON_VALUE);
+    }
+
 }

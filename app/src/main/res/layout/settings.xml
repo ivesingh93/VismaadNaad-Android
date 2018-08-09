@@ -41,8 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:orientation="vertical"
-                   >
+                    android:orientation="vertical">
 
                     <!-- <android.support.v4.widget.NestedScrollView
                          android:id="@+id/scrollView"
@@ -203,6 +202,22 @@
 
                             </RelativeLayout>
 
+
+                            <Button
+                                android:visibility="gone"
+                                android:id="@+id/btnSignup"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="30dp"
+                                android:layout_marginRight="30dp"
+                                android:layout_marginTop="20dp"
+                                android:layout_weight=".5"
+                                android:width="150dp"
+                                android:background="#e75e59"
+                                android:text="SIGNUP"
+                                android:textColor="@color/white" />
+
                             <RelativeLayout
                                 android:id="@+id/rl1"
                                 android:layout_width="100dp"
@@ -210,6 +225,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="7dp"
                                 android:gravity="center">
+
 
                                 <ImageView
 

@@ -13,8 +13,8 @@ public class SehajBaniPreferences {
     public static String RAGGI_ID_VALUE = "";
 
 
-    public static String PLAY_LIST_SHABADS = "shabadlist";
-    public static String PLAY_LIST_SHABADS_VALUE = "";
+    public static String SKIP_BUTTON = "btnSkip";
+    public static String SKIP_BUTTON_VALUE = "";
 
     public static String ADS_SHABADS = "ads";
     public static int ADS_SHABADS_VALUE = 0;

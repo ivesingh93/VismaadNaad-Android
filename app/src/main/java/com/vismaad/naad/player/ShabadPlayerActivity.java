@@ -537,6 +537,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
     }
 
     private void showCurrentShabad(int showShabadIndex) {
+        Log.i("index-number-class", "" + showShabadIndex);
         current_shabad = shabadsList.get(showShabadIndex);
         shabad_player_AB.setTitle(current_shabad.getShabadEnglishTitle());
         raagi_name_TV.setText(current_shabad.getRaagiName());

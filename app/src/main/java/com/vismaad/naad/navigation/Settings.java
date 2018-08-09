@@ -1,6 +1,7 @@
 package com.vismaad.naad.navigation;
 
 import android.app.ActivityManager;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
@@ -37,6 +40,7 @@ import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 import com.vismaad.naad.utils.Utils;
 import com.vismaad.naad.welcome.WelcomeActivity;
 import com.vismaad.naad.welcome.login.LoginActivity;
+import com.vismaad.naad.welcome.signup.SignupActivity;
 
 import java.util.concurrent.Executor;
 
@@ -86,9 +90,22 @@ public class Settings extends Fragment implements View.OnClickListener {
         binding.rlFbLike.setOnClickListener(this);
         binding.txtLikeFb.setOnClickListener(this);
         binding.imageLike.setOnClickListener(this);
+        binding.btnSignup.setOnClickListener(this);
+
+
         if (JBSehajBaniPreferences.getLoginId(mSharedPreferences).equalsIgnoreCase("")) {
             binding.shabadThumbnailIV.setVisibility(View.GONE);
             binding.txtLogout.setVisibility(View.GONE);
+            if (JBSehajBaniPreferences.getBtnSkip(mSharedPreferences).equalsIgnoreCase("YES")) {
+                binding.btnSignup.setVisibility(View.VISIBLE);
+            } else {
+                binding.btnSignup.setVisibility(View.GONE);
+            }
+        } else {
+            binding.shabadThumbnailIV.setVisibility(View.VISIBLE);
+            binding.txtLogout.setVisibility(View.VISIBLE);
+            binding.btnSignup.setVisibility(View.GONE);
+
         }
 
         // binding.txtLog.setText("You are logged is as " + JBSehajBaniPreferences.getLoginId(mSharedPreferences));
@@ -112,6 +129,10 @@ public class Settings extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
 
+            case R.id.btnSignup:
+                createDialog();
+                break;
+
             case R.id.rl_fb_like:
                 uri = Uri.parse("https://www.facebook.com/Vismaad-Apps-1413125452234300/"); // missing 'http://' will cause crashed
                 intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -133,79 +154,24 @@ public class Settings extends Fragment implements View.OnClickListener {
 
 
             case R.id.shabad_thumbnail_IV:
-                // player.setPlayWhenReady(false);
-                // App.setPreferencesInt(Constants.PLAYER_STATE, 0);
-                // status= STOPPED;
-              /*  getActivity().stopForeground(true);
-                stopSelf();*/
-                // doUnbindService();
-                //getActivity().stopService(new Intent(getActivity().getBaseContext(), ShabadPlayerForegroundService.class));
 
                 Intent stopIntent = new Intent(getActivity(), ShabadPlayerForegroundService.class);
                 stopIntent.setAction(Constants.STOPFOREGROUND_ACTION);
                 getActivity().startService(stopIntent);
-
                 JBSehajBaniPreferences.setRaggiId(mSharedPreferences, "");
                 JBSehajBaniPreferences.setLoginId(mSharedPreferences, "");
                 JBSehajBaniPreferences.setJwtToken(mSharedPreferences, "");
+                JBSehajBaniPreferences.setBtnSkip(mSharedPreferences, "");
                 App.setPreferences(MediaPlayerState.SHABAD, "");
                 App.setPreferences(MediaPlayerState.shabad_list, "");
                 LoginManager.getInstance().logOut();
 
-//                ActivityManager manager = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
-//                assert manager != null;
-//                for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-//                    String serviceStr = "com.sehaj.bani.player.service.ShabadPlayerForegroundService";
-//                    if (serviceStr.equals(service.service.getClassName())) {
-//                        manager.killBackgroundProcesses(serviceStr);
-//                    }
-//                }
-//
-//                ShabadPlayerForegroundService foregroundService = new ShabadPlayerForegroundService();
-//                if(foregroundService.getInstance() != null){
-//                    foregroundService.getInstance().stop();
-//                }
-                // getActivity().stopService(new Intent(getActivity(), ShabadPlayerForegroundService.class));
-
-         /*       i = new Intent(getActivity(), WelcomeActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);*/
                 ActivityCompat.finishAffinity(getActivity());
                 Intent intent = new Intent(getActivity(), WelcomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
                 break;
-
-       /*     case R.id.txtLogout:
-                JBSehajBaniPreferences.setRaggiId(mSharedPreferences, "");
-                JBSehajBaniPreferences.setLoginId(mSharedPreferences, "");
-                JBSehajBaniPreferences.setJwtToken(mSharedPreferences, "");
-                i = new Intent(getActivity(), WelcomeActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-                break;*/
-
-            /*case R.id.rl1:
-               // getActivity().stopService(new Intent(getActivity(), ShabadPlayerForegroundService.class));
-                player.setPlayWhenReady(false);
-                App.setPreferencesInt(Constants.PLAYER_STATE, 0);
-                status= STOPPED;
-                Intent intent1 = new Intent(getActivity(), ShabadPlayerForegroundService.class);
-                intent1.addCategory(ShabadPlayerForegroundService.TAG);
-                getActivity().stopService(intent1);
-                 JBSehajBaniPreferences.setRaggiId(mSharedPreferences, "");
-                JBSehajBaniPreferences.setLoginId(mSharedPreferences, "");
-                JBSehajBaniPreferences.setJwtToken(mSharedPreferences, "");
-                preferences = getActivity().getSharedPreferences("shabadSettingsData", Context.MODE_PRIVATE);
-                editor = preferences.edit();
-                editor.clear();
-                editor.commit();
-                i = new Intent(getActivity(), WelcomeActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-
-                break;*/
 
             case R.id.rl2:
                 boolean isClear = Utils.deleteCache(getContext());
@@ -230,4 +196,44 @@ public class Settings extends Fragment implements View.OnClickListener {
 
         }
     }
+
+    public void createDialog() {
+        // dialog.show();
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.dialog_login);
+        dialog.setTitle("Alert!");
+
+        dialog.show();
+
+        Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
+        Button btnSubmit = (Button) dialog.findViewById(R.id.btnSubmit);
+        final EditText editName = (EditText) dialog.findViewById(R.id.editName);
+
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Close dialog
+                dialog.dismiss();
+                JBSehajBaniPreferences.setBtnSkip(mSharedPreferences, "YES");
+
+                Intent mIntent = new Intent(getActivity(), NavigationActivity.class);
+                mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(mIntent);
+                getActivity().finish();
+            }
+        });
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mIntent = new Intent(getActivity(), SignupActivity.class);
+                startActivity(mIntent);
+
+                dialog.dismiss();
+            }
+        });
+
+    }
+
 }

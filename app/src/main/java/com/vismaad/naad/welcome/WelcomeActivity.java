@@ -108,6 +108,13 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             startActivity(mIntent);
             finish();
         }
+
+        if (JBSehajBaniPreferences.getBtnSkip(mSharedPreferences).equalsIgnoreCase("YES")) {
+            mIntent = new Intent(WelcomeActivity.this, NavigationActivity.class);
+            startActivity(mIntent);
+            finish();
+        }
+
         welcomeActivity = this;
         //binding.rl.setImageBitmap
         Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.gold);
@@ -267,6 +274,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             public void onClick(View v) {
                 // Close dialog
                 dialog.dismiss();
+                JBSehajBaniPreferences.setBtnSkip(mSharedPreferences, "YES");
+
                 Intent mIntent = new Intent(WelcomeActivity.this, NavigationActivity.class);
                 mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(mIntent);
@@ -325,7 +334,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
 
-        try{
+        try {
             acct = completedTask.getResult(ApiException.class);
             String personName = acct.getDisplayName();
 //            String personPhotoUrl = acct.getPhotoUrl().toString();
@@ -336,7 +345,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             dialog_progress.show();
             loginPresenter.doLogin(email, "gmail", "GM");
 
-        }  catch (ApiException e) {
+        } catch (ApiException e) {
             Log.i("gmail-login", "" + e.getStatusCode());
         }
 
@@ -346,7 +355,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     public void fbLogin() {
 
         LoginManager.getInstance().logInWithReadPermissions
-                (this, Arrays.asList( "email", "public_profile"));
+                (this, Arrays.asList("email", "public_profile"));
         /*LoginManager.getInstance().logInWithPublishPermissions(this,
                 Arrays.asList("publish_actions"));*/
         LoginManager.getInstance().registerCallback(mFacebookCallbackManager,
