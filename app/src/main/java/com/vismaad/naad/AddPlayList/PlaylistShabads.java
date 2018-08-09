@@ -184,7 +184,7 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
     private SearchView searchView;
     IGetShabadsList mIGetShabadsList;
     private RelativeLayout extraView;
-    private TextView extraRaagiName, extraShabadCount, sha;
+    private TextView extraRaagiName, extraShabadCount;
     private ImageView extraRaagiImage;
 
     //variables for image blur using fresco
@@ -245,6 +245,7 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
 //        startAlphaAnimation(textviewTitle, 0, View.INVISIBLE);
         showRaagiInfo();
 
+        search.setVisibility(View.GONE);
         search.onActionViewExpanded();
         //search.setActivated(true);
         search.setQueryHint("Search Shabads");
@@ -343,7 +344,7 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
         playBtn.setOnClickListener(this);
         miniPlayerLayout.setOnClickListener(this);
         mAdView = findViewById(R.id.adView);
-        sha.setVisibility(View.GONE);
+
         shabads_count_TV.setVisibility(View.GONE);
         MobileAds.initialize(PlaylistShabads.this,
                 getResources().getString(R.string.YOUR_ADMOB_APP_ID));

@@ -18,10 +18,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
 import com.vismaad.naad.databinding.SettingsBinding;
@@ -33,6 +37,8 @@ import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 import com.vismaad.naad.utils.Utils;
 import com.vismaad.naad.welcome.WelcomeActivity;
 import com.vismaad.naad.welcome.login.LoginActivity;
+
+import java.util.concurrent.Executor;
 
 /**
  * Created by satnamsingh on 25/06/18.
@@ -80,6 +86,10 @@ public class Settings extends Fragment implements View.OnClickListener {
         binding.rlFbLike.setOnClickListener(this);
         binding.txtLikeFb.setOnClickListener(this);
         binding.imageLike.setOnClickListener(this);
+        if (JBSehajBaniPreferences.getLoginId(mSharedPreferences).equalsIgnoreCase("")) {
+            binding.shabadThumbnailIV.setVisibility(View.GONE);
+            binding.txtLogout.setVisibility(View.GONE);
+        }
 
         // binding.txtLog.setText("You are logged is as " + JBSehajBaniPreferences.getLoginId(mSharedPreferences));
 
@@ -140,6 +150,7 @@ public class Settings extends Fragment implements View.OnClickListener {
                 JBSehajBaniPreferences.setJwtToken(mSharedPreferences, "");
                 App.setPreferences(MediaPlayerState.SHABAD, "");
                 App.setPreferences(MediaPlayerState.shabad_list, "");
+                LoginManager.getInstance().logOut();
 
 //                ActivityManager manager = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
 //                assert manager != null;

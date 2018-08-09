@@ -1,5 +1,6 @@
 package com.vismaad.naad.player.service;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -9,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.media.AudioManager;
 import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Binder;
@@ -57,7 +59,7 @@ public class ShabadPlayerForegroundService extends Service {
     private static final String CHANNEL_ID = "PlayerShabad";
     private static final long MAX_POSITION_FOR_SEEK_TO_PREVIOUS = 3000;
     private final IBinder mBinder = new LocalBinder();
-    private Context context;
+    public static Context context;
     private Timeline.Window window;
     private HeadphoneReceiver headphoneReceiver;
     private NotificationManager notificationManager;
@@ -150,8 +152,8 @@ public class ShabadPlayerForegroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (intent.getAction().equals(Constants.STARTFOREGROUND_ACTION)) {
-            if (intent != null && intent.hasExtra(MediaPlayerState.SHABAD_LINKS)) {
+        if (intent != null && intent.getAction().equals(Constants.STARTFOREGROUND_ACTION)) {
+            if (intent.hasExtra(MediaPlayerState.SHABAD_LINKS)) {
 
                 raagi_name = intent.getStringExtra(MediaPlayerState.RAAGI_NAME);
                 shabad_links = intent.getExtras().getStringArray(MediaPlayerState.SHABAD_LINKS);
@@ -226,7 +228,7 @@ public class ShabadPlayerForegroundService extends Service {
 
     public void play() {
         if (player != null) {
-            player.setPlayWhenReady(true);
+            getAudioFocusAndPlay();
             setStatus(PLAYING);
         }
     }
@@ -347,8 +349,7 @@ public class ShabadPlayerForegroundService extends Service {
                 .setCustomBigContentView(remoteViews)
                 .setContentIntent(contentIntent)
                 .setChannelId(CHANNEL_ID)
-                .setPriority(Notification.PRIORITY_MAX)
-                .setVisibility(Notification.VISIBILITY_PUBLIC)
+                .setSmallIcon(R.drawable.status_icon)
                 .build();
 
         startForeground(MediaPlayerState.NOTIF_ID, builder.build());
@@ -469,12 +470,42 @@ public class ShabadPlayerForegroundService extends Service {
         }
     }
 
-//    @Override
-//    public void onTaskRemoved(Intent rootIntent) {
-//        super.onTaskRemoved(rootIntent);
-//        log("task removed");
-//        if (getStatus() != PLAYING) {
-//            App.setPreferencesInt(Constants.PLAYER_STATE, 0);
-//        }
-//    }
+    // Audio Focus
+    private AudioManager am;
+    private boolean playingBeforeInterruption = false;
+
+    public void getAudioFocusAndPlay(){
+        am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+
+        // Request Audio Focus
+        int result = am.requestAudioFocus(afChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+
+        if(result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
+            player.setPlayWhenReady(true);
+        }
+    }
+
+    AudioManager.OnAudioFocusChangeListener afChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+        @TargetApi(Build.VERSION_CODES.O)
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+
+            // For Receiving phone calls
+            if(focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT){
+                if(getStatus() == PLAYING){
+                    playingBeforeInterruption = true;
+                }else{
+                    playingBeforeInterruption = false;
+                }
+                pause();
+            }else if(focusChange == AudioManager.AUDIOFOCUS_GAIN){
+                if(playingBeforeInterruption == true)
+                    play();
+            }else if(focusChange == AudioManager.AUDIOFOCUS_LOSS){
+                pause();
+                //am.abandonAudioFocusRequest(afChangeListener);
+            }
+        }
+    };
+
 }

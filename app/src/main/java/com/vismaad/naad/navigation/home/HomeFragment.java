@@ -1,6 +1,7 @@
 package com.vismaad.naad.navigation.home;
 
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 
 import com.google.android.gms.ads.AdRequest;
@@ -35,9 +37,14 @@ import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.home.adapter.RaagiInfoAdapter;
 import com.vismaad.naad.navigation.home.presenter.HomePresenterImpl;
 import com.vismaad.naad.navigation.home.view.HomeView;
+import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
+import com.vismaad.naad.welcome.WelcomeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressFlower;
 
 /**
  * Created by ivesingh on 2/2/18.
@@ -53,7 +60,7 @@ public class HomeFragment extends Fragment implements HomeView {
     private AdView mAdView;
     SearchView search;
     LinearLayout rootView;
-
+    ACProgressFlower dialog;
     public HomeFragment() {
 
     }
@@ -83,6 +90,7 @@ public class HomeFragment extends Fragment implements HomeView {
         // ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -96,8 +104,10 @@ public class HomeFragment extends Fragment implements HomeView {
         mAdView = view.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
         homePresenterImpl = new HomePresenterImpl(this, getActivity());
         homePresenterImpl.init(view);
+        dialog.show();
         homePresenterImpl.prepareRaagis();
 
         // EditText searchEditText = (EditText) search.findViewById(android.support.v7.appcompat.R.id.search_src_text);
@@ -143,6 +153,16 @@ public class HomeFragment extends Fragment implements HomeView {
         EditText searchEditText = (EditText) search.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchEditText.setTextColor(getResources().getColor(R.color.black));
         searchEditText.setHintTextColor(getResources().getColor(R.color.gray));*/
+
+        dialog = new ACProgressFlower.Builder(getActivity())
+                .direction(ACProgressConstant.DIRECT_CLOCKWISE)
+                .themeColor(Color.WHITE)
+                .bgColor(Color.TRANSPARENT)
+                .bgAlpha(0)
+                .bgCornerRadius(0)
+                .fadeColor(Color.DKGRAY).build();
+        dialog.setCanceledOnTouchOutside(true);
+
         raagi_RV = view.findViewById(R.id.raagi_RV);
         layoutManager = new GridLayoutManager(getActivity(), 3);
 
@@ -156,6 +176,8 @@ public class HomeFragment extends Fragment implements HomeView {
 
     @Override
     public void showRaagis(RaagiInfoAdapter raagiInfoAdapter) {
+        dialog.dismiss();
+
         raagi_RV.setLayoutManager(layoutManager);
         this.raagiInfoAdapter = raagiInfoAdapter;
 

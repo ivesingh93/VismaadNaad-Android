@@ -164,11 +164,9 @@ public class ShabadsAdapter extends BaseAdapter {
                     MobileAds.initialize(mContext,
                             mContext.getResources().getString(R.string.YOUR_ADMOB_APP_ID));
 
-                    MobileAds.initialize(mContext,
-                            "ca-app-pub-3940256099942544~3347511713");
 
                     mInterstitialAd = new InterstitialAd(mContext);
-                    mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+                    mInterstitialAd.setAdUnitId(mContext.getResources().getString(R.string.ads_full));
                     mInterstitialAd.loadAd(new AdRequest.Builder().build());
                     mInterstitialAd.setAdListener(new AdListener() {
                         public void onAdLoaded() {

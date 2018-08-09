@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:gravity="center_horizontal"
-            android:text="You can only create playlist when you signup to app."
+            android:text="Signup is required to create playlists."
             android:textColor="#FFF"
             android:textSize="20sp" />
 

@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -40,6 +41,7 @@ import com.vismaad.naad.rest.model.raagi.Shabad;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 import com.vismaad.naad.utils.Utils;
+import com.vismaad.naad.welcome.WelcomeActivity;
 import com.vismaad.naad.welcome.signup.SignupActivity;
 
 import java.util.ArrayList;
@@ -73,6 +75,10 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+        if (!JBSehajBaniPreferences.getLoginId(mSharedPreferences).equalsIgnoreCase("")) {
+            Toast.makeText(getApplicationContext(), "" + JBSehajBaniPreferences.getLoginId(mSharedPreferences), Toast.LENGTH_SHORT).show();
+            WelcomeActivity.welcomeActivity.finish();
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -187,7 +193,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mIntent = new Intent(NavigationActivity.this, SignupActivity.class);
+                Intent mIntent = new Intent(NavigationActivity.this, WelcomeActivity.class);
                 startActivity(mIntent);
                 finish();
                 dialog.dismiss();
