@@ -130,7 +130,9 @@ public class Settings extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
 
             case R.id.btnSignup:
-                createDialog();
+                JBSehajBaniPreferences.setBtnSkip(mSharedPreferences, "NO");
+                Intent mIntent = new Intent(getActivity(), WelcomeActivity.class);
+                startActivity(mIntent);
                 break;
 
             case R.id.rl_fb_like:
@@ -196,44 +198,4 @@ public class Settings extends Fragment implements View.OnClickListener {
 
         }
     }
-
-    public void createDialog() {
-        // dialog.show();
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.dialog_login);
-        dialog.setTitle("Alert!");
-
-        dialog.show();
-
-        Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
-        Button btnSubmit = (Button) dialog.findViewById(R.id.btnSubmit);
-        final EditText editName = (EditText) dialog.findViewById(R.id.editName);
-
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Close dialog
-                dialog.dismiss();
-                JBSehajBaniPreferences.setBtnSkip(mSharedPreferences, "YES");
-
-                Intent mIntent = new Intent(getActivity(), NavigationActivity.class);
-                mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(mIntent);
-                getActivity().finish();
-            }
-        });
-
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent mIntent = new Intent(getActivity(), SignupActivity.class);
-                startActivity(mIntent);
-
-                dialog.dismiss();
-            }
-        });
-
-    }
-
 }
