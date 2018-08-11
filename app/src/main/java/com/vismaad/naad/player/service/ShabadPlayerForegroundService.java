@@ -39,6 +39,7 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
+import com.vismaad.naad.navigation.NavigationActivity;
 import com.vismaad.naad.player.ShabadPlayerActivity;
 import com.vismaad.naad.rest.model.raagi.Shabad;
 
@@ -319,7 +320,7 @@ public class ShabadPlayerForegroundService extends Service {
         nextIntent.setAction(MediaPlayerState.Action_Next);
         PendingIntent nextPI = PendingIntent.getBroadcast(context, MediaPlayerState.NEXT, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, ShabadPlayerActivity.class), 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, NavigationActivity.class), 0);
 
         NotificationCompat.Builder builder;
 
