@@ -1,6 +1,7 @@
 package com.vismaad.naad.player.service;
 
 import android.annotation.TargetApi;
+import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -11,17 +12,21 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.media.AudioManager;
-import android.media.session.PlaybackState;
+import android.media.MediaMetadata;
+import android.media.session.MediaSession;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 import android.util.Patterns;
-import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.C;
@@ -40,13 +45,11 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.NavigationActivity;
-import com.vismaad.naad.player.ShabadPlayerActivity;
 import com.vismaad.naad.rest.model.raagi.Shabad;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Locale;
+import java.util.concurrent.Executors;
 
 /**
  * Created by DELL on 1/29/2018.
@@ -66,7 +69,6 @@ public class ShabadPlayerForegroundService extends Service {
     private NotificationManager notificationManager;
     private int notification_id;
     private static int status = STOPPED;
-    private RemoteViews remoteViews;
     private DefaultTrackSelector trackSelector;
     private static SimpleExoPlayer player;
     private DefaultDataSourceFactory dataSourceFactory;
@@ -78,6 +80,10 @@ public class ShabadPlayerForegroundService extends Service {
     private int lastWindowIndex = -1;
     private Shabad currentShabad;
     private ArrayList<Shabad> shabadList = new ArrayList<>();
+    // lock screen control
+    private MediaSessionCompat mMediaSession;
+    private PlaybackStateCompat.Builder stateBuilder;
+    private long lastTimePlayPauseClicked;
 
     @Nullable
     @Override
@@ -92,7 +98,6 @@ public class ShabadPlayerForegroundService extends Service {
         window = new Timeline.Window();
         headphoneReceiver = new HeadphoneReceiver();
         notificationManager = new NotificationManager(context);
-        remoteViews = new RemoteViews(getPackageName(), R.layout.notification_player);
         TrackSelection.Factory trackSelectionFactory = new AdaptiveTrackSelection.Factory(new DefaultBandwidthMeter());
         trackSelector = new DefaultTrackSelector(trackSelectionFactory);
         initPlayer();
@@ -115,10 +120,12 @@ public class ShabadPlayerForegroundService extends Service {
                 if (playWhenReady) {
 //                    log("PLAYING");
                     setStatus(PLAYING);
+                    setSessionState();
                     updateUI();
                 } else {
 //                    log("PAUSED");
                     setStatus(PAUSED);
+                    setSessionState();
                     updateUI();
                     App.setPreferencesLong(MediaPlayerState.SHABAD_DURATION, player.getCurrentPosition());
                 }
@@ -148,11 +155,14 @@ public class ShabadPlayerForegroundService extends Service {
         filter.addAction(MediaPlayerState.Action_Previous);
         registerReceiver(headphoneReceiver, filter);
 
+        if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            //bluetooth button control and lock screen albumName art
+            InitializeMediaSession();
+        }
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         if (intent != null && intent.getAction().equals(Constants.STARTFOREGROUND_ACTION)) {
             if (intent.hasExtra(MediaPlayerState.SHABAD_LINKS)) {
 
@@ -174,8 +184,6 @@ public class ShabadPlayerForegroundService extends Service {
                     Constants.STOPFOREGROUND_ACTION)) {
                 stop();
             }
-            // stopForeground(true);
-            // stopSelf();
         }
         return START_STICKY;
     }
@@ -231,6 +239,10 @@ public class ShabadPlayerForegroundService extends Service {
         if (player != null) {
             getAudioFocusAndPlay();
             setStatus(PLAYING);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                setSessionState();
+                setMediaSessionMetadata(true);
+            }
         }
     }
 
@@ -238,6 +250,7 @@ public class ShabadPlayerForegroundService extends Service {
         if (player != null) {
             player.setPlayWhenReady(false);
             setStatus(PAUSED);
+            setSessionState();
         }
     }
 
@@ -291,6 +304,7 @@ public class ShabadPlayerForegroundService extends Service {
         player.setPlayWhenReady(false);
         App.setPreferencesInt(Constants.PLAYER_STATE, 0);
         setStatus(STOPPED);
+        setSessionState();
         stopForeground(true);
         stopSelf();
         log("Service Stopped and exit");
@@ -322,6 +336,10 @@ public class ShabadPlayerForegroundService extends Service {
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, NavigationActivity.class), 0);
 
+        Intent swipeToDismissIntent = new Intent(this, ShabadPlayerForegroundService.class);
+        swipeToDismissIntent.setAction(MediaPlayerState.SWIPE_TO_DISMISS);
+        PendingIntent pSwipeToDismiss = PendingIntent.getService(this, 0, swipeToDismissIntent, 0);
+
         NotificationCompat.Builder builder;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -330,31 +348,57 @@ public class ShabadPlayerForegroundService extends Service {
             builder = new NotificationCompat.Builder(context, CHANNEL_ID);
         }
 
-        int play_pause_id = R.drawable.ic_play_circle_filled;
-        if (player.getPlayWhenReady()) {
-            play_pause_id = R.drawable.ic_pause_circle_outline;
-        }
-
-        remoteViews.setImageViewResource(R.id.play_pause_IB, play_pause_id);
-
-        remoteViews.setOnClickPendingIntent(R.id.skip_previous_IB, previousPI);
-        remoteViews.setOnClickPendingIntent(R.id.play_pause_IB, pausePlayPI);
-        remoteViews.setOnClickPendingIntent(R.id.skip_next_IB, nextPI);
-        remoteViews.setOnClickPendingIntent(R.id.stop_IB, stopPI);
-        remoteViews.setTextViewText(R.id.raagi_name_TV, raagi_name);
-        if (shabad_titles != null && shabad_titles.length > 0) {
-            remoteViews.setTextViewText(R.id.shabad_title_TV, shabad_titles[player.getCurrentWindowIndex()]);
-        }
-
         builder.setSmallIcon(R.mipmap.ic_launcher)
-                .setAutoCancel(true)
-                .setCustomBigContentView(remoteViews)
+                .setSmallIcon(R.drawable.status_icon)
+                .setContentTitle(shabad_titles[player.getCurrentWindowIndex()])
+                .setContentText(raagi_name)
+                .setDeleteIntent(pSwipeToDismiss)
                 .setContentIntent(contentIntent)
                 .setChannelId(CHANNEL_ID)
-                .setSmallIcon(R.drawable.status_icon)
-                .build();
+                .setAutoCancel(true);
 
-        startForeground(MediaPlayerState.NOTIF_ID, builder.build());
+        KeyguardManager keyguardManager =
+                (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+
+        android.support.v4.media.app.NotificationCompat.MediaStyle mediaStyle = new android.support.v4.media.app.NotificationCompat.MediaStyle()
+                .setShowActionsInCompactView(0, 1, 2);
+
+        if (mMediaSession != null) {
+            mediaStyle.setMediaSession(mMediaSession.getSessionToken());
+        }
+        //posting notification fails for huawei devices in case of mediastyle notification
+        boolean isHuawei = (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP_MR1
+                || android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP)
+                && Build.MANUFACTURER.toLowerCase(Locale.getDefault()).contains("huawei");
+        if (!isHuawei) {
+            builder.setStyle(mediaStyle);
+        }
+
+//        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+
+        builder.addAction(new NotificationCompat.Action(R.drawable.ic_skip_previous_black_24dp, "Prev", previousPI));
+        if (player.getPlayWhenReady()) {
+            builder.addAction(new NotificationCompat.Action(R.drawable.ic_pause_black_24dp, "Pause", pausePlayPI));
+        } else {
+            builder.addAction(new NotificationCompat.Action(R.drawable.ic_play_arrow_black_24dp, "Play", pausePlayPI));
+        }
+        builder.addAction(new NotificationCompat.Action(R.drawable.ic_skip_next_black_24dp, "Next", nextPI));
+        builder.addAction(new NotificationCompat.Action(R.drawable.ic_close_white_24dp, "Close", stopPI));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setVisibility(Notification.VISIBILITY_PUBLIC);
+        }
+
+        if (keyguardManager.isKeyguardLocked() && Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+            builder.setPriority(Notification.PRIORITY_MAX);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder.setChannelId(CHANNEL_ID);
+        }
+
+        Notification notification = builder.build();
+        startForeground(MediaPlayerState.NOTIF_ID, notification);
     }
 
     public void initPlayer() {
@@ -510,5 +554,105 @@ public class ShabadPlayerForegroundService extends Service {
             }
         }
     };
+
+
+    @TargetApi(21)
+    private void InitializeMediaSession() {
+        mMediaSession = new MediaSessionCompat(getApplicationContext(), getPackageName() + "." + TAG);
+
+        mMediaSession.setCallback(new MediaSessionCompat.Callback() {
+            public boolean onMediaButtonEvent(@NonNull Intent mediaButtonIntent) {
+                Log.d(TAG, "onMediaButtonEvent called: " + mediaButtonIntent);
+                return super.onMediaButtonEvent(mediaButtonIntent);
+            }
+
+            public void onPause() {
+                Log.d(TAG, "onPause called (media button pressed)");
+                onPlayPauseButtonClicked();
+                super.onPause();
+            }
+
+            public void onSkipToPrevious() {
+                Log.d(TAG, "onskiptoPrevious called (media button pressed)");
+                previous();
+                super.onSkipToPrevious();
+            }
+
+            public void onSkipToNext() {
+                Log.d(TAG, "onskiptonext called (media button pressed)");
+                next();
+                super.onSkipToNext();
+            }
+
+            public void onPlay() {
+                Log.d(TAG, "onPlay called (media button pressed)");
+                onPlayPauseButtonClicked();
+                super.onPlay();
+
+            }
+
+            public void onStop() {
+                stop();
+                Log.d(TAG, "onStop called (media button pressed)");
+                super.onStop();
+            }
+
+            private void onPlayPauseButtonClicked() {
+                //if pressed multiple times in 500 ms, skip to next song
+                long currentTime = System.currentTimeMillis();
+                Log.d(TAG, "onPlay: " + lastTimePlayPauseClicked + " current " + currentTime);
+                if (currentTime - lastTimePlayPauseClicked < 500) {
+                    Log.d(TAG, "onPlay: nextTrack on multiple play pause click");
+                    next();
+                    return;
+                }
+                lastTimePlayPauseClicked = System.currentTimeMillis();
+                play();
+            }
+        });
+
+        mMediaSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS | MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS);
+        stateBuilder = new PlaybackStateCompat.Builder()
+                .setActions(
+                        PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_PLAY_PAUSE |
+                                PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID | PlaybackStateCompat.ACTION_PAUSE |
+                                PlaybackStateCompat.ACTION_SKIP_TO_NEXT | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS);
+        PlaybackStateCompat state = stateBuilder
+                .setState(PlaybackStateCompat.STATE_STOPPED, 0, 1)
+                .build();
+
+        mMediaSession.setPlaybackState(state);
+        mMediaSession.setActive(true);
+    }
+
+    private void setSessionState() {
+        //set state play
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+
+            if (status == PLAYING) {
+                stateBuilder.setState(PlaybackStateCompat.STATE_PLAYING, 0, 1);
+            } else if (status == PAUSED) {
+                stateBuilder.setState(PlaybackStateCompat.STATE_PAUSED, 0, 1);
+            } else {
+                stateBuilder.setState(PlaybackStateCompat.STATE_STOPPED, 0, 1);
+            }
+            mMediaSession.setPlaybackState(stateBuilder.build());
+        }
+    }
+
+    @TargetApi(21)
+    public void setMediaSessionMetadata(final boolean enable) {
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                if (currentShabad == null) return;
+                MediaMetadataCompat.Builder metadataBuilder = new MediaMetadataCompat.Builder();
+                metadataBuilder.putString(MediaMetadata.METADATA_KEY_TITLE, currentShabad.getShabadEnglishTitle());
+                metadataBuilder.putString(MediaMetadata.METADATA_KEY_ARTIST, currentShabad.getRaagiName());
+                metadataBuilder.putLong(MediaMetadata.METADATA_KEY_DURATION, player.getDuration());
+                mMediaSession.setMetadata(metadataBuilder.build());
+            }
+        });
+    }
 
 }

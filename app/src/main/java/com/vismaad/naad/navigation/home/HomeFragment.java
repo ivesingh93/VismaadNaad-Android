@@ -1,34 +1,23 @@
 package com.vismaad.naad.navigation.home;
 
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.Html;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
-
 import android.view.Menu;
 import android.view.MenuInflater;
-
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
-
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -37,11 +26,6 @@ import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.home.adapter.RaagiInfoAdapter;
 import com.vismaad.naad.navigation.home.presenter.HomePresenterImpl;
 import com.vismaad.naad.navigation.home.view.HomeView;
-import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
-import com.vismaad.naad.welcome.WelcomeActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressFlower;
@@ -61,6 +45,7 @@ public class HomeFragment extends Fragment implements HomeView {
     SearchView search;
     LinearLayout rootView;
     ACProgressFlower dialog;
+
     public HomeFragment() {
 
     }
@@ -147,7 +132,7 @@ public class HomeFragment extends Fragment implements HomeView {
 
     @Override
     public void init(View view) {
-       // search = view.findViewById(R.id.search);
+        // search = view.findViewById(R.id.search);
 /*        Drawable d = getResources().getDrawable(R.drawable.bg_white_rounded);
         search.setBackground(d);
         EditText searchEditText = (EditText) search.findViewById(android.support.v7.appcompat.R.id.search_src_text);
@@ -233,4 +218,5 @@ public class HomeFragment extends Fragment implements HomeView {
     public interface OnItem1SelectedListener {
         void OnItem1SelectedListener(String item);
     }
+
 }

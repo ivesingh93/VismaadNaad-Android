@@ -5,12 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
@@ -21,28 +18,17 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Transformation;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestBuilder;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -53,10 +39,8 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.gson.reflect.TypeToken;
-import com.vismaad.naad.AddPlayList.AddPlayList;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
-import com.vismaad.naad.custom_views.BlurTransformation;
 import com.vismaad.naad.custom_views.HeaderView;
 import com.vismaad.naad.navigation.home.raagi_detail.adapter.ShabadAdapter;
 import com.vismaad.naad.navigation.home.raagi_detail.presenter.RaagiPresenterImpl;
@@ -67,9 +51,7 @@ import com.vismaad.naad.player.service.ShabadPlayerForegroundService;
 import com.vismaad.naad.rest.model.raagi.Shabad;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
-import com.vismaad.naad.utils.BlurTransform;
 import com.vismaad.naad.utils.Utils;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -91,6 +73,7 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
 //    private LinearLayout linearlayoutTitle;
 //    private TextView textviewTitle;
 
+    public ShowShabadReceiver showShabadReceiver;
 
     private RaagiPresenterImpl raagiPresenterImpl;
     //    private ActionBar raagi_detail_AB;
@@ -173,6 +156,7 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
 
         raagiPresenterImpl = new RaagiPresenterImpl(this, RaagiDetailActivity.this);
         raagiPresenterImpl.init();
+        LocalBroadcastManager.getInstance(this).registerReceiver(showShabadReceiver, new IntentFilter(MediaPlayerState.SHOW_SHABAD));
 
         raagiPresenterImpl.prepareRaagiInfo();
         raagiPresenterImpl.prepareShabads(raagi_name);
@@ -293,6 +277,7 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
     @Override
     public void init() {
 //        raagi_detail_AB = getSupportActionBar();
+        showShabadReceiver = new ShowShabadReceiver();
         rootView = findViewById(R.id.root_layout);
         search = findViewById(R.id.search);
         blurImageView = findViewById(R.id.blurred_image);
@@ -514,6 +499,7 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
     protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(updater);
+//        LocalBroadcastManager.getInstance(this).unregisterReceiver(showShabadReceiver);
     }
 
     @Override
@@ -581,5 +567,40 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
             }
         });
     }
+
+    private void saveLastShabadToPlay() {
+        // store shabad list in shared pref using set in android or in list of json
+        String json = App.getGson().toJson(shabadsList);
+        if (App.getPrefranceData(MediaPlayerState.shabad_list) != null && App.getPrefranceData(MediaPlayerState.shabad_list).length() > 0) {
+            App.setPreferences(MediaPlayerState.shabad_list, "");
+        }
+        App.setPreferences(MediaPlayerState.shabad_list, json);
+
+        String jsonShabad = App.getGson().toJson(currentShabad);
+        if (App.getPrefranceData(MediaPlayerState.SHABAD) != null && App.getPrefranceData(MediaPlayerState.SHABAD).length() > 0) {
+            App.setPreferences(MediaPlayerState.SHABAD, "");
+        }
+        App.setPreferences(MediaPlayerState.SHABAD, jsonShabad);
+    }
+
+    private void showCurrentShabad(int showShabadIndex) {
+        Log.i("index-number-class", "" + showShabadIndex);
+        currentShabad = shabadsList.get(showShabadIndex);
+        shabadName.setText(currentShabad.getShabadEnglishTitle());
+        raagiName.setText(currentShabad.getRaagiName());
+        saveLastShabadToPlay();
+    }
+
+    public class ShowShabadReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null) {
+                int showShabadIndex = intent.getIntExtra(MediaPlayerState.SHOW_SHABAD, 0);
+                showCurrentShabad(showShabadIndex);
+            }
+        }
+    }
+
 
 }
