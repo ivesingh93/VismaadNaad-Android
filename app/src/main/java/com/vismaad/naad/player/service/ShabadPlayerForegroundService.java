@@ -254,6 +254,7 @@ public class ShabadPlayerForegroundService extends Service {
         }
     }
 
+
     public void next() {
         if (player != null) {
             Timeline timeline = player.getCurrentTimeline();
