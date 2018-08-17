@@ -13,9 +13,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -26,13 +26,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.gson.reflect.TypeToken;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.home.HomeFragment;
-
 import com.vismaad.naad.navigation.playlist.PlayListFrag;
 import com.vismaad.naad.player.service.App;
 import com.vismaad.naad.player.service.MediaPlayerState;
@@ -42,7 +40,6 @@ import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 import com.vismaad.naad.utils.Utils;
 import com.vismaad.naad.welcome.WelcomeActivity;
-import com.vismaad.naad.welcome.signup.SignupActivity;
 
 import java.util.ArrayList;
 
@@ -52,6 +49,7 @@ import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.STOP
 
 public class NavigationActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public ShowShabadReceiver showShabadReceiver;
     // private ActionBar toolbar;
     private LinearLayout layout;
     private ShabadPlayerForegroundService playerService;
@@ -118,8 +116,10 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         updater = new UpdateUIReceiver();
+        showShabadReceiver = new ShowShabadReceiver();
 
         LocalBroadcastManager.getInstance(this).registerReceiver(updater, new IntentFilter(MediaPlayerState.updateUI));
+        LocalBroadcastManager.getInstance(this).registerReceiver(showShabadReceiver, new IntentFilter(MediaPlayerState.SHOW_SHABAD));
 
         playerService = App.getService();
 
@@ -350,6 +350,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
     protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(updater);
+//        LocalBroadcastManager.getInstance(this).unregisterReceiver(showShabadReceiver);
         /*if (mRandomNumberReceiver != null) {
             unregisterReceiver(mRandomNumberReceiver);
         }*/
@@ -361,6 +362,40 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         public void onReceive(Context context, Intent intent) {
             if (intent != null) {
                 updateUI();
+            }
+        }
+    }
+
+    private void saveLastShabadToPlay() {
+        // store shabad list in shared pref using set in android or in list of json
+        String json = App.getGson().toJson(shabadsList);
+        if (App.getPrefranceData(MediaPlayerState.shabad_list) != null && App.getPrefranceData(MediaPlayerState.shabad_list).length() > 0) {
+            App.setPreferences(MediaPlayerState.shabad_list, "");
+        }
+        App.setPreferences(MediaPlayerState.shabad_list, json);
+
+        String jsonShabad = App.getGson().toJson(currentShabad);
+        if (App.getPrefranceData(MediaPlayerState.SHABAD) != null && App.getPrefranceData(MediaPlayerState.SHABAD).length() > 0) {
+            App.setPreferences(MediaPlayerState.SHABAD, "");
+        }
+        App.setPreferences(MediaPlayerState.SHABAD, jsonShabad);
+    }
+
+    private void showCurrentShabad(int showShabadIndex) {
+        Log.i("index-number-class", "" + showShabadIndex);
+        currentShabad = shabadsList.get(showShabadIndex);
+        shabadName.setText(currentShabad.getShabadEnglishTitle());
+        raagiName.setText(currentShabad.getRaagiName());
+        saveLastShabadToPlay();
+    }
+
+    public class ShowShabadReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null) {
+                int showShabadIndex = intent.getIntExtra(MediaPlayerState.SHOW_SHABAD, 0);
+                showCurrentShabad(showShabadIndex);
             }
         }
     }
