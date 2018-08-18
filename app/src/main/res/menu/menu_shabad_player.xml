@@ -9,13 +9,6 @@
         app:showAsAction="always"/>
 
     <item
-        android:visible="false"
-        android:id="@+id/action_like"
-        android:icon="@drawable/ic_like_white_32dp"
-        android:title="Like"
-        app:showAsAction="always"/>
-
-    <item
         android:icon="@drawable/ic_playlist_add_white_24dp"
         android:id="@+id/add_to_playlist"
         android:title="Add"

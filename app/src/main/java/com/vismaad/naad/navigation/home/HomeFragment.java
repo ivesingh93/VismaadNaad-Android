@@ -209,9 +209,7 @@ public class HomeFragment extends Fragment implements HomeView {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
-            return true;
-        }
+
         return super.onOptionsItemSelected(item);
     }
 

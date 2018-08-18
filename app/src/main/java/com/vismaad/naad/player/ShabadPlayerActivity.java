@@ -152,11 +152,6 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
                 onBackPressed();
                 break;
 
-            case R.id.action_like:
-                //TODO - LIKE BUTTON
-                //        Toast.makeText(getApplicationContext(), "Like", Toast.LENGTH_SHORT).show();
-                break;
-
             case R.id.action_font_settings:
                 shabadDialog.create_dialog_box();
                 break;

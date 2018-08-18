@@ -267,9 +267,7 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
                 onBackPressed();
                 break;
 
-            case R.id.action_search: {
-                return true;
-            }
+
         }
         return true;
     }
