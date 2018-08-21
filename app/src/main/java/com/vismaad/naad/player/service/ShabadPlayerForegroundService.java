@@ -628,8 +628,7 @@ public class ShabadPlayerForegroundService extends Service {
 
     private void setSessionState() {
         //set state play
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && stateBuilder != null) {
             if (status == PLAYING) {
                 stateBuilder.setState(PlaybackStateCompat.STATE_PLAYING, 0, 1);
             } else if (status == PAUSED) {
