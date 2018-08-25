@@ -91,7 +91,6 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
     private ActionBar shabad_player_AB;
     private TextView gurbani_TV, raagi_name_TV, shabad_title_TV;
     private Typeface gurbani_lipi_face;
-    private ArrayList<Shabad> shabadsList = new ArrayList<>();
     private Shabad current_shabad;
     private ScrollView gurbani_SV;
     private SimpleExoPlayerView simpleExoPlayerView;
@@ -252,8 +251,8 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
         shabad_title_TV = findViewById(R.id.shabad_title_TV);
         gurbani_lipi_face = Typeface.createFromAsset(getAssets(), "fonts/gurblipi_.ttf");
         gurbani_TV.setTypeface(gurbani_lipi_face);
-        shabadLinks = new String[shabadsList.size()];
-        shabadTitles = new String[shabadsList.size()];
+        shabadLinks = new String[NavigationActivity.shabadsList.size()];
+        shabadTitles = new String[NavigationActivity.shabadsList.size()];
         showShabadReceiver = new ShowShabadReceiver();
         gurbani_SV = findViewById(R.id.gurbani_SV);
         shabadDialog = new ShabadDialog(this, shabadPlayerPresenterImpl);
@@ -289,13 +288,13 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
     @Override
     public void generateShabadsData() {
 
-        for (int i = 0; i < shabadsList.size(); i++) {
-            Log.i("URL", "" + shabadsList.get(i).getShabadUrl());
-            shabadLinks[i] = shabadsList.get(i).getShabadUrl().replace(" ", "+");
-            if (shabadsList.get(i).getShabadUrl().equals(current_shabad.getShabadUrl())) {
+        for (int i = 0; i < NavigationActivity.shabadsList.size(); i++) {
+            Log.i("URL", "" + NavigationActivity.shabadsList.get(i).getShabadUrl());
+            shabadLinks[i] = NavigationActivity.shabadsList.get(i).getShabadUrl().replace(" ", "+");
+            if (NavigationActivity.shabadsList.get(i).getShabadUrl().equals(current_shabad.getShabadUrl())) {
                 originalShabadIndex = i;
             }
-            shabadTitles[i] = shabadsList.get(i).getShabadEnglishTitle();
+            shabadTitles[i] = NavigationActivity.shabadsList.get(i).getShabadEnglishTitle();
         }
 
         showCurrentShabad(originalShabadIndex);
@@ -330,7 +329,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
             intent.putExtra(MediaPlayerState.SHABAD_LINKS, shabadLinks);
             intent.putExtra(MediaPlayerState.ORIGINAL_SHABAD, originalShabadIndex);
             intent.putExtra(MediaPlayerState.SHABAD, current_shabad);
-            intent.putExtra(MediaPlayerState.shabad_list, shabadsList);
+            intent.putExtra(MediaPlayerState.shabad_list, NavigationActivity.shabadsList);
             intent.setAction(Constants.STARTFOREGROUND_ACTION);
             intent.addCategory(ShabadPlayerForegroundService.TAG);
             if (playSong) {
@@ -359,7 +358,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
             intent.putExtra(MediaPlayerState.SHABAD_LINKS, shabadLinks);
             intent.putExtra(MediaPlayerState.ORIGINAL_SHABAD, originalShabadIndex);
             intent.putExtra(MediaPlayerState.SHABAD, current_shabad);
-            intent.putExtra(MediaPlayerState.shabad_list, shabadsList);
+            intent.putExtra(MediaPlayerState.shabad_list, NavigationActivity.shabadsList);
             intent.addCategory(ShabadPlayerForegroundService.TAG);
             intent.setAction(Constants.STARTFOREGROUND_ACTION);
             if (playSong) {
@@ -389,7 +388,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
     @Override
     public void getIntentValues() {
         if (getIntent() != null && getIntent().hasExtra("shabads")) {
-            shabadsList = getIntent().getExtras().getParcelableArrayList("shabads");
+            NavigationActivity.shabadsList = getIntent().getExtras().getParcelableArrayList("shabads");
             current_shabad = getIntent().getExtras().getParcelable("current_shabad");
         }
         playSong = getIntent().getBooleanExtra(PLAY_SONG, false);
@@ -538,7 +537,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
 
     private void showCurrentShabad(int showShabadIndex) {
         Log.i("index-number-class", "" + showShabadIndex);
-        current_shabad = shabadsList.get(showShabadIndex);
+        current_shabad = NavigationActivity.shabadsList.get(showShabadIndex);
         shabad_player_AB.setTitle(current_shabad.getShabadEnglishTitle());
         raagi_name_TV.setText(current_shabad.getRaagiName());
         shabad_title_TV.setText(current_shabad.getShabadEnglishTitle());
@@ -600,7 +599,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
 
     private void saveLastShabadToPlay() {
         // store shabad list in shared pref using set in android or in list of json
-        String json = App.getGson().toJson(shabadsList);
+        String json = App.getGson().toJson(NavigationActivity.shabadsList);
         if (App.getPrefranceData(MediaPlayerState.shabad_list) != null && App.getPrefranceData(MediaPlayerState.shabad_list).length() > 0) {
             App.setPreferences(MediaPlayerState.shabad_list, "");
         }

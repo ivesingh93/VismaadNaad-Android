@@ -42,6 +42,7 @@ import com.google.gson.reflect.TypeToken;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
 import com.vismaad.naad.custom_views.HeaderView;
+import com.vismaad.naad.navigation.NavigationActivity;
 import com.vismaad.naad.navigation.home.raagi_detail.adapter.ShabadAdapter;
 import com.vismaad.naad.navigation.home.raagi_detail.presenter.RaagiPresenterImpl;
 import com.vismaad.naad.navigation.home.raagi_detail.view.RaagiView;
@@ -90,7 +91,6 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
     private ShabadPlayerForegroundService playerService;
     private TextView shabadName, raagiName;
     private Shabad currentShabad;
-    private ArrayList<Shabad> shabadsList = new ArrayList<>();
     private String[] shabadLinks, shabadTitles;
     private int originalShabadIndex = 0;
     //    private int playerState;
@@ -412,7 +412,7 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
     }
 
     private void checkMiniPlayerVisibility() {
-        shabadsList = App.getGson().fromJson(App.getPrefranceData(MediaPlayerState.shabad_list), new TypeToken<ArrayList<Shabad>>() {
+        NavigationActivity.shabadsList = App.getGson().fromJson(App.getPrefranceData(MediaPlayerState.shabad_list), new TypeToken<ArrayList<Shabad>>() {
         }.getType());
 
         currentShabad = App.getGson().fromJson(App.getPrefranceData(MediaPlayerState.SHABAD), new TypeToken<Shabad>() {
@@ -443,15 +443,15 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
             mAdView.setVisibility(View.VISIBLE);
         }
 
-        if (shabadsList != null && shabadsList.size() > 0) {
-            shabadLinks = new String[shabadsList.size()];
-            shabadTitles = new String[shabadsList.size()];
-            for (int i = 0; i < shabadsList.size(); i++) {
-                shabadLinks[i] = shabadsList.get(i).getShabadUrl().replace(" ", "+");
-                if (shabadsList.get(i).getShabadUrl().equals(currentShabad.getShabadUrl())) {
+        if (NavigationActivity.shabadsList != null && NavigationActivity.shabadsList.size() > 0) {
+            shabadLinks = new String[NavigationActivity.shabadsList.size()];
+            shabadTitles = new String[NavigationActivity.shabadsList.size()];
+            for (int i = 0; i < NavigationActivity.shabadsList.size(); i++) {
+                shabadLinks[i] = NavigationActivity.shabadsList.get(i).getShabadUrl().replace(" ", "+");
+                if (NavigationActivity.shabadsList.get(i).getShabadUrl().equals(currentShabad.getShabadUrl())) {
                     originalShabadIndex = i;
                 }
-                shabadTitles[i] = shabadsList.get(i).getShabadEnglishTitle();
+                shabadTitles[i] = NavigationActivity.shabadsList.get(i).getShabadEnglishTitle();
             }
         }
     }
@@ -486,7 +486,7 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
         intent.putExtra(MediaPlayerState.SHABAD_LINKS, shabadLinks);
         intent.putExtra(MediaPlayerState.ORIGINAL_SHABAD, originalShabadIndex);
         intent.putExtra(MediaPlayerState.SHABAD, currentShabad);
-        intent.putExtra(MediaPlayerState.shabad_list, shabadsList);
+        intent.putExtra(MediaPlayerState.shabad_list, NavigationActivity.shabadsList);
         intent.putExtra(MediaPlayerState.Action_Play, true);
         intent.putExtra(MediaPlayerState.SHABAD_DURATION, App.getPreferenceLong(MediaPlayerState.SHABAD_DURATION));
         intent.addCategory(ShabadPlayerForegroundService.TAG);
@@ -570,7 +570,7 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
 
     private void saveLastShabadToPlay() {
         // store shabad list in shared pref using set in android or in list of json
-        String json = App.getGson().toJson(shabadsList);
+        String json = App.getGson().toJson(NavigationActivity.shabadsList);
         if (App.getPrefranceData(MediaPlayerState.shabad_list) != null && App.getPrefranceData(MediaPlayerState.shabad_list).length() > 0) {
             App.setPreferences(MediaPlayerState.shabad_list, "");
         }
@@ -585,8 +585,8 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
 
     private void showCurrentShabad(int showShabadIndex) {
         Log.i("index-number-class", "" + showShabadIndex);
-        if (shabadsList != null && shabadsList.size() > 0) {
-            currentShabad = shabadsList.get(showShabadIndex);
+        if (NavigationActivity.shabadsList != null && NavigationActivity.shabadsList.size() > 0) {
+            currentShabad = NavigationActivity.shabadsList.get(showShabadIndex);
             shabadName.setText(currentShabad.getShabadEnglishTitle());
             raagiName.setText(currentShabad.getRaagiName());
             saveLastShabadToPlay();

@@ -59,7 +59,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
     private ImageView playBtn;
     private TextView shabadName, raagiName;
     private Shabad currentShabad;
-    private ArrayList<Shabad> shabadsList = new ArrayList<>();
+    public static ArrayList<Shabad> shabadsList = new ArrayList<>();
     private String[] shabadLinks, shabadTitles;
     private int originalShabadIndex = 0;
     //    private int playerState = 0;
