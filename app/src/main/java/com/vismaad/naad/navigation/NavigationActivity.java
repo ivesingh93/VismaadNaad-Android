@@ -59,7 +59,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
     private ImageView playBtn;
     private TextView shabadName, raagiName;
     private Shabad currentShabad;
-    private ArrayList<Shabad> shabadsList = new ArrayList<>();
+    public static ArrayList<Shabad> shabadsList = new ArrayList<>();
     private String[] shabadLinks, shabadTitles;
     private int originalShabadIndex = 0;
     //    private int playerState = 0;
@@ -383,10 +383,12 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
 
     private void showCurrentShabad(int showShabadIndex) {
         Log.i("index-number-class", "" + showShabadIndex);
-        currentShabad = shabadsList.get(showShabadIndex);
-        shabadName.setText(currentShabad.getShabadEnglishTitle());
-        raagiName.setText(currentShabad.getRaagiName());
-        saveLastShabadToPlay();
+        if (shabadsList != null && shabadsList.size() > 0) {
+            currentShabad = shabadsList.get(showShabadIndex);
+            shabadName.setText(currentShabad.getShabadEnglishTitle());
+            raagiName.setText(currentShabad.getRaagiName());
+            saveLastShabadToPlay();
+        }
     }
 
     public class ShowShabadReceiver extends BroadcastReceiver {
