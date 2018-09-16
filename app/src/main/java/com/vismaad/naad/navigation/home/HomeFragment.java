@@ -1,5 +1,6 @@
 package com.vismaad.naad.navigation.home;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,15 +28,27 @@ import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.home.adapter.RaagiInfoAdapter;
 import com.vismaad.naad.navigation.home.presenter.HomePresenterImpl;
 import com.vismaad.naad.navigation.home.view.HomeView;
+import com.vismaad.naad.rest.instance.RetrofitClient;
+import com.vismaad.naad.rest.model.raagi.ShabadTutorial;
+import com.vismaad.naad.rest.service.ShabadTutorialsService;
+import com.vismaad.naad.shabadtutorials.AllShabadTutorials;
+import com.vismaad.naad.shabadtutorials.ShabadTutoralsAdapter;
+import com.vismaad.naad.youtubelinks.YoutubeScreen;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressFlower;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by ivesingh on 2/2/18.
  */
 
-public class HomeFragment extends Fragment implements HomeView {
+public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAdapter.ItemListener {
 
     private HomePresenterImpl homePresenterImpl;
     private RecyclerView raagi_RV;
@@ -45,6 +59,10 @@ public class HomeFragment extends Fragment implements HomeView {
     SearchView search;
     LinearLayout rootView;
     ACProgressFlower dialog;
+
+    RecyclerView recyclerView;
+    ShabadTutoralsAdapter mAdapter;
+    ArrayList<ShabadTutorial> list=new ArrayList();
 
     public HomeFragment() {
 
@@ -127,7 +145,55 @@ public class HomeFragment extends Fragment implements HomeView {
             }
         });
 
+
+
+
+// by Shivam
+
+        view.findViewById(R.id.see_more).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), AllShabadTutorials.class));
+            }
+        });
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.grid);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(manager);
+
+        mAdapter= new ShabadTutoralsAdapter(getActivity(), list, this);
+        recyclerView.setAdapter(mAdapter);
+        loadList();
         return view;
+    }
+
+
+
+    public void loadList() {
+
+        ShabadTutorialsService tutorialsService = RetrofitClient.getClient().create(ShabadTutorialsService.class);
+        Call<List<ShabadTutorial>> raagiInfoCall = tutorialsService.shabad_tutorials("3");
+
+        raagiInfoCall.enqueue(new Callback<List<ShabadTutorial>>() {
+            @Override
+            public void onResponse(Call<List<ShabadTutorial>> call, Response<List<ShabadTutorial>> response) {
+                list.clear();
+                Log.e("response","==>"+response.body().get(0).getName());
+                for(ShabadTutorial raagiInfo: response.body()){
+                    list.add(raagiInfo);
+                }
+                dialog.dismiss();
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<ShabadTutorial>> call, Throwable t) {
+                Log.e("response","==>"+t);
+                // TODO - Failed Raagi Info Call
+                dialog.dismiss();
+            }
+        });
+
     }
 
     @Override
@@ -211,6 +277,14 @@ public class HomeFragment extends Fragment implements HomeView {
         //noinspection SimplifiableIfStatement
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(ShabadTutorial item) {
+        Intent intent=new Intent(getActivity(), YoutubeScreen.class);
+        intent.putExtra("video_url",item.getUrl());
+        intent.putExtra("title",item.getTitle()+" - "+item.getHarmoniumScale());
+        startActivity(intent);
     }
 
     public interface OnItem1SelectedListener {

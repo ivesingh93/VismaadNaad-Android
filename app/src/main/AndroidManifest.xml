@@ -77,6 +77,7 @@
         <activity android:name="com.vismaad.naad.AddPlayList.ShabadsPlayList" />
         <activity android:name="com.vismaad.naad.AddPlayList.AddPlayList" />
         <activity android:name="com.vismaad.naad.AddPlayList.SelectPlayListShabads" />
+        <activity android:name="com.vismaad.naad.youtubelinks.YoutubeScreen" />
 
 
         <activity
@@ -95,6 +96,10 @@
 
         <activity
             android:name="com.vismaad.naad.AddPlayList.PlaylistShabads"
+            android:theme="@style/AppThemes.StatusBarTransparent" />
+
+        <activity
+            android:name="com.vismaad.naad.shabadtutorials.AllShabadTutorials"
             android:theme="@style/AppThemes.StatusBarTransparent" />
 
         <meta-data

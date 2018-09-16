@@ -17,9 +17,16 @@
         ads:adSize="BANNER"
         ads:adUnitId="@string/ads_banner"></com.google.android.gms.ads.AdView>
 
+
+
+
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,14 +34,57 @@
             android:orientation="vertical">
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="38dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="Shabad Tutorials"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    android:padding="7dp"
+
+                    />
+
+                <TextView
+                    android:id="@+id/see_more"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:text="see more"
+                    android:textColor="@color/appThemeColor"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:padding="7dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+
+
             <TextView
+                android:id="@+id/testing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:gravity="center_horizontal"
+                android:gravity="center_vertical"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
                 android:text="Raagis"
+                android:padding="7dp"
                 android:textColor="#FFF"
                 android:textSize="18sp"
                 android:textStyle="bold" />
