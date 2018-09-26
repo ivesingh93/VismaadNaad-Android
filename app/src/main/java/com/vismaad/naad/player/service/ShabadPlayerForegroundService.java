@@ -17,6 +17,7 @@ import android.media.session.MediaSession;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,24 +33,38 @@ import android.widget.Toast;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.NavigationActivity;
+import com.vismaad.naad.rest.instance.RetrofitClient;
+import com.vismaad.naad.rest.model.playlist.ShabadListener;
 import com.vismaad.naad.rest.model.raagi.Shabad;
+import com.vismaad.naad.rest.service.PlayList;
 
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.Executors;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.vismaad.naad.player.ShabadPlayerActivity.current_shabad;
 
 /**
  * Created by DELL on 1/29/2018.
@@ -59,6 +74,8 @@ public class ShabadPlayerForegroundService extends Service {
 
     static public final int STOPPED = -1, PAUSED = 0, PLAYING = 1;
     public static final String TAG = "MyServiceTag";
+
+    CountDownTimer countDownTimer;
 
     private static final String CHANNEL_ID = "PlayerShabad";
     private static final long MAX_POSITION_FOR_SEEK_TO_PREVIOUS = 3000;
@@ -101,6 +118,52 @@ public class ShabadPlayerForegroundService extends Service {
         TrackSelection.Factory trackSelectionFactory = new AdaptiveTrackSelection.Factory(new DefaultBandwidthMeter());
         trackSelector = new DefaultTrackSelector(trackSelectionFactory);
         initPlayer();
+        countDownTimer=new CountDownTimer(20*1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            if(millisUntilFinished/1000==1)
+                listenerCall();
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        };
+        player.addListener(new Player.EventListener() {
+            @Override
+            public void onTimelineChanged(Timeline timeline, Object manifest) {}
+
+            @Override
+            public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+                countDownTimer.cancel();
+                countDownTimer.start();
+            }
+
+            @Override
+            public void onLoadingChanged(boolean isLoading) {}
+
+            @Override
+            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) { }
+
+            @Override
+            public void onRepeatModeChanged(int repeatMode) {}
+
+            @Override
+            public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {  }
+
+            @Override
+            public void onPlayerError(ExoPlaybackException error) {}
+
+            @Override
+            public void onPositionDiscontinuity(int reason) {}
+
+            @Override
+            public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {  }
+
+            @Override
+            public void onSeekProcessed() {}
+        });
         player.addListener(new Player.DefaultEventListener() {
             @Override
             public void onPlayerError(ExoPlaybackException error) {
@@ -158,6 +221,33 @@ public class ShabadPlayerForegroundService extends Service {
         if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             //bluetooth button control and lock screen albumName art
             InitializeMediaSession();
+        }
+    }
+
+
+    private void listenerCall() {
+        Log.i("shabadListeners", "listenerCall--->EventListener" );
+
+        if (current_shabad!=null && current_shabad.getShabadId() != null && !Constants.shouldCallListerAPI.contains(current_shabad.getShabadId())) {
+            Call<JsonElement> call = RetrofitClient.getClient().create(PlayList.class).shabadListeners(new ShabadListener(Integer.parseInt(current_shabad.getShabadId())));
+            call.enqueue(new Callback<JsonElement>() {
+                @Override
+                public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                    //response.body() have your LoginResult fields and methods  (example you have to access error then try like this response.body().getError() )
+
+                    Log.i("shabadListeners", "listenerCall--->" + new Gson().toJson(response.body()));
+                    Constants.shouldCallListerAPI = Constants.shouldCallListerAPI + current_shabad.getShabadId();
+
+                }
+
+                @Override
+                public void onFailure(Call<JsonElement> call, Throwable t) {
+                    Log.i("shabadListeners", "listenerCall--->" + t);
+                    //for getting error in network put here Toast, so get the error on network
+                }
+            });
+
+
         }
     }
 

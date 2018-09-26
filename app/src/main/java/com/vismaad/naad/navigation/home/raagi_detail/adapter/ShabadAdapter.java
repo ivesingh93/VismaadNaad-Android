@@ -58,6 +58,7 @@ public class ShabadAdapter extends RecyclerView.Adapter<ShabadAdapter.ShabadView
     private InterstitialAd mInterstitialAd;
     int count;
 
+
     public ShabadAdapter(Context context, ArrayList<Shabad> shabadList) {
         this.context = context;
         this.shabadList = shabadList;
@@ -86,6 +87,8 @@ public class ShabadAdapter extends RecyclerView.Adapter<ShabadAdapter.ShabadView
         // Log.i("RAGGI_NAME", "" + shabadList.get(position).getRaagiName());
 
         holder.shabad_menu_IV.setVisibility(View.GONE);
+        holder.shabad_thumbnail_IV.setText((position + 1) + ".");
+        holder.listen.setText(shabad.getListeners() + "");
 
         holder.shabad_card_view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +96,8 @@ public class ShabadAdapter extends RecyclerView.Adapter<ShabadAdapter.ShabadView
                 create_intent(holder, shabad);
             }
         });
+
+
 
         /*
         holder.shabad_menu_IV.setOnClickListener(new View.OnClickListener() {
@@ -274,8 +279,8 @@ public class ShabadAdapter extends RecyclerView.Adapter<ShabadAdapter.ShabadView
 
     class ShabadViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView shabad_thumbnail_IV, shabad_menu_IV;
-        private TextView shabad_title_TV, shabads_length_TV;
+        private ImageView shabad_menu_IV;
+        private TextView shabad_title_TV, shabads_length_TV, shabad_thumbnail_IV, listen;
         private RelativeLayout rlplay;
         private CardView rl1;
         private View shabad_card_view;
@@ -286,6 +291,7 @@ public class ShabadAdapter extends RecyclerView.Adapter<ShabadAdapter.ShabadView
             shabad_title_TV = itemView.findViewById(R.id.shabad_title_TV);
             shabads_length_TV = itemView.findViewById(R.id.shabads_length_TV);
             shabad_menu_IV = itemView.findViewById(R.id.shabad_menu_IV);
+            listen = itemView.findViewById(R.id.listen);
             rlplay = itemView.findViewById(R.id.rlplay);
             //  rl1=itemView.findViewById(R.id.rl1);
             shabad_card_view = itemView.findViewById(R.id.shabad_card_view);

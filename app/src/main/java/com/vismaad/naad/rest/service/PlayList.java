@@ -5,6 +5,8 @@ import com.vismaad.naad.AddPlayList.model.JBShabadsList;
 import com.vismaad.naad.addshabads.model.AddShabadsList;
 import com.vismaad.naad.rest.model.playlist.AddShabads;
 import com.vismaad.naad.rest.model.playlist.CreatePlayList;
+import com.vismaad.naad.rest.model.playlist.LikeShabad;
+import com.vismaad.naad.rest.model.playlist.ShabadListener;
 import com.vismaad.naad.rest.model.raagi.Shabad;
 import com.vismaad.naad.rest.model.sggs.ShabadInfo;
 import com.vismaad.naad.rest.model.user.UserCredentials;
@@ -21,6 +23,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -43,6 +46,21 @@ public interface PlayList {
 
     @GET("raagiRoutes/raagis/{raagi_name}/shabads")
     Call<List<Shabad>> raagi_shabads(@Path("raagi_name") String raagi_name);
+
+    @GET("userRoutes/members/{username}/shabadLikes/{shabad_id}")
+    Call<JsonElement> isLiked(@Path("username") String username, @Path("shabad_id") String shabad_id);
+
+    @GET("userRoutes/shabadLikes/{shabad_id}")
+    Call<JsonElement> shabadLikes(@Path("shabad_id") String shabad_id);
+
+    @PUT("raagiRoutes/shabadListeners")
+    Call<JsonElement>   shabadListeners(@Body ShabadListener shabadListener);
+
+    @POST("userRoutes/likeShabad")
+    Call<JsonElement> likeShabad(@Body LikeShabad likeShabad);
+
+    @POST("userRoutes/unlikeShabad")
+    Call<JsonElement> unlikeShabad(@Body LikeShabad likeShabad);
 
 
     @Headers("Content-Type: application/json")

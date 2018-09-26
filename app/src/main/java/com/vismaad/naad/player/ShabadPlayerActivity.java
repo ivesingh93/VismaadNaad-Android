@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -30,32 +31,48 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.PlaybackParameters;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.vismaad.naad.AddPlayList.AddPlayList;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.NavigationActivity;
 import com.vismaad.naad.navigation.home.raagi_detail.RaagiDetailActivity;
+import com.vismaad.naad.navigation.home.raagi_detail.adapter.ShabadAdapter;
 import com.vismaad.naad.navigation.playlist.PlayListFrag;
 import com.vismaad.naad.player.presenter.ShabadPlayerPresenterImpl;
 import com.vismaad.naad.player.service.App;
 import com.vismaad.naad.player.service.MediaPlayerState;
 import com.vismaad.naad.player.service.ShabadPlayerForegroundService;
 import com.vismaad.naad.player.view.ShabadPlayerView;
+import com.vismaad.naad.rest.instance.RetrofitClient;
+import com.vismaad.naad.rest.model.playlist.CreatePlayList;
+import com.vismaad.naad.rest.model.playlist.LikeShabad;
+import com.vismaad.naad.rest.model.playlist.ShabadListener;
 import com.vismaad.naad.rest.model.raagi.Shabad;
+import com.vismaad.naad.rest.service.PlayList;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 import com.vismaad.naad.utils.Utils;
@@ -64,11 +81,18 @@ import com.vismaad.naad.welcome.signup.SignupActivity;
 
 import android.support.v7.app.AlertDialog;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressFlower;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.vismaad.naad.Constants.BIG_FONT_SINGLE_BREAK;
 import static com.vismaad.naad.Constants.DOUBLE_BREAK;
@@ -89,9 +113,11 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
 
     private ShabadPlayerPresenterImpl shabadPlayerPresenterImpl;
     private ActionBar shabad_player_AB;
-    private TextView gurbani_TV, raagi_name_TV, shabad_title_TV;
+    private TextView gurbani_TV, raagi_name_TV, shabad_title_TV, like_tv;
+    private LinearLayout like_layout;
+    private ImageButton like;
     private Typeface gurbani_lipi_face;
-    private Shabad current_shabad;
+    public static Shabad current_shabad;
     private ScrollView gurbani_SV;
     private SimpleExoPlayerView simpleExoPlayerView;
     private SimpleExoPlayer player;
@@ -110,6 +136,8 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
     Random mRandom;
     int randomNumber;
     ACProgressFlower dialog;
+    PlayList mCreatePlayList;
+    private boolean isLiked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,9 +159,76 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
         //TODO - App crashes when on raagiDetail page and notification is on top and next/prev button is pressed.
         //TODO - Set Volume to Mid High
 
+        mCreatePlayList = RetrofitClient.getClient().create(PlayList.class);
+
+        isLikedByUser();
+        fetchLikeNo();
+
     }
 
+    private void fetchLikeNo() {
+        Call<JsonElement> call = mCreatePlayList.shabadLikes(current_shabad.getShabadId());
+        call.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                //response.body() have your LoginResult fields and methods  (example you have to access error then try like this response.body().getError() )
+                try {
+                    JSONObject object = (JSONObject) new JSONTokener(new Gson().toJson(response.body())).nextValue();
+                    int likes = object.getInt("likes");
+                    like_tv.setText("" + likes);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Log.i("shabadListeners->fetchLikeNo", "" + new Gson().toJson(response.body()));
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                //for getting error in network put here Toast, so get the error on network
+            }
+        });
+    }
+
+    private void isLikedByUser() {
+        Log.i("shabadListeners->isLikedByUser", "api call====user->" + JBSehajBaniPreferences.getLoginId(mSharedPreferences));
+        Log.i("shabadListeners->isLikedByUser", "api call====shabad_id->" + current_shabad.getShabadId());
+
+        Call<JsonElement> call = mCreatePlayList.isLiked(JBSehajBaniPreferences.getLoginId(mSharedPreferences),
+                current_shabad.getShabadId());
+        call.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                Log.i("shabadListeners->isLikedByUser", "" + new Gson().toJson(response.body()));
+                try {
+                    JSONObject object = (JSONObject) new JSONTokener(new Gson().toJson(response.body())).nextValue();
+                    if (object.getBoolean("Result")) {
+                        like.setImageResource(R.drawable.favorite_filled);
+                        like.setColorFilter(ContextCompat.getColor(ShabadPlayerActivity.this, R.color.khalsa), android.graphics.PorterDuff.Mode.MULTIPLY);
+                        isLiked = true;
+                    } else {
+                        like.setImageResource(R.drawable.favorite);
+                        like.setColorFilter(Color.argb(255, 255, 255, 255));
+                        isLiked = false;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                Log.i("shabadListeners->isLikedByUser", "error---------->" + t);
+
+                //for getting error in network put here Toast, so get the error on network
+            }
+        });
+    }
+
+
+
     private void loadRewardedVideoAd() {
+
 
     }
 
@@ -242,6 +337,9 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
 
         shabad_player_AB = getSupportActionBar();
         gurbani_TV = findViewById(R.id.gurbani_TV);
+        like_tv = findViewById(R.id.like_tv);
+        like_layout = findViewById(R.id.like_layout);
+        like = findViewById(R.id.like);
         raagi_name_TV = findViewById(R.id.raagi_name_TV);
         shabad_title_TV = findViewById(R.id.shabad_title_TV);
         gurbani_lipi_face = Typeface.createFromAsset(getAssets(), "fonts/gurblipi_.ttf");
@@ -272,6 +370,19 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
         //loadRewardedVideoAd();
         dialog.show();
         mRandom = new Random();
+
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(JBSehajBaniPreferences.getLoginId(mSharedPreferences)!=null &&
+                        !JBSehajBaniPreferences.getLoginId(mSharedPreferences).equals(""))
+
+                like_click_event();
+                else {
+                    createDialog();
+                }
+            }
+        });
     }
 
     @Override
@@ -318,6 +429,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
             player = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector());
             simpleExoPlayerView.setPlayer(player);
             player.seekTo(shabadDuration);
+
             Intent intent = new Intent(this, ShabadPlayerForegroundService.class);
             intent.putExtra(MediaPlayerState.RAAGI_NAME, current_shabad.getRaagiName());
             intent.putExtra(MediaPlayerState.SHABAD_TITLES, shabadTitles);
@@ -366,7 +478,65 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
                     startService(intent);
                 }
             }
+
+
         }
+
+
+    }
+
+    private void like_click_event() {
+        like.setEnabled(false);
+        Log.e("shabadListeners", "like_click_event=>" + isLiked);
+        if (isLiked) {
+            Call<JsonElement> call = mCreatePlayList.unlikeShabad(new LikeShabad(Integer.parseInt(current_shabad.getShabadId()),
+                    JBSehajBaniPreferences.getLoginId(mSharedPreferences)));
+            call.enqueue(new Callback<JsonElement>() {
+                @Override
+                public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                    Log.i("shabadListeners", "" + new Gson().toJson(response.body()));
+                    like.setImageResource(R.drawable.favorite);
+                    like.setColorFilter(Color.argb(255, 255, 255, 255));
+                    isLiked = !isLiked;
+                    if(like_tv.getText().toString()!=null && !like_tv.getText().toString().equals("0"))
+                        like_tv.setText(""+(Integer.parseInt(like_tv.getText().toString())-1));
+                    like.setEnabled(true);
+                }
+
+                @Override
+                public void onFailure(Call<JsonElement> call, Throwable t) {
+                    like.setEnabled(true);
+                    //for getting error in network put here Toast, so get the error on network
+                }
+            });
+        } else {
+
+            Log.i("shabadListeners->isLikedByUser", "api call====user->" + JBSehajBaniPreferences.getLoginId(mSharedPreferences));
+            Log.i("shabadListeners->isLikedByUser", "api call====shabad_id->" + current_shabad.getShabadId());
+
+            Call<JsonElement> call = mCreatePlayList.likeShabad(new LikeShabad(Integer.parseInt(current_shabad.getShabadId()),
+                    JBSehajBaniPreferences.getLoginId(mSharedPreferences)));
+            call.enqueue(new Callback<JsonElement>() {
+                @Override
+                public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                    Log.i("shabadListeners", "" + new Gson().toJson(response.body()));
+                    like.setImageResource(R.drawable.favorite_filled);
+                    like.setColorFilter(ContextCompat.getColor(ShabadPlayerActivity.this, R.color.khalsa), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    isLiked = !isLiked;
+                    if(like_tv.getText().toString()!=null )
+                        like_tv.setText(""+(Integer.parseInt(like_tv.getText().toString())+1));
+                    like.setEnabled(true);
+                }
+
+                @Override
+                public void onFailure(Call<JsonElement> call, Throwable t) {
+                    Log.i("shabadListeners", "error---------->" + t);
+                    like.setEnabled(true);
+                    //for getting error in network put here Toast, so get the error on network
+                }
+            });
+        }
+
     }
 
 

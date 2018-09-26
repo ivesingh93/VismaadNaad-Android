@@ -9,6 +9,8 @@ public final class Constants {
     private Constants() {
     }
 
+    public static String shouldCallListerAPI="";
+
     public static final String GURBANI_FONT = "<big><font color=#000000>";
     public static final String PUNJABI_FONT = "<font color=#996633>";
     public static final String TEEKA_PAD_ARTH_FONT = "<font color=#4AB825>";

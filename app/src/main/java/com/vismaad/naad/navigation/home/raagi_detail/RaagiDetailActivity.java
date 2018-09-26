@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
@@ -29,6 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -255,6 +257,7 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
     }
 
 
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -329,6 +332,7 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
     public void showRaagiInfo() {
         Glide.with(getApplicationContext())
                 .load(raagi_image_url)
+                .apply(RequestOptions.circleCropTransform())
                 .into(raagi_thumbnail_IV);
 
         Glide.with(getApplicationContext())
@@ -395,6 +399,8 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
         }
         search.setQuery("", false);
         rootView.requestFocus();
+        Log.i("shabadListeners", "onresume---------->" );
+
 
     }
 

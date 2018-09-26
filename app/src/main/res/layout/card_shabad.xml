@@ -20,16 +20,18 @@
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/shabad_menu_IV">
 
-                <ImageView
+                <TextView
                     android:id="@+id/shabad_thumbnail_IV"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_centerVertical="true"
+                    android:text="1."
+                    android:layout_marginRight="10dp"
+                    android:gravity="right"
+                    android:textSize="22dp"
+                    android:textColor="@color/white"
                     android:focusable="false"
-                    android:padding="4dp"
-                    android:scaleType="fitXY"
-                    android:tint="@color/appThemeColor"
-                    app:srcCompat="@drawable/ic_audiotrack_black_24dp" />
+                    android:padding="4dp" />
 
                 <TextView
                     android:id="@+id/shabad_title_TV"
@@ -46,35 +48,53 @@
                     android:paddingTop="5dp"
                     android:text="Shabad Title"
                     android:textColor="#fff"
-                    android:textSize="15sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
 
-                <TextView
-                    android:id="@+id/shabads_raggi"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_below="@+id/shabad_title_TV"
                     android:layout_toEndOf="@+id/shabad_thumbnail_IV"
                     android:layout_toLeftOf="@+id/raagi_menu_IV"
+                    android:gravity="center_vertical"
                     android:layout_toRightOf="@+id/shabad_thumbnail_IV"
                     android:layout_toStartOf="@+id/raagi_menu_IV"
-                    android:text="Shabad Time"
-                    android:textColor="#b2b2b2"
-                    android:textSize="13sp"
-                    android:visibility="gone" />
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/shabads_length_TV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/shabads_raggi"
-                    android:layout_toEndOf="@+id/shabad_thumbnail_IV"
-                    android:layout_toLeftOf="@+id/raagi_menu_IV"
-                    android:layout_toRightOf="@+id/shabad_thumbnail_IV"
-                    android:layout_toStartOf="@+id/raagi_menu_IV"
-                    android:paddingBottom="10dp"
-                    android:text="Shabad Time"
-                    android:textColor="#b2b2b2"
-                    android:textSize="13sp" />
+                    <ImageView
+                        android:id="@+id/img_listn"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:padding="2dp"
+                        android:src="@drawable/headset"/>
+                    <TextView
+                        android:id="@+id/listen"
+                        android:layout_toRightOf="@+id/img_listn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/light_gray"
+                        android:text="Shabad count"
+                        android:textSize="13sp"
+                         />
+                    <TextView
+                        android:id="@+id/shabads_length_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center"
+                        android:text="Shabad Time"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/light_gray"
+                        android:textSize="13sp" />
+                </RelativeLayout>
+
+
             </RelativeLayout>
 
             <ImageView
@@ -88,43 +108,16 @@
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/ic_more_vert_white_24dp" />
 
-            <!--<ImageView-->
-            <!--android:focusable="false"-->
-            <!--android:id="@+id/check"-->
-            <!--android:layout_width="30dp"-->
-            <!--android:layout_height="30dp"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginRight="5dp"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--android:visibility="gone"-->
-            <!--app:srcCompat="@drawable/check" />-->
 
-            <!--<ImageView-->
-            <!--android:focusable="false"-->
-            <!--android:id="@+id/row_list_checkbox_image"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:visibility="gone"-->
-            <!--app:srcCompat="@drawable/check" />-->
-
-            <!--<CheckedTextView-->
-
-            <!--android:id="@+id/row_list_checkedtextview"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="70dp"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginLeft="5dp"-->
-            <!--android:layout_toRightOf="@+id/rlplay"-->
-            <!--android:visibility="visible" />-->
 
 
         </RelativeLayout>
 
+
+    <View
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
 
 </LinearLayout>

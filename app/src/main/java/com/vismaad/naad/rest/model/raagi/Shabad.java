@@ -35,6 +35,17 @@ public class Shabad implements Parcelable {
     @SerializedName("shabad_url")
     private String shabad_url;
 
+    @SerializedName("listeners")
+    private int listeners;
+
+    public int getListeners() {
+        return listeners;
+    }
+
+    public void setListeners(int listeners) {
+        this.listeners = listeners;
+    }
+
     @SerializedName("id")
     private String id;
 
@@ -55,6 +66,7 @@ public class Shabad implements Parcelable {
         sathaayi_id = in.readInt();
         starting_id = in.readInt();
         ending_id = in.readInt();
+        listeners = in.readInt();
         raagi_name = in.readString();
         shabad_url = in.readString();
         id = in.readString();
@@ -165,6 +177,7 @@ public class Shabad implements Parcelable {
         parcel.writeInt(sathaayi_id);
         parcel.writeInt(starting_id);
         parcel.writeInt(ending_id);
+        parcel.writeInt(listeners);
         parcel.writeString(raagi_name);
         parcel.writeString(shabad_url);
         parcel.writeString(id);
