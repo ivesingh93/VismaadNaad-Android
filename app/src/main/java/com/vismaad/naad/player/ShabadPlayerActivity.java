@@ -204,7 +204,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
                     JSONObject object = (JSONObject) new JSONTokener(new Gson().toJson(response.body())).nextValue();
                     if (object.getBoolean("Result")) {
                         like.setImageResource(R.drawable.favorite_filled);
-                        like.setColorFilter(ContextCompat.getColor(ShabadPlayerActivity.this, R.color.khalsa), android.graphics.PorterDuff.Mode.MULTIPLY);
+                        like.setColorFilter(ContextCompat.getColor(ShabadPlayerActivity.this, R.color.appThemeColor), android.graphics.PorterDuff.Mode.MULTIPLY);
                         isLiked = true;
                     } else {
                         like.setImageResource(R.drawable.favorite);
