@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
-            android:background="#323232"
+            android:background="@color/nav_bar"
             app:itemIconTint="@drawable/bottom_navigation_view_icon_color"
             app:itemTextColor="@drawable/bottom_navigation_view_icon_color"
             app:menu="@menu/menu_navigation" />

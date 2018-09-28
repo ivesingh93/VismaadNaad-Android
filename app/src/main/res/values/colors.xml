@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="mini_player_bg">#323232</color>
-    <color name="main_background">#2c363e</color>
 
-    <color name="colorPrimary">#2c363e</color>
+    <color name="main_background">#323232</color>
+    <color name="mini_player_bg">#232323</color>
+    <color name="nav_bar">#232323</color>
+
+    <color name="appThemeColor">#f3664c</color>
+
+    <color name="colorPrimary">#323232</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
@@ -26,5 +30,5 @@
     <color name="silver">#C0C0C0</color>
     <color name="whiteDark">#ebebeb</color>
 
-    <color name="appThemeColor">#e75e59</color>
+
 </resources>

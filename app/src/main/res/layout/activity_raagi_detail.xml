@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_player"
-        android:background="#2c363e"
+        android:background="@color/main_background"
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.AppBarLayout

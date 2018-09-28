@@ -1,0 +1,5 @@
+<vector android:height="70dp" android:viewportHeight="342"
+    android:viewportWidth="342" android:width="70dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#fff" android:name="Rectangle 1" android:pathData="m59 70h233v173h-233v-173z"/>
+    <path android:fillColor="@color/appThemeColor" android:name="Forma 1" android:pathData="m171 -0c-94.7 0 -171 76.7 -171 171c0 94.3 76.7 171 171 171c94.3 0 171 -76.7 171 -171c0 -94.3 -76.3 -171 -171 -171zm76.7 184.2 -50.7 29.2c-0.4 0 -0.4 0.4 -0.8 0.4l-50.7 29.2c-2.4 1.6 -5.6 2.8 -8.8 2.8c-8.4 0 -15.6 -6.8 -15.6 -15.6v-59.1v-59.5c0 -2.8 0.8 -5.2 2 -7.6c4.4 -7.2 13.6 -10 21.2 -5.6l51.5 29.6l51.1 29.6c2.4 1.2 4.4 3.2 6 5.6c4.8 7.6 2.4 17.2 -5.2 21.2z"/>
+</vector>

@@ -446,12 +446,12 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
 
     private void updateUI() {
         if (playerService.getStatus() == PLAYING) {
-            playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_pause_circle_outline));
+            playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_pause_button));
         } else if (playerService.getStatus() == PAUSED) {
-            playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_circle_filled));
+            playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_button));
         } else if (playerService.getStatus() == STOPPED) {
 //            miniPlayerLayout.setVisibility(View.GONE);
-            playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_circle_filled));
+            playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_button));
         }
     }
 

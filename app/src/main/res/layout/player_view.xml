@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#2c363e"
+    android:background="@color/main_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -195,7 +195,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
-                    android:tint="@color/appThemeColor"
+                    android:tint="@color/white"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:srcCompat="@drawable/ic_skip_previous" />
 
@@ -205,7 +205,7 @@
                     android:layout_height="wrap_content"
                     android:scaleType="fitCenter"
                     android:layout_weight="1.3"
-                    android:tint="@color/appThemeColor"
+                    android:tint="@color/white"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:srcCompat="@drawable/ic_fast_rewind" />
 
@@ -213,21 +213,23 @@
                     android:id="@+id/exo_play"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="1.8"
+                    android:paddingLeft="5dp"
                     android:scaleType="fitCenter"
-                    android:tint="@color/appThemeColor"
+                    android:backgroundTint="@color/appThemeColor"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    app:srcCompat="@drawable/ic_play_circle_filled" />
+                    app:srcCompat="@drawable/ic_play_button" />
 
                 <ImageButton
                     android:id="@+id/exo_pause"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="1.8"
                     android:scaleType="fitCenter"
+                    android:paddingRight="5dp"
+                    android:backgroundTint="@color/appThemeColor"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:tint="@color/appThemeColor"
-                    app:srcCompat="@drawable/ic_pause_circle_outline" />
+                    app:srcCompat="@drawable/ic_pause_button" />
 
                 <ImageButton
                     android:id="@+id/exo_ffwd"
@@ -235,7 +237,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.3"
                     android:scaleType="fitCenter"
-                    android:tint="@color/appThemeColor"
+                    android:tint="@color/white"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:srcCompat="@drawable/ic_fast_forward" />
 
@@ -245,7 +247,7 @@
                     android:layout_height="wrap_content"
                     android:scaleType="fitCenter"
                     android:layout_weight="1"
-                    android:tint="@color/appThemeColor"
+                    android:tint="@color/white"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:srcCompat="@drawable/ic_skip_next" />
 

@@ -150,6 +150,7 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
 
 // by Shivam
 
+        /*
         view.findViewById(R.id.see_more).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -164,6 +165,7 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
         mAdapter= new ShabadTutoralsAdapter(getActivity(), list, this);
         recyclerView.setAdapter(mAdapter);
         loadList();
+        */
         return view;
     }
 

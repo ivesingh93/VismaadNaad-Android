@@ -116,40 +116,6 @@ public class PlayListShabadsAdapter extends RecyclerView.Adapter<PlayListShabads
                 showPopupMenu(holder.shabad_menu_IV, shabad.getRaagiName(), shabad, position);
             }
         });
-        /*
-        holder.shabad_thumbnail_IV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                create_intent(holder, shabad);
-            }
-        });
-
-        holder.shabad_title_TV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                create_intent(holder, shabad);
-            }
-        });
-
-        holder.shabads_length_TV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                create_intent(holder, shabad);
-            }
-        });
-
-
-
-
-
-        holder.rlplay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                create_intent(holder, shabad);
-            }
-        });
-        */
-
     }
 
     private void create_intent(final PlayListShabadsAdapter.ShabadViewHolder holder, Shabad shabad) {
@@ -174,8 +140,6 @@ public class PlayListShabadsAdapter extends RecyclerView.Adapter<PlayListShabads
                     mInterstitialAd.show();
                 }
             });
-
-
         }
 
         Intent intent = new Intent(context, ShabadPlayerActivity.class);
@@ -183,25 +147,14 @@ public class PlayListShabadsAdapter extends RecyclerView.Adapter<PlayListShabads
         intent.putParcelableArrayListExtra("shabads", mFilteredList);
         intent.putExtra("current_shabad", shabad);
         intent.putExtra(MediaPlayerState.SHABAD_DURATION, (long) 0);
-//        intent.putExtra("shabad_english_title", shabad.getShabadEnglishTitle());
-//        intent.putExtra("shabad_length", shabad.getShabadLength());
-//        intent.putExtra("sathaayi_id", shabad.getSathaayiId());
-//        intent.putExtra("starting_id", shabad.getStartingId());
-//        intent.putExtra("ending_id", shabad.getEndingId());
-//        intent.putExtra("shabad_url", shabad.getShabadUrl());
-//        intent.putExtra("raagi_name", shabad.getRaagiName());
-
-        //TODO - Animate shared elements
 
         context.startActivity(intent);
     }
 
     private void showPopupMenu(final View view, final String ragginame, Shabad shabad, final int position) {
-        // inflate menu
         PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.remove_menu, popup.getMenu());
-        //popup.getMenu().getItem(1).setVisible(false);
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -215,15 +168,6 @@ public class PlayListShabadsAdapter extends RecyclerView.Adapter<PlayListShabads
                         mAddShabadsLists.add(mAddShabadsList);
                         mShabadsRemovePresenterCompl.removeShabads(mAddShabadsLists);
 
-                       /* if (!JBSehajBaniPreferences.getLoginId(mSharedPreferences).equalsIgnoreCase("")) {
-                            Intent mIntent = new Intent(context, AddPlayList.class);
-                            mIntent.putExtra("RAGGI_NAME", ragginame);
-                            context.startActivity(mIntent);
-                        } else {
-                            createDialog();
-                        }*/
-
-
                         break;
 
                 }
@@ -236,7 +180,6 @@ public class PlayListShabadsAdapter extends RecyclerView.Adapter<PlayListShabads
 
     @Override
     public int getItemCount() {
-        Log.i("size----", "" + mFilteredList.size());
         return mFilteredList.size();
     }
 
@@ -266,41 +209,6 @@ public class PlayListShabadsAdapter extends RecyclerView.Adapter<PlayListShabads
             }
         }
     }
-
-   /* @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                String charString = charSequence.toString();
-                if (charString.isEmpty()) {
-                    mFilteredList = shabadList;
-                } else {
-                    List<Shabad> filteredList = new ArrayList<>();
-                    for (Shabad row : shabadList) {
-
-                        // name match condition. this might differ depending on your requirement
-                        // here we are looking for name or phone number match
-                        if (row.getShabadEnglishTitle().toLowerCase().contains(charString.toLowerCase())) {
-                            filteredList.add(row);
-                        }
-                    }
-
-                    mFilteredList = filteredList;
-                }
-
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = mFilteredList;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                mFilteredList = (ArrayList<Shabad>) filterResults.values;
-                notifyDataSetChanged();
-            }
-        };
-    }*/
 
     class ShabadViewHolder extends RecyclerView.ViewHolder {
 

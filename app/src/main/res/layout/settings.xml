@@ -15,7 +15,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#2c363e">
+        android:background="@color/main_background">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -167,7 +167,7 @@
                                 android:layout_marginTop="20dp"
                                 android:layout_weight=".5"
                                 android:width="150dp"
-                                android:background="#e75e59"
+                                android:background="@color/appThemeColor"
                                 android:text="Submit"
                                 android:textColor="@color/white" />
 
