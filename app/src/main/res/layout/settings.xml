@@ -214,7 +214,7 @@
                                 android:layout_marginTop="20dp"
                                 android:layout_weight=".5"
                                 android:width="150dp"
-                                android:background="#e75e59"
+                                android:background="@color/appThemeColor"
                                 android:text="SIGNUP"
                                 android:textColor="@color/white" />
 
