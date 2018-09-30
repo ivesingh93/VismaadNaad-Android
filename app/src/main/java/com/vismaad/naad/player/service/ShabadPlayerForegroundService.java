@@ -118,7 +118,7 @@ public class ShabadPlayerForegroundService extends Service {
         TrackSelection.Factory trackSelectionFactory = new AdaptiveTrackSelection.Factory(new DefaultBandwidthMeter());
         trackSelector = new DefaultTrackSelector(trackSelectionFactory);
         initPlayer();
-        countDownTimer=new CountDownTimer(20*1000, 1000) {
+        countDownTimer=new CountDownTimer(25*1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
             if(millisUntilFinished/1000==1)

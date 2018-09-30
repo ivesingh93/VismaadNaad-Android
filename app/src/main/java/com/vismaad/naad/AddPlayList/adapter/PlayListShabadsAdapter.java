@@ -94,11 +94,15 @@ public class PlayListShabadsAdapter extends RecyclerView.Adapter<PlayListShabads
     public void onBindViewHolder(final PlayListShabadsAdapter.ShabadViewHolder holder, final int position) {
         // pos = position;
         final Shabad shabad = mFilteredList.get(position);
-        holder.shabads_raggi.setVisibility(View.VISIBLE);
+      //  holder.shabads_raggi.setVisibility(View.VISIBLE);
         holder.shabad_title_TV.setText(shabad.getShabadEnglishTitle());
         holder.shabads_length_TV.setText(shabad.getShabadLength());
-        holder.shabads_raggi.setText(shabad.getRaagiName());
+     //   holder.shabads_raggi.setText(shabad.getRaagiName());
         // Log.i("RAGGI_NAME", "" + shabadList.get(position).getRaagiName());
+
+
+        holder.shabad_thumbnail_IV.setText((position+1)+".");
+        holder.listen.setText(shabad.getListeners() + "");
 
         holder.shabad_card_view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,13 +216,14 @@ public class PlayListShabadsAdapter extends RecyclerView.Adapter<PlayListShabads
 
     class ShabadViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView shabad_thumbnail_IV, shabad_menu_IV;
-        private TextView shabad_title_TV, shabads_length_TV, shabads_raggi;
+        private ImageView shabad_menu_IV;
+        private TextView shabad_title_TV, shabads_length_TV, shabads_raggi,shabad_thumbnail_IV,listen;
         private View shabad_card_view;
 
 
         public ShabadViewHolder(View itemView) {
             super(itemView);
+            listen = itemView.findViewById(R.id.listen);
             shabad_thumbnail_IV = itemView.findViewById(R.id.shabad_thumbnail_IV);
             shabad_title_TV = itemView.findViewById(R.id.shabad_title_TV);
             shabads_length_TV = itemView.findViewById(R.id.shabads_length_TV);
