@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:gravity="center_horizontal"
-            android:text="Signup is required to create playlists."
+            android:text="Signup is required to create playlists and like shabads."
             android:textColor="#FFF"
             android:textSize="20sp" />
 
@@ -60,9 +60,10 @@
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/imageDialog"
                 android:layout_weight=".5"
-                android:background="@color/appThemeColor"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/rounded_button"
                 android:text=" Skip "
-                android:textColor="#FFF" />
+                android:textColor="@color/black" />
 
 
             <Button
@@ -74,7 +75,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/imageDialog"
                 android:layout_weight=".5"
-                android:background="@color/appThemeColor"
+                android:background="@drawable/rounded_button"
                 android:text=" Signup "
                 android:textColor="#FFF" />
         </LinearLayout>

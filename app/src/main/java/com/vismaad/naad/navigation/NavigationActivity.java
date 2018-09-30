@@ -193,6 +193,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                JBSehajBaniPreferences.setBtnSkip(mSharedPreferences, "NO");
                 Intent mIntent = new Intent(NavigationActivity.this, WelcomeActivity.class);
                 startActivity(mIntent);
                 finish();

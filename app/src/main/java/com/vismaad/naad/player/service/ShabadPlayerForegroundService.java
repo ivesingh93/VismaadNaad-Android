@@ -237,7 +237,7 @@ public class ShabadPlayerForegroundService extends Service {
 
                     Log.i("shabadListeners", "listenerCall--->" + new Gson().toJson(response.body()));
                     Constants.shouldCallListerAPI = Constants.shouldCallListerAPI + current_shabad.getShabadId();
-
+                    Log.i("shabadListeners", "I'm coming here..");
                 }
 
                 @Override

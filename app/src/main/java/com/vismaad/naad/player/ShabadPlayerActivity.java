@@ -294,7 +294,8 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mIntent = new Intent(ShabadPlayerActivity.this, SignupActivity.class);
+                JBSehajBaniPreferences.setBtnSkip(mSharedPreferences, "NO");
+                Intent mIntent = new Intent(ShabadPlayerActivity.this, WelcomeActivity.class);
                 startActivity(mIntent);
 
                 dialog.dismiss();
