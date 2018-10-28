@@ -140,6 +140,10 @@ public class PlayListFrag extends Fragment implements IPlayListView, View.OnClic
                         fetchData();
                     }
 
+                    Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

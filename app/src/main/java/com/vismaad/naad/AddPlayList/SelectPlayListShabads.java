@@ -186,6 +186,9 @@ public class SelectPlayListShabads extends AppCompatActivity implements IPlayLis
                         finish();
                     }
 
+                    Toast toast = Toast.makeText(SelectPlayListShabads.this, msg, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

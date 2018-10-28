@@ -132,6 +132,10 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLL
                         notifyDataSetChanged();
                     }
 
+                    Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -173,6 +177,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLL
                         }
                         break;
                     case R.id.more_options:
+                        Toast.makeText(context, "Play now", Toast.LENGTH_SHORT).show();
                         break;
 
                 }

@@ -168,6 +168,7 @@ public class ShabadPlayerForegroundService extends Service {
             @Override
             public void onPlayerError(ExoPlaybackException error) {
                 super.onPlayerError(error);
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 error.printStackTrace();
             }
 

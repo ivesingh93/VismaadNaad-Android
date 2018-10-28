@@ -298,8 +298,10 @@ public class RaagiInfoAdapter extends RecyclerView.Adapter<RaagiInfoAdapter.Raag
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.add_favorite:
+                        Toast.makeText(context, "Add Favorite", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.play_now:
+                        Toast.makeText(context, "Play now", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.more_options:
                         openActivityFromBottom(raagiInfo);

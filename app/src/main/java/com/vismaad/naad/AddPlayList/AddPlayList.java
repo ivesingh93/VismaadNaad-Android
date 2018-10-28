@@ -158,7 +158,9 @@ public class AddPlayList extends AppCompatActivity implements IPlayListView, Vie
                         fetchData();
                     }
 
-
+                    Toast toast = Toast.makeText(AddPlayList.this, msg, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

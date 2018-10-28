@@ -75,6 +75,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         super.onBackPressed();
         finish();
         if (!JBSehajBaniPreferences.getLoginId(mSharedPreferences).equalsIgnoreCase("")) {
+            Toast.makeText(getApplicationContext(), "" + JBSehajBaniPreferences.getLoginId(mSharedPreferences), Toast.LENGTH_SHORT).show();
             WelcomeActivity.welcomeActivity.finish();
         }
     }

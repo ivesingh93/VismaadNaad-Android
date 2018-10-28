@@ -174,7 +174,8 @@ public class Settings extends Fragment implements View.OnClickListener {
 
             case R.id.rl2:
                 boolean isClear = Utils.deleteCache(getContext());
-                if (isClear == true) {
+                if (isClear) {
+                    Toast.makeText(getActivity(), "Delete cache successfully", Toast.LENGTH_LONG).show();
                 }
 
                 break;

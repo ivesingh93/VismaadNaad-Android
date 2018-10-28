@@ -276,13 +276,18 @@ public class SignupActivity extends AppCompatActivity implements ISignupView {
                 int responseCode = (int) json.get("ResponseCode");
                 String msg = (String) json.get("Message");
                 if (responseCode == 200) {
+                    Toast toast = Toast.makeText(SignupActivity.this, msg, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                     Intent mIntent = new Intent(SignupActivity.this, NavigationActivity.class);
                     startActivity(mIntent);
                     finish();
                     JBSehajBaniPreferences.setLoginId(mSharedPreferences, username_ET.getText().toString());
 
                 } else {
-
+                    Toast toast = Toast.makeText(SignupActivity.this, msg, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                 }
 
 
