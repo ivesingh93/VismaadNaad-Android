@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "988198438436",
+    "firebase_url": "https://vismaadnaad-212223.firebaseio.com",
+    "project_id": "vismaadnaad-212223",
+    "storage_bucket": "vismaadnaad-212223.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:988198438436:android:7161e9a748d50313",
+        "android_client_info": {
+          "package_name": "com.vismaad.naad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "988198438436-e9ecb7l9m3hkip3mnmaheut21leog6ec.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vismaad.naad",
+            "certificate_hash": "ee6434f7c142e015715c213b7bea2a0a5a7aff00"
+          }
+        },
+        {
+          "client_id": "988198438436-ep17feeme4evt3u5i35pl7ofhidimlut.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnUlBedC-Hpz7X3XXO7MSE9u8ruwXVG4Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "988198438436-ep17feeme4evt3u5i35pl7ofhidimlut.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

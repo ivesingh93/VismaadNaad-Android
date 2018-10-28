@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.FirebaseApp;
 import com.google.gson.reflect.TypeToken;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
@@ -117,7 +118,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_navigation);
         updater = new UpdateUIReceiver();
         showShabadReceiver = new ShowShabadReceiver();
-
+        FirebaseApp.initializeApp(this);
         LocalBroadcastManager.getInstance(this).registerReceiver(updater, new IntentFilter(MediaPlayerState.updateUI));
         LocalBroadcastManager.getInstance(this).registerReceiver(showShabadReceiver, new IntentFilter(MediaPlayerState.SHOW_SHABAD));
 
