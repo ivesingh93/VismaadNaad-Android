@@ -123,10 +123,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView, View
                     JBSehajBaniPreferences.setLoginId(mSharedPreferences, email_username_ET.getText().toString());
                 }
 
-                Toast toast = Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -34,9 +34,7 @@ public class ShabadsRemovePresenterCompl implements IShabadsRemovePresenter {
         call.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                Log.i("remove-shabads", "" + new Gson().toJson(response.body()));
                 iLoginView.onResult(new Gson().toJson(response.body()), 1);
-
             }
 
             @Override

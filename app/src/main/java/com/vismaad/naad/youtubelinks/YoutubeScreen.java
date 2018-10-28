@@ -39,8 +39,6 @@ public class YoutubeScreen extends YouTubeBaseActivity {
             else
                 mVideoId = mVideoUrl.substring(mVideoUrl.indexOf("=")+1);
         }
-        Log.e("mVideoId","mVideoId===>"+mVideoId);
-        Log.e("mVideoUrl","mVideoUrl===>"+mVideoUrl);
         YouTubePlayerView youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
         youTubeView.initialize("AIzaSyB9GnNz3UfS72Ad2ayeoWgEyuZjXq30_5E", mOnInitializedListener);
     }

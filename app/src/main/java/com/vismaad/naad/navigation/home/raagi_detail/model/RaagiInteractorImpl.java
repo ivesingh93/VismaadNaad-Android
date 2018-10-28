@@ -43,7 +43,6 @@ public class RaagiInteractorImpl implements RaagiInteractor {
 
     @Override
     public ShabadAdapter fetchShabads(String raagi_name) {
-        Log.e("raagi_name===","raagi_name=====>"+raagi_name);
         Call<List<Shabad>> raagiShabadsCall = raagiService.raagi_shabads(raagi_name);
 
         final ACProgressFlower dialog = new ACProgressFlower.Builder(context)
@@ -59,9 +58,6 @@ public class RaagiInteractorImpl implements RaagiInteractor {
         raagiShabadsCall.enqueue(new Callback<List<Shabad>>() {
             @Override
             public void onResponse(Call<List<Shabad>> call, Response<List<Shabad>> response) {
-                Log.i("shabads-list", "" + new Gson().toJson(response.body()));
-
-
                 shabadList.clear();
                 for(Shabad raagiShabad: response.body()){
                     shabadList.add(raagiShabad);

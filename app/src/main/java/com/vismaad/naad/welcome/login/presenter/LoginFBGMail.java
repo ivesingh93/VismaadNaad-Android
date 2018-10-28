@@ -35,7 +35,6 @@ public class LoginFBGMail implements ILoginFBGMail {
         call.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                Log.i("Signup--Gmail", "" + new Gson().toJson(response.body()));
                 iLoginView.onLoginResult(new Gson().toJson(response.body()), loginType);
             }
 

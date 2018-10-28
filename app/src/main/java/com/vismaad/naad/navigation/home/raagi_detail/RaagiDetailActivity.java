@@ -399,9 +399,6 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
         }
         search.setQuery("", false);
         rootView.requestFocus();
-        Log.i("shabadListeners", "onresume---------->" );
-
-
     }
 
     private void updateUI() {
@@ -588,7 +585,6 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
     }
 
     private void showCurrentShabad(int showShabadIndex) {
-        Log.i("index-number-class", "" + showShabadIndex);
         if (NavigationActivity.shabadsList != null && NavigationActivity.shabadsList.size() > 0) {
             currentShabad = NavigationActivity.shabadsList.get(showShabadIndex);
             shabadName.setText(currentShabad.getShabadEnglishTitle());

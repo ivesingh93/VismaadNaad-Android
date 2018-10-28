@@ -298,13 +298,10 @@ public class RaagiInfoAdapter extends RecyclerView.Adapter<RaagiInfoAdapter.Raag
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.add_favorite:
-                        Toast.makeText(context, "Add Favorite", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.play_now:
-                        Toast.makeText(context, "Play now", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.more_options:
-                        // open bottom sheet for more options
                         openActivityFromBottom(raagiInfo);
                         break;
                 }
@@ -359,7 +356,6 @@ public class RaagiInfoAdapter extends RecyclerView.Adapter<RaagiInfoAdapter.Raag
         ItemClickSupport.addTo(list).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-//                Log.e("Position", "Clicked: " + position);
                 switch (position) {
                     case 0:
                         break;
@@ -476,8 +472,6 @@ public class RaagiInfoAdapter extends RecyclerView.Adapter<RaagiInfoAdapter.Raag
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
-            //Log.e("GestureDetector", "onSingleTapConfirmed");
-//            startAnimationAndClick(holder, info);
             create_intent(holder, info);
             return true;
         }
@@ -494,15 +488,11 @@ public class RaagiInfoAdapter extends RecyclerView.Adapter<RaagiInfoAdapter.Raag
 
         @Override
         public boolean onDown(MotionEvent e) {
-            //Log.e("GestureDetector", "onDown");
-            // NOTE: Uncomment the following line to enable viewing activity from bottom
-            //startAnimationOnly(holder);
             return true;
         }
 
         @Override
         public void onShowPress(MotionEvent e) {
-//            Log.e("GestureDetector", "onShowPress");
         }
 
         @Override
@@ -517,9 +507,6 @@ public class RaagiInfoAdapter extends RecyclerView.Adapter<RaagiInfoAdapter.Raag
 
         @Override
         public void onLongPress(MotionEvent e) {
-            //Log.e("GestureDetector", "onLongPress");
-            // NOTE: Uncomment the following line to enable viewing activity from bottom
-            //openActivityFromBottom(info);
         }
 
         @Override
@@ -544,7 +531,6 @@ public class RaagiInfoAdapter extends RecyclerView.Adapter<RaagiInfoAdapter.Raag
             super(itemView);
             raagi_thumbnail_IV = itemView.findViewById(R.id.raagi_thumbnail_IV);
             raagi_menu_IV = itemView.findViewById(R.id.raagi_menu_IV);
-
             raagi_name_TV = itemView.findViewById(R.id.raagi_name_TV);
             shabads_count_TV = itemView.findViewById(R.id.shabads_count_TV);
             raagi_card_layout = itemView.findViewById(R.id.raagi_card_layout);

@@ -23,14 +23,12 @@ import retrofit2.Response;
 public class IGetShabadsListHolder implements IGetShabadsInterfaceHolder {
     PlayList mCreatePlayList;
     private ArrayList<Shabad> shabadList;
-    //JBShabadsList iLoginView;
     HolderInterface mIShabadsList;
 
     public IGetShabadsListHolder(HolderInterface mIShabadsList) {
         this.mIShabadsList = mIShabadsList;
         mCreatePlayList = RetrofitClient.getClient().create(PlayList.class);
         shabadList = new ArrayList<>();
-        // shabadAdapter = new ShabadsAdapter(context, shabadList);
     }
 
     @Override
@@ -40,11 +38,9 @@ public class IGetShabadsListHolder implements IGetShabadsInterfaceHolder {
         call.enqueue(new Callback<List<Shabad>>() {
             @Override
             public void onResponse(Call<List<Shabad>> call, Response<List<Shabad>> response) {
-                Log.i("play_list", "" + new Gson().toJson(response.body()));
                 for (Shabad raagiShabad : response.body()) {
                     shabadList.add(raagiShabad);
                 }
-                //shabadAdapter.notifyDataSetChanged();
 
                 mIShabadsList.onResultget(shabadList, 1,mTextView);
             }

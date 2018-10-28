@@ -137,13 +137,8 @@ public class PlayListFrag extends Fragment implements IPlayListView, View.OnClic
                     int responseCode = (int) json.get("ResponseCode");
                     String msg = (String) json.get("Message");
                     if (responseCode == 200) {
-
                         fetchData();
                     }
-
-                    Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -174,32 +169,7 @@ public class PlayListFrag extends Fragment implements IPlayListView, View.OnClic
 
 
 
-              /*  for (int i = 0; i < json.length(); i++) {
-                    //  Log.i("NAME", "" + json.get(i));
-                    mPlayListArrayList.add(json.get(i).toString());
-                }
-*/
-                //  if (mPlayListAdapter == null) {
                 isHas = true;
-             /*   mPlayListAdapter = new PlaylistAdapter(getActivity(), mPlayListArrayList, isHas);
-                binding.raagiRV.setAdapter(mPlayListAdapter);
-                mPlayListAdapter.notifyDataSetChanged();
-                // } else {
-                //  mPlayListAdapter.notifyDataSetChanged();
-                // }
-
-                binding.raagiRV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                        Intent mIntent = new Intent(getActivity(), PlaylistShabads.class);
-                        mIntent.putExtra("PLAYLIST_NAME", mPlayListArrayList.get(i));
-
-                        startActivity(mIntent);
-
-                    }
-                });*/
-
                 binding.raagiRV.setLayoutManager(layoutManager);
                 binding.raagiRV.setItemAnimator(new DefaultItemAnimator());
                 binding.raagiRV.setNestedScrollingEnabled(false);

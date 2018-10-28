@@ -52,7 +52,6 @@ public class ShabadsPresenterCompl implements IShabadsPresenter {
         call.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                Log.i("create_playy", "" + new Gson().toJson(response.body()));
                 iLoginView.onResult(new Gson().toJson(response.body()), 3);
 
             }

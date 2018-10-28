@@ -146,20 +146,6 @@ public class PlayListLibrayAdapter extends RecyclerView.Adapter<PlayListLibrayAd
                             mPlayListDeletePresenterCompl.doDeletePlayList1(JBSehajBaniPreferences.getLoginId(mSharedPreferences), raagiInfo.get(position).getName());
                         }
                         break;
-
-                  /*  case R.id.play_now:
-
-                        // Log.i("playlistName", "dsfsdfsdf");
-                      //  Log.i("playlistName", "" + code.size());
-
-                        *//*Intent intent = new Intent(mContext, ShabadPlayerActivity.class);
-                        intent.putExtra(PLAY_SONG, true);
-                        intent.putParcelableArrayListExtra("shabads", code);
-                        intent.putExtra("current_shabad", shabad);
-                        intent.putExtra(MediaPlayerState.SHABAD_DURATION, (long) 0);
-                        mContext.startActivity(intent);*//*
-
-                        break;*/
                 }
                 return false;
             }
@@ -169,7 +155,6 @@ public class PlayListLibrayAdapter extends RecyclerView.Adapter<PlayListLibrayAd
 
     @Override
     public int getItemCount() {
-        Log.i("size----playlistLib", "" + shabadList.size());
         return shabadList.size();
     }
 
@@ -183,8 +168,6 @@ public class PlayListLibrayAdapter extends RecyclerView.Adapter<PlayListLibrayAd
                     String msg = (String) json.get("Message");
                     if (responseCode == 200) {
                         shabadList.remove(position1);
-
-                        //updateAdapter(shabadList);
                         notifyDataSetChanged();
                     }
 
@@ -205,7 +188,6 @@ public class PlayListLibrayAdapter extends RecyclerView.Adapter<PlayListLibrayAd
             shabadsSize = code.size();
             this.code = code;
             mTextView.setText(String.valueOf(shabadsSize) + " Shabads");
-            Log.i("login-sfas", String.valueOf(shabadsSize) + " Shabads");
 
         }
     }

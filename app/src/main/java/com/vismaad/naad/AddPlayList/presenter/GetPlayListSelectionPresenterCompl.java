@@ -50,12 +50,10 @@ public class GetPlayListSelectionPresenterCompl implements IGetPlayListSelection
         call.enqueue(new Callback<List<Shabad>>() {
             @Override
             public void onResponse(Call<List<Shabad>> call, Response<List<Shabad>> response) {
-                Log.i("fetch_play_list", "" + new Gson().toJson(response.body()));
                 shabadList.clear();
                 for (Shabad raagiShabad : response.body()) {
                     shabadList.add(raagiShabad);
                 }
-                //shabadAdapter.notifyDataSetChanged();
 
                 iLoginView.onResult(shabadList, 2);
             }

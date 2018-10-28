@@ -81,77 +81,17 @@ public class ShabadAdapter extends RecyclerView.Adapter<ShabadAdapter.ShabadView
     public void onBindViewHolder(final ShabadAdapter.ShabadViewHolder holder, final int position) {
         pos = position;
         final Shabad shabad = mFilteredList.get(position);
-        Log.i("name", shabad.getShabadEnglishTitle());
         holder.shabad_title_TV.setText(shabad.getShabadEnglishTitle());
         holder.shabads_length_TV.setText(shabad.getShabadLength());
-        // Log.i("RAGGI_NAME", "" + shabadList.get(position).getRaagiName());
-
         holder.shabad_menu_IV.setVisibility(View.GONE);
         holder.shabad_thumbnail_IV.setText((position + 1) + ".");
         holder.listen.setText(shabad.getListeners() + "");
-
         holder.shabad_card_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 create_intent(holder, shabad);
             }
         });
-
-
-
-        /*
-        holder.shabad_menu_IV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPopupMenu(holder.shabad_menu_IV, shabad);
-            }
-        });
-
-
-        holder.shabad_thumbnail_IV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                create_intent(holder, shabad);
-            }
-        });
-
-        holder.shabad_title_TV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                create_intent(holder, shabad);
-            }
-        });
-
-        holder.shabads_length_TV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                create_intent(holder, shabad);
-            }
-        });
-
-        holder.shabad_menu_IV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPopupMenu(holder.shabad_menu_IV, shabad);
-            }
-        });
-
-        holder.rlplay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                create_intent(holder, shabad);
-            }
-        });
-
-        holder.rl1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                create_intent(holder, shabad);
-            }
-        });
-
-        */
-
     }
 
     private void create_intent(final ShabadAdapter.ShabadViewHolder holder, Shabad shabad) {
@@ -181,61 +121,9 @@ public class ShabadAdapter extends RecyclerView.Adapter<ShabadAdapter.ShabadView
         intent.putParcelableArrayListExtra("shabads", shabadList);
         intent.putExtra("current_shabad", shabad);
         intent.putExtra(MediaPlayerState.SHABAD_DURATION, (long) 0);
-//        intent.putExtra("shabad_english_title", shabad.getShabadEnglishTitle());
-//        intent.putExtra("shabad_length", shabad.getShabadLength());
-//        intent.putExtra("sathaayi_id", shabad.getSathaayiId());
-//        intent.putExtra("starting_id", shabad.getStartingId());
-//        intent.putExtra("ending_id", shabad.getEndingId());
-//        intent.putExtra("shabad_url", shabad.getShabadUrl());
-//        intent.putExtra("raagi_name", shabad.getRaagiName());
-
-        //TODO - Animate shared elements
 
         context.startActivity(intent);
     }
-
-   /* private void showPopupMenu(final View view, final Shabad shabad) {
-        // inflate menu
-        PopupMenu popup = new PopupMenu(context, view);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.raagi_card, popup.getMenu());
-        popup.getMenu().getItem(2).setVisible(false);
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.add_favorite:
-                        //Toast.makeText(context, "Add Favorite" + shabad.getRaagiName(), Toast.LENGTH_SHORT).show();
-
-                        //context.sendBroadcast(new Intent("start.fragment.action"));
-
-                        // ((Activity) context).finish();
-                        // Intent intent = new Intent("BROADCAST_RANDOM_NUMBER");
-                        //  intent.putExtra("SHABAD_ID", )
-                        // LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                        // Log.i("RAGGI_NAME", ragginame);
-
-                        if (!JBSehajBaniPreferences.getLoginId(mSharedPreferences).equalsIgnoreCase("")) {
-                            Intent mIntent = new Intent(context, AddPlayList.class);
-                            mIntent.putExtra("RAGGI_NAME", shabad.getRaagiName());
-                            mIntent.putExtra("SHABAD_ID", shabad.getShabadId());
-                            mIntent.putExtra("SHABAD_NAME", shabad.getShabadEnglishTitle());
-                            context.startActivity(mIntent);
-                        } else {
-                            createDialog();
-                        }
-
-
-                        break;
-                    case R.id.play_now:
-                        Toast.makeText(context, "Play now", Toast.LENGTH_SHORT).show();
-                }
-
-                return false;
-            }
-        });
-        popup.show();
-    }*/
 
     @Override
     public int getItemCount() {
@@ -293,32 +181,23 @@ public class ShabadAdapter extends RecyclerView.Adapter<ShabadAdapter.ShabadView
             shabad_menu_IV = itemView.findViewById(R.id.shabad_menu_IV);
             listen = itemView.findViewById(R.id.listen);
             rlplay = itemView.findViewById(R.id.rlplay);
-            //  rl1=itemView.findViewById(R.id.rl1);
             shabad_card_view = itemView.findViewById(R.id.shabad_card_view);
         }
     }
 
     public void createDialog() {
-        // dialog.show();
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_login);
         dialog.setTitle("Alert!");
-
         dialog.show();
-
         Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
         Button btnSubmit = (Button) dialog.findViewById(R.id.btnSubmit);
         final EditText editName = (EditText) dialog.findViewById(R.id.editName);
 
-
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Close dialog
                 dialog.dismiss();
-                //Intent mIntent = new Intent(context, NavigationActivity.class);
-                // context.startActivity(mIntent);
-                //((Activity)context).finish();
             }
         });
 
@@ -331,7 +210,5 @@ public class ShabadAdapter extends RecyclerView.Adapter<ShabadAdapter.ShabadView
                 dialog.dismiss();
             }
         });
-
     }
-
 }

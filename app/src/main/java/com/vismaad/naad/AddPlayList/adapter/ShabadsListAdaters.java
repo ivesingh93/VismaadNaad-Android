@@ -105,30 +105,8 @@ public class ShabadsListAdaters extends BaseAdapter {
 
         final Shabad shabad = shabadList.get(position);
         mViewholder.shabad_title_TV.setText(shabad.getShabadEnglishTitle());
-        //Log.i("length", ""+shabad.getTo_char());
         mViewholder.shabads_length_TV.setText(shabad.getShabadLength());
         mViewholder.shabads_raggi.setText(shabad.getRaagiName());
-  /*      mViewholder.rl1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // set the check text view
-                boolean flag = mViewholder.row_list_checkedtextview.isChecked();
-                mViewholder.row_list_checkedtextview.setChecked(!flag);
-                isSelected[position] = !isSelected[position];
-                if (mViewholder.row_list_checkedtextview.isChecked()) {
-                    Log.i("SELECTED-POS", "" + position);
-                    position1.add(position);
-                    // mViewholder.checkedImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.tick_ico));
-                    // mViewholder.rl1.setBackgroundColor(Color.parseColor("#F16585"));
-                    mViewholder.row_list_checkbox_image.setVisibility(View.VISIBLE);
-                } else {
-                    //holder.checkedImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.tick_unselelcted_ico));
-                    //mViewholder.rl1.setBackgroundResource(0);
-                    mViewholder.row_list_checkbox_image.setVisibility(View.GONE);
-                }
-            }
-        });*/
-
         mViewholder.rlplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,10 +140,6 @@ public class ShabadsListAdaters extends BaseAdapter {
                 mContext.startActivity(intent);
             }
         });
-       /* mViewholder.txtAddress.setText("Address: " + mArrayList.get(position).getAddress1());
-        mViewholder.txtLocationZip.setText("City: " + mArrayList.get(position).getCity() + " , "
-                + "State: " + mArrayList.get(position).getState());*/
-
 
         return convertView;
 
@@ -173,7 +147,6 @@ public class ShabadsListAdaters extends BaseAdapter {
 
     class viewholder {
         private ImageView shabad_thumbnail_IV;
-        //private ImageView shabad_thumbnail_IV, shabad_menu_IV, row_list_checkbox_image;
         private TextView shabad_title_TV, shabads_length_TV, shabads_raggi;
         CheckedTextView row_list_checkedtextview;
         CardView rl1;

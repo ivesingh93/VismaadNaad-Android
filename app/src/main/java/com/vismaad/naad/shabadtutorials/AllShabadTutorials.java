@@ -68,7 +68,6 @@ public class AllShabadTutorials extends AppCompatActivity implements ShabadTutor
             @Override
             public void onResponse(Call<List<ShabadTutorial>> call, Response<List<ShabadTutorial>> response) {
                 list.clear();
-                Log.e("response","==>"+response.body().get(0).getName());
                 for(ShabadTutorial raagiInfo: response.body()){
                     list.add(raagiInfo);
                 }
@@ -78,7 +77,6 @@ public class AllShabadTutorials extends AppCompatActivity implements ShabadTutor
 
             @Override
             public void onFailure(Call<List<ShabadTutorial>> call, Throwable t) {
-                Log.e("response","==>"+t);
                 // TODO - Failed Raagi Info Call
                 dialog.dismiss();
             }

@@ -46,30 +46,11 @@ public class LoginPresenterCompl implements ILoginPresenter {
         call.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                //response.body() have your LoginResult fields and methods  (example you have to access error then try like this response.body().getError() )
-
-                Log.i("Signup--RESPONSE", "" + new Gson().toJson(response.body()));
-
                 iLoginView.onLoginResult(new Gson().toJson(response.body()));
-               /* if(response.body().getError()){
-                    Toast.makeText(getBaseContext(),response.body().getMessage(),Toast.LENGTH_SHORT).show();
-
-
-                }else {
-                    //response.body() have your LoginResult fields and methods  (example you have to access error then try like this response.body().getError() )
-                    String msg = response.body().getMessage();
-                    int docId = response.body().getDoctorid();
-                    boolean error = response.body().getError();
-
-                    boolean activie = response.body().getActive()();
-                }*/
-
-
             }
 
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
-                //for getting error in network put here Toast, so get the error on network
             }
         });
     }

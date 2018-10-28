@@ -107,9 +107,6 @@ public class Settings extends Fragment implements View.OnClickListener {
             binding.btnSignup.setVisibility(View.GONE);
 
         }
-
-        // binding.txtLog.setText("You are logged is as " + JBSehajBaniPreferences.getLoginId(mSharedPreferences));
-
     }
 
     @Override
@@ -178,7 +175,6 @@ public class Settings extends Fragment implements View.OnClickListener {
             case R.id.rl2:
                 boolean isClear = Utils.deleteCache(getContext());
                 if (isClear == true) {
-                    Toast.makeText(getActivity(), "Delete cache successfully", Toast.LENGTH_LONG).show();
                 }
 
                 break;

@@ -168,7 +168,6 @@ public class ShabadPlayerForegroundService extends Service {
             @Override
             public void onPlayerError(ExoPlaybackException error) {
                 super.onPlayerError(error);
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 error.printStackTrace();
             }
 
@@ -198,14 +197,9 @@ public class ShabadPlayerForegroundService extends Service {
             public void onPositionDiscontinuity(int reason) {
                 int latestWindowsIndex = player.getCurrentWindowIndex();
 
-                //TODO - When shabad of same index is picked, the shabad doesn't show but the audio plays. ==> FIXED!
-//                Log.e("Index", latestWindowsIndex + "  " + lastWindowIndex);
-                //if(latestWindowsIndex != lastWindowIndex || latestWindowsIndex == lastWindowIndex){
                 showNotification();
-//                Log.e("Player", lastWindowIndex + " " + latestWindowsIndex);
                 showShabad(latestWindowsIndex);
                 lastWindowIndex = latestWindowsIndex;
-                //}
             }
         });
 
@@ -226,24 +220,17 @@ public class ShabadPlayerForegroundService extends Service {
 
 
     private void listenerCall() {
-        Log.i("shabadListeners", "listenerCall--->EventListener" );
 
         if (current_shabad!=null && current_shabad.getShabadId() != null && !Constants.shouldCallListerAPI.contains(current_shabad.getShabadId())) {
             Call<JsonElement> call = RetrofitClient.getClient().create(PlayList.class).shabadListeners(new ShabadListener(Integer.parseInt(current_shabad.getShabadId())));
             call.enqueue(new Callback<JsonElement>() {
                 @Override
                 public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                    //response.body() have your LoginResult fields and methods  (example you have to access error then try like this response.body().getError() )
-
-                    Log.i("shabadListeners", "listenerCall--->" + new Gson().toJson(response.body()));
                     Constants.shouldCallListerAPI = Constants.shouldCallListerAPI + current_shabad.getShabadId();
-                    Log.i("shabadListeners", "I'm coming here..");
                 }
 
                 @Override
                 public void onFailure(Call<JsonElement> call, Throwable t) {
-                    Log.i("shabadListeners", "listenerCall--->" + t);
-                    //for getting error in network put here Toast, so get the error on network
                 }
             });
 
@@ -378,7 +365,6 @@ public class ShabadPlayerForegroundService extends Service {
     }
 
     private void showShabad(int showShabadIndex) {
-        Log.i("index-number", "" + showShabadIndex);
         Intent intent = new Intent(MediaPlayerState.SHOW_SHABAD);
         intent.putExtra(MediaPlayerState.SHOW_SHABAD, showShabadIndex);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
@@ -465,8 +451,6 @@ public class ShabadPlayerForegroundService extends Service {
             builder.setStyle(mediaStyle);
         }
 
-//        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
-
         builder.addAction(new NotificationCompat.Action(R.drawable.ic_skip_previous_black_24dp, "Prev", previousPI));
         if (player.getPlayWhenReady()) {
             builder.addAction(new NotificationCompat.Action(R.drawable.ic_pause_black_24dp, "Pause", pausePlayPI));
@@ -496,7 +480,6 @@ public class ShabadPlayerForegroundService extends Service {
         if (player == null) {
             player = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
         } else {
-//            player.release();
             return;
         }
     }
@@ -504,7 +487,6 @@ public class ShabadPlayerForegroundService extends Service {
     public void setPlaylist(String[] songUrl, int currentInd, boolean play, long duration) {
         if (player != null) {
             player.prepare(buildMediaSource(songUrl));
-            Log.i("Shabad", "" + songUrl);
             player.seekTo(currentInd, duration);
             if (play) {
                 play();
@@ -515,7 +497,6 @@ public class ShabadPlayerForegroundService extends Service {
     private ConcatenatingMediaSource buildMediaSource(String[] url) {
         ExtractorMediaSource[] mediaS = new ExtractorMediaSource[url.length];
         for (int i = 0; i < url.length; i++) {
-            Log.i("Shabad", url[i] + " " + i);
             if (Patterns.WEB_URL.matcher(url[i]).matches()) {
                 mediaS[i] = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(url[i]));
             }
@@ -524,7 +505,6 @@ public class ShabadPlayerForegroundService extends Service {
     }
 
     public void log(String message) {
-        Log.e("Player Service", message);
     }
 
     public class LocalBinder extends Binder {
@@ -653,30 +633,25 @@ public class ShabadPlayerForegroundService extends Service {
 
         mMediaSession.setCallback(new MediaSessionCompat.Callback() {
             public boolean onMediaButtonEvent(@NonNull Intent mediaButtonIntent) {
-                Log.d(TAG, "onMediaButtonEvent called: " + mediaButtonIntent);
                 return super.onMediaButtonEvent(mediaButtonIntent);
             }
 
             public void onPause() {
-                Log.d(TAG, "onPause called (media button pressed)");
                 onPlayPauseButtonClicked();
                 super.onPause();
             }
 
             public void onSkipToPrevious() {
-                Log.d(TAG, "onskiptoPrevious called (media button pressed)");
                 previous();
                 super.onSkipToPrevious();
             }
 
             public void onSkipToNext() {
-                Log.d(TAG, "onskiptonext called (media button pressed)");
                 next();
                 super.onSkipToNext();
             }
 
             public void onPlay() {
-                Log.d(TAG, "onPlay called (media button pressed)");
                 onPlayPauseButtonClicked();
                 super.onPlay();
 
@@ -684,16 +659,13 @@ public class ShabadPlayerForegroundService extends Service {
 
             public void onStop() {
                 stop();
-                Log.d(TAG, "onStop called (media button pressed)");
                 super.onStop();
             }
 
             private void onPlayPauseButtonClicked() {
                 //if pressed multiple times in 500 ms, skip to next song
                 long currentTime = System.currentTimeMillis();
-                Log.d(TAG, "onPlay: " + lastTimePlayPauseClicked + " current " + currentTime);
                 if (currentTime - lastTimePlayPauseClicked < 500) {
-                    Log.d(TAG, "onPlay: nextTrack on multiple play pause click");
                     next();
                     return;
                 }

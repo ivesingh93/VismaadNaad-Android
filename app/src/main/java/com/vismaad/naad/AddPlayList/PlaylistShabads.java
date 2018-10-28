@@ -216,7 +216,6 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
         init();
         if (extras != null) {
             playlistName = extras.getString("PLAYLIST_NAME");
-            Log.i("Playlist-Name", playlistName);
             fetchData();
         }
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -274,10 +273,7 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
     public void fetchData() {
         if (Utils.isNetworkAvailable(PlaylistShabads.this) == true) {
             dialog.show();
-            Log.i("login_id", JBSehajBaniPreferences.getLoginId(mSharedPreferences));
             mIGetShabadsList.getList(JBSehajBaniPreferences.getLoginId(mSharedPreferences), playlistName);
-
-
         } else {
             Utils.showSnackBar(PlaylistShabads.this, "No internet connection");
         }
@@ -285,8 +281,6 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
 
     @Override
     public void onBackPressed() {
-        // close search view on back button pressed
-
         super.onBackPressed();
     }
 
@@ -303,7 +297,6 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
 
 
     public void init() {
-//        raagi_detail_AB = getSupportActionBar();
         rootView = findViewById(R.id.root_layout);
         search = findViewById(R.id.search);
         dialog = new ACProgressFlower.Builder(PlaylistShabads.this)
@@ -335,12 +328,6 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
         extraRaagiImage = findViewById(R.id.extra_raagi_image);
         extraRaagiName = findViewById(R.id.raagi_name_extra);
         extraShabadCount = findViewById(R.id.shabad_count_extra);
-//        linearlayoutTitle = findViewById(R.id.linearlayout_title);
-//        textviewTitle = findViewById(R.id.textview_title);
-
-//        toolbarHeaderView = findViewById(R.id.toolbar_header_view);
-//        floatHeaderView = findViewById(R.id.float_header_view);
-
         playBtn.setOnClickListener(this);
         miniPlayerLayout.setOnClickListener(this);
         mAdView = findViewById(R.id.adView);
@@ -349,17 +336,9 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
         MobileAds.initialize(PlaylistShabads.this,
                 getResources().getString(R.string.YOUR_ADMOB_APP_ID));
         adView_mini = findViewById(R.id.adView_mini);
-
-
-
-        // mAdView = findViewById(R.id.adView);
-        //AdRequest adRequest = new AdRequest.Builder().build();
-        // mAdView.loadAd(adRequest);
-
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
     }
-
 
     public void showRaagiInfo() {
 
@@ -370,24 +349,6 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
         Glide.with(getApplicationContext())
                 .load(R.drawable.iotrack_black_24dp)
                 .into(extraRaagiImage);
- /*
-        //INSTANTIATE BLUR POST PROCESSOR
-        postprocessor = new BlurPostprocessor(this, BLUR_PRECENTAGE);
-
-        //INSTATNTING IMAGE REQUEST USING POST PROCESSOR AS PARAMETER
-        Uri imageUri = Uri.parse("android.resource://com.sehaj.bani/drawable/iotrack_black_24dp");
-        imageRequest = ImageRequestBuilder.newBuilderWithSource(imageUri)
-                .setPostprocessor(postprocessor)
-                .build();
-
-        //INSTANTATE CONTROLLOR()
-        controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
-                .setImageRequest(imageRequest)
-                .setOldController(blurImageView.getController())
-                .build();
-
-        //LOAD BLURRED IMAGE ON SimpleDraweeView(VIEW)
-        blurImageView.setController(controller);*/
 
         final TypedArray imgs = getResources().obtainTypedArray(R.array.apptour);
         final Random rand = new Random();
@@ -400,25 +361,10 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
 
         appBarLayout.addOnOffsetChangedListener(this);
 
-//        toolbarHeaderView.bindTo(raagi_name, "");
-//        floatHeaderView.bindTo(raagi_name, num_of_shabads + " shabads - " + total_shabads_length + " minutes");
-
-//        textviewTitle.setText(raagi_name);
         extraRaagiName.setText(playlistName);
         raagi_name_TV.setText(playlistName);
-        //extraShabadCount.setText(num_of_shabads + " shabads - " + total_shabads_length + " minutes");
-        // shabads_count_TV.setText(num_of_shabads + " shabads - " + total_shabads_length + " minutes");
         checkMiniPlayerVisibility();
     }
-
-   /* @Override
-    public void showShabads(ShabadAdapter shabadAdapter) {
-        this.shabadAdapter = shabadAdapter;
-        shabad_RV.setLayoutManager(layoutManager);
-        shabad_RV.setItemAnimator(new DefaultItemAnimator());
-        shabad_RV.setAdapter(shabadAdapter);
-        shabad_RV.setNestedScrollingEnabled(false);
-    }*/
 
     @Override
     public void onClick(View view) {
@@ -450,7 +396,6 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
         } else if (playerService.getStatus() == PAUSED) {
             playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_button));
         } else if (playerService.getStatus() == STOPPED) {
-//            miniPlayerLayout.setVisibility(View.GONE);
             playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_button));
         }
     }
@@ -464,13 +409,9 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
 
         if (currentShabad != null) {
             if (currentShabad.getShabadEnglishTitle() != null && currentShabad.getShabadEnglishTitle().length() > 0) {
-//                if (playerService.getStatus() == STOPPED) {
-//                    miniPlayerLayout.setVisibility(View.GONE);
-//                } else {
                 miniPlayerLayout.setVisibility(View.VISIBLE);
                 adView_mini.setVisibility(View.VISIBLE);
                 mAdView.setVisibility(View.GONE);
-//                }
                 shabadName.setText(currentShabad.getShabadEnglishTitle());
                 raagiName.setText(currentShabad.getRaagiName());
                 AdRequest adRequest = new AdRequest.Builder().build();

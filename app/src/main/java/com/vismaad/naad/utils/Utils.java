@@ -24,10 +24,6 @@ import java.util.regex.Pattern;
 
 import static com.vismaad.naad.Constants.PLAY_SONG;
 
-/**
- * Created by Parth Vora on 21-04-2018.
- */
-
 public class Utils {
 
 
@@ -46,7 +42,6 @@ public class Utils {
         long duration = App.getPreferenceLong(MediaPlayerState.SHABAD_DURATION);
 
         if (list != null && list.size() > 0) {
-//            Log.e("List: ", "List count " + list.size());
             intent.putExtra(PLAY_SONG, false);
             intent.putParcelableArrayListExtra("shabads", list);
             intent.putExtra("current_shabad", shabad);
@@ -122,7 +117,6 @@ public class Utils {
         int h = bitmap.getHeight();
 
         int[] pix = new int[w * h];
-        Log.e("pix", w + " " + h + " " + pix.length);
         bitmap.getPixels(pix, 0, w, 0, 0, w, h);
 
         int wm = w - 1;
@@ -308,7 +302,6 @@ public class Utils {
             }
         }
 
-        Log.e("pix", w + " " + h + " " + pix.length);
         bitmap.setPixels(pix, 0, w, 0, 0, w, h);
 
         return (bitmap);

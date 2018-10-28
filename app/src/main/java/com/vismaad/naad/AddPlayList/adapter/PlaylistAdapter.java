@@ -153,7 +153,6 @@ public class PlaylistAdapter extends BaseAdapter implements IPlayListView, Holde
         mViewholder.txtPlayListName.setText(shabadList.get(position).getName());
         mViewholder.txtCreated.setText(shabadList.get(position).getShabads_count() + " Shabads");
         // mViewholder.txtCreated.setVisibility(View.GONE);
-        //Log.i("login-shabads", String.valueOf(shabadsSize) + " Shabads");
         //mViewholder.txtCreated.setText(String.valueOf(shabadsSize) + " Shabads");
 
         return convertView;
@@ -200,7 +199,6 @@ public class PlaylistAdapter extends BaseAdapter implements IPlayListView, Holde
             shabadsSize = code.size();
 
             mTextView.setText(String.valueOf(shabadsSize) + " Shabads");
-            Log.i("login-sfas", String.valueOf(shabadsSize) + " Shabads");
 
         }
     }
@@ -236,7 +234,6 @@ public class PlaylistAdapter extends BaseAdapter implements IPlayListView, Holde
     }
 
     public void fetchData(String playlistName, int pos, TextView mTextView) {
-        Log.i("posooo", "" + pos);
         mIGetShabadsList.getListholder(JBSehajBaniPreferences.getLoginId(mSharedPreferences), playlistName, mTextView);
 
 

@@ -75,7 +75,6 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         super.onBackPressed();
         finish();
         if (!JBSehajBaniPreferences.getLoginId(mSharedPreferences).equalsIgnoreCase("")) {
-            Toast.makeText(getApplicationContext(), "" + JBSehajBaniPreferences.getLoginId(mSharedPreferences), Toast.LENGTH_SHORT).show();
             WelcomeActivity.welcomeActivity.finish();
         }
     }
@@ -247,17 +246,13 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void updateUI() {
-//        Log.e("player status", "updateUI: " + playerService.getStatus());
         if (playerService.getStatus() == PLAYING) {
             playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_pause_button));
         } else if (playerService.getStatus() == PAUSED) {
             playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_button));
         } else if (playerService.getStatus() == STOPPED) {
-//            miniPlayerLayout.setVisibility(View.GONE);
-//            borderView.setVisibility(View.GONE);
             playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_button));
         } else {
-//            Log.e("player status", "updateUI: " + playerService.getStatus());
         }
     }
 
@@ -384,7 +379,6 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void showCurrentShabad(int showShabadIndex) {
-        Log.i("index-number-class", "" + showShabadIndex);
         if (shabadsList != null && shabadsList.size() > 0) {
             currentShabad = shabadsList.get(showShabadIndex);
             shabadName.setText(currentShabad.getShabadEnglishTitle());

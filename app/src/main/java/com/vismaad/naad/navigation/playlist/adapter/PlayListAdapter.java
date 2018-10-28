@@ -132,10 +132,6 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLL
                         notifyDataSetChanged();
                     }
 
-                    Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -172,13 +168,11 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLL
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.add_remove:
-                        // Toast.makeText(context, "Add Favorite", Toast.LENGTH_SHORT).show();
                         if (Utils.isNetworkAvailable(context) == true) {
                             mPlayListDeletePresenterCompl.doDeletePlayList1(JBSehajBaniPreferences.getLoginId(mSharedPreferences), raagiInfo.get(position));
                         }
                         break;
                     case R.id.more_options:
-                        Toast.makeText(context, "Play now", Toast.LENGTH_SHORT).show();
                         break;
 
                 }
@@ -191,19 +185,14 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLL
     class CustomGestureDetector implements GestureDetector.OnGestureListener,
             GestureDetector.OnDoubleTapListener {
 
-        //PlayListAdapter.PlayLListViewHolder holder;
         String playlistName;
 
         public void setCustomGestureDetector(String playlistName) {
-            //this.holder = holder;
             this.playlistName = playlistName;
         }
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
-            Log.e("GestureDetector", "onSingleTapConfirmed");
-//            startAnimationAndClick(holder, info);
-
             create_intent(strRaggiName, playlistName);
             return true;
         }
@@ -220,14 +209,11 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLL
 
         @Override
         public boolean onDown(MotionEvent e) {
-            Log.e("GestureDetector", "onDown");
-
             return true;
         }
 
         @Override
         public void onShowPress(MotionEvent e) {
-//            Log.e("GestureDetector", "onShowPress");
         }
 
         @Override
@@ -242,7 +228,6 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLL
 
         @Override
         public void onLongPress(MotionEvent e) {
-            Log.e("GestureDetector", "onLongPress");
 
         }
 
@@ -268,7 +253,5 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLL
             context.startActivity(intent, activityOptionsCompat.toBundle());
 
         }
-
-
     }
 }

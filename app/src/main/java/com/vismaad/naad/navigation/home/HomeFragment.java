@@ -180,7 +180,6 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
             @Override
             public void onResponse(Call<List<ShabadTutorial>> call, Response<List<ShabadTutorial>> response) {
                 list.clear();
-                Log.e("response","==>"+response.body().get(0).getName());
                 for(ShabadTutorial raagiInfo: response.body()){
                     list.add(raagiInfo);
                 }
@@ -190,7 +189,6 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
 
             @Override
             public void onFailure(Call<List<ShabadTutorial>> call, Throwable t) {
-                Log.e("response","==>"+t);
                 // TODO - Failed Raagi Info Call
                 dialog.dismiss();
             }
@@ -200,13 +198,6 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
 
     @Override
     public void init(View view) {
-        // search = view.findViewById(R.id.search);
-/*        Drawable d = getResources().getDrawable(R.drawable.bg_white_rounded);
-        search.setBackground(d);
-        EditText searchEditText = (EditText) search.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchEditText.setTextColor(getResources().getColor(R.color.black));
-        searchEditText.setHintTextColor(getResources().getColor(R.color.gray));*/
-
         dialog = new ACProgressFlower.Builder(getActivity())
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
                 .themeColor(Color.WHITE)
@@ -234,50 +225,19 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
         raagi_RV.setLayoutManager(layoutManager);
         this.raagiInfoAdapter = raagiInfoAdapter;
 
-        // commented this line as it is not required
-//        raagi_RV.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(8), true));
         raagi_RV.setItemAnimator(new DefaultItemAnimator());
         raagi_RV.setAdapter(raagiInfoAdapter);
         raagi_RV.setNestedScrollingEnabled(false);
-
-
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-      /*  inflater.inflate(R.menu.menusearch, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setMaxWidth(Integer.MAX_VALUE);
-        // searchView.setOnQueryTextListener(this);
-        searchView.setQueryHint("Search a Shabad");
-
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // filter recycler view when query submitted
-                raagiInfoAdapter.getFilter().filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                // filter recycler view when text is changed
-                raagiInfoAdapter.getFilter().filter(query);
-                return false;
-            }
-        });*/
-
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-
         return super.onOptionsItemSelected(item);
     }
 

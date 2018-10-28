@@ -115,7 +115,6 @@ public class ShabadDialog {
     }
 
     private void setFontSize(int size) {
-//        Log.e("FONT SIZE", "size: " + size);
         if (size >= 16 && size <= 25) {
             App.setPreferencesInt(Constants.FONT_SIZE, size);
             shabadPlayerPresenterImpl.setTranslationSize(App.getPreferanceInt(Constants.FONT_SIZE));

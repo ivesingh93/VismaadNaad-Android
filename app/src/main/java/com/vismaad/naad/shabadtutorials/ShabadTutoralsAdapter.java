@@ -81,7 +81,6 @@ public class ShabadTutoralsAdapter extends RecyclerView.Adapter<ShabadTutoralsAd
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.e("onClick", "===> item clicked");
                     if (mListener != null) {
                         mListener.onItemClick(item);
                     }

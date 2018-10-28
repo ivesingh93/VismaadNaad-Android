@@ -136,14 +136,12 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (account != null) {
             isGmailLoginAlready = true;
-            Log.i("GMAIL ACCOUNT", "" + account);
             mGoogleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
 
                 }
             });
-            Log.i("GMAIL ACCOUNT", "" + account);
         }
     }
 
@@ -179,8 +177,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.continue_with_facebook_button:
                 AccessToken accessToken = AccessToken.getCurrentAccessToken();
-                //boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-                Log.d("Access Token", accessToken + "  ");
                 if (accessToken != null) {
                     Intent mIntent = new Intent(WelcomeActivity.this, NavigationActivity.class);
                     mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -208,7 +204,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 //                if (opr.isDone()) {
 //                    // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
 //                    // and the GoogleSignInResult will be available instantly.
-//                    //   Log.d(TAG, "Got cached sign-in");
 //                    GoogleSignInResult result = opr.get();
 //                    handleSignInResult(result);
 //                } else {
@@ -313,7 +308,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
         } catch (PackageManager.NameNotFoundException e) {
 
@@ -346,7 +340,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             loginPresenter.doLogin(email, "gmail", "GM");
 
         } catch (ApiException e) {
-            Log.i("gmail-login", "" + e.getStatusCode());
         }
 
     }
@@ -407,7 +400,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
           /*  URL profile_pic;
             try {
                 profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?type=large");
-                Log.i("profile_pic", profile_pic + "");
                 bundle.putString("profile_pic", profile_pic.toString());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -445,7 +437,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                     object.getString("gender"), profile_pic.toString());*/
 
         } catch (Exception e) {
-            // Log.d(TAG, "BUNDLE Exception : "+e.toString());
         }
 
         return bundle;

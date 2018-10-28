@@ -70,7 +70,6 @@ public class ShabadsPlayList extends AppCompatActivity implements IShabadsList,
         initial();
         if (extras != null) {
             playlistName = extras.getString("PLAYLIST_NAME");
-            Log.i("Playlist-Name", playlistName);
             fetchData();
         }
     }
@@ -102,7 +101,6 @@ public class ShabadsPlayList extends AppCompatActivity implements IShabadsList,
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         this.menu = menu;
         MenuItem bedMenuItem = menu.findItem(R.id.action_done);
@@ -114,8 +112,6 @@ public class ShabadsPlayList extends AppCompatActivity implements IShabadsList,
         if (Utils.isNetworkAvailable(ShabadsPlayList.this) == true) {
             dialog.show();
             mIGetShabadsList.getList(JBSehajBaniPreferences.getLoginId(mSharedPreferences), playlistName);
-
-
         } else {
             Utils.showSnackBar(ShabadsPlayList.this, "No internet connection");
         }
@@ -124,7 +120,6 @@ public class ShabadsPlayList extends AppCompatActivity implements IShabadsList,
     @Override
     public void onResult(ArrayList<Shabad> code, int pageID) {
         if (pageID == 1) {
-            Log.i("REMOVELIST", "" + code.size());
             dialog.dismiss();
             mShabadArrayList = code;
             mShabadsListAdaters = new ShabadsListAdaters(ShabadsPlayList.this, code);
@@ -135,31 +130,15 @@ public class ShabadsPlayList extends AppCompatActivity implements IShabadsList,
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
-            finish(); // close this activity and return to preview activity (if there is any)
+            finish();
         }
 
         int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_done) {
             MenuItem bedMenuItem = menu.findItem(R.id.action_done);
             bedMenuItem.setTitle("REMOVE");
-
-           /* for (int k = 0; k < mShabadsListAdaters.getPos().size(); k++) {
-                // Log.i("INSIDE-----", "" + mShabadArrayList.get(mAdapter.getPos().get(k)).getShabadId());
-                mAddShabadsList = new AddShabadsList();
-                //mShabadArrayList.get(mAdapter.getPos().get(k));
-                mAddShabadsList.setId(String.valueOf(mShabadArrayList.get(mShabadsListAdaters.getPos().get(k)).getShabadId()));
-                mAddShabadsList.setPlaylist_name(playlistName);
-                mAddShabadsList.setUserName(JBSehajBaniPreferences.getLoginId(mSharedPreferences));
-
-
-                mAddShabadsLists.add(mAddShabadsList);
-
-            }*/
             mShabadsRemovePresenterCompl.removeShabads(mAddShabadsLists);
-
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -192,7 +171,6 @@ public class ShabadsPlayList extends AppCompatActivity implements IShabadsList,
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        Log.i("NAME", mShabadArrayList.get(position).getShabadEnglishTitle());
         Shabad shabad = mShabadArrayList.get(position);
         Intent intent = new Intent(ShabadsPlayList.this, ShabadPlayerActivity.class);
         intent.putExtra(PLAY_SONG, true);

@@ -75,21 +75,15 @@ public class SelectPlayListShabads extends AppCompatActivity implements IPlayLis
         initial();
         if (extras != null) {
             playlistName = extras.getString("PLAYLIST_NAME");
-            Log.i("Playlist-Name", playlistName);
         }
         fetchData();
     }
 
     private void initial() {
-        //toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        // Setting toolbar as the ActionBar with setSupportActionBar() call
-        //setSupportActionBar(toolbar);
-        //mShabadArrayList = new ArrayList<Shabad>();
         extras = getIntent().getExtras();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         listSelect = (ListView) findViewById(R.id.listSelect);
-         //listSelect.setOnItemClickListener(this);
         listSelect.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         mSharedPreferences = SelectPlayListShabads.this.getSharedPreferences(
                 SehajBaniPreferences.Atree_PREFERENCES, Context.MODE_PRIVATE);
@@ -110,7 +104,6 @@ public class SelectPlayListShabads extends AppCompatActivity implements IPlayLis
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -124,40 +117,21 @@ public class SelectPlayListShabads extends AppCompatActivity implements IPlayLis
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_done) {
-            //Toast.makeText(SelectPlayListShabads.this, "Action clicked", Toast.LENGTH_LONG).show();
-           /* boolean isSelected[] = mAdapter.getSelectedFlags();
-          //  ArrayList<Integer> pos= mAdapter.getPos();
-            ArrayList<String> selectedItems = new ArrayList<String>();
-            for (int i = 0; i < isSelected.length; i++) {
-                if (isSelected[i]) {
-                    //selectedItems.add(list.get(i));
-                    Log.i("INSIDE", ""+isSelected[i]);
-                }
-            }*/
-            // Toast.makeText(SelectPlayListShabads.this, "Selected: " + selectedItems, Toast.LENGTH_SHORT).show();
-
-
             for (int k = 0; k < mAdapter.getPos().size(); k++) {
-                Log.i("INSIDE-----", "" + mShabadArrayList.get(mAdapter.getPos().get(k)).getShabadId());
                 mAddShabadsList = new AddShabadsList();
-                //mShabadArrayList.get(mAdapter.getPos().get(k));
+                //mShabdArrayList.get(mAdapter.getPos().get(k));
                 mAddShabadsList.setId(mShabadArrayList.get(mAdapter.getPos().get(k)).getShabadId());
                 mAddShabadsList.setPlaylist_name(playlistName);
                 mAddShabadsList.setUserName(JBSehajBaniPreferences.getLoginId(mSharedPreferences));
-
-
                 mAddShabadsLists.add(mAddShabadsList);
 
             }
             mShabadsPresenterCompl.doAddShabads(mAddShabadsLists);
-            //mAddShabadsLists.add(mAddShabadsList);
-            // mShabadsPresenterCompl.doAddShabads(mAddShabadsList);
-
 
             return true;
         }
         if (item.getItemId() == android.R.id.home) {
-            finish(); // close this activity and return to preview activity (if there is any)
+            finish();
         }
 
 
@@ -179,7 +153,6 @@ public class SelectPlayListShabads extends AppCompatActivity implements IPlayLis
     public void onResult(final ArrayList<Shabad> code, int pageID) {
         if (pageID == 2) {
             dialog.dismiss();
-            //Log.i("kuchbhi", "gdjgkjdsfhdklas");
             mShabadArrayList = code;
             mAdapter = new ShabadsAdapter(SelectPlayListShabads.this, code);
             listSelect.setAdapter(mAdapter);
@@ -191,11 +164,6 @@ public class SelectPlayListShabads extends AppCompatActivity implements IPlayLis
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //listSelectPos = position;
-        //mAdapter.SetSelectedPosition(position);
-        //mAdapter.notifyDataSetChanged();
-
-        Log.i("NAME", mShabadArrayList.get(position).getShabadEnglishTitle());
         shabad = mShabadArrayList.get(position);
         Intent intent = new Intent(SelectPlayListShabads.this, ShabadPlayerActivity.class);
         intent.putExtra(PLAY_SONG, true);
@@ -203,7 +171,6 @@ public class SelectPlayListShabads extends AppCompatActivity implements IPlayLis
         intent.putExtra("current_shabad", shabad);
         intent.putExtra(MediaPlayerState.SHABAD_DURATION, (long) 0);
         startActivity(intent);
-
     }
 
     @Override
@@ -217,12 +184,8 @@ public class SelectPlayListShabads extends AppCompatActivity implements IPlayLis
                     String msg = (String) json.get("Message");
                     if (responseCode == 200) {
                         finish();
-                        //  fetchData();
                     }
 
-                    Toast toast = Toast.makeText(SelectPlayListShabads.this, msg, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

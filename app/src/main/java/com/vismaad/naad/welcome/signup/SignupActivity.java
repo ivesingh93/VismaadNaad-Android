@@ -276,14 +276,6 @@ public class SignupActivity extends AppCompatActivity implements ISignupView {
                 int responseCode = (int) json.get("ResponseCode");
                 String msg = (String) json.get("Message");
                 if (responseCode == 200) {
-                    Toast toast = Toast.makeText(SignupActivity.this, msg, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                    /*if (Type.equalsIgnoreCase("Email")) {
-                        Intent mIntent = new Intent(SignupActivity.this, LoginActivity.class);
-                        startActivity(mIntent);
-                        finish();
-                    } else {*/
                     Intent mIntent = new Intent(SignupActivity.this, NavigationActivity.class);
                     startActivity(mIntent);
                     finish();
@@ -291,9 +283,6 @@ public class SignupActivity extends AppCompatActivity implements ISignupView {
 
                 } else {
 
-                    Toast toast = Toast.makeText(SignupActivity.this, msg, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
                 }
 
 

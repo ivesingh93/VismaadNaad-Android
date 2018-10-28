@@ -180,7 +180,6 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
                     e.printStackTrace();
                 }
 
-                Log.i("shabadListeners->fetchLikeNo", "" + new Gson().toJson(response.body()));
             }
 
             @Override
@@ -191,15 +190,12 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
     }
 
     private void isLikedByUser() {
-        Log.i("shabadListeners->isLikedByUser", "api call====user->" + JBSehajBaniPreferences.getLoginId(mSharedPreferences));
-        Log.i("shabadListeners->isLikedByUser", "api call====shabad_id->" + current_shabad.getShabadId());
 
         Call<JsonElement> call = mCreatePlayList.isLiked(JBSehajBaniPreferences.getLoginId(mSharedPreferences),
                 current_shabad.getShabadId());
         call.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                Log.i("shabadListeners->isLikedByUser", "" + new Gson().toJson(response.body()));
                 try {
                     JSONObject object = (JSONObject) new JSONTokener(new Gson().toJson(response.body())).nextValue();
                     if (object.getBoolean("Result")) {
@@ -218,7 +214,6 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
 
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
-                Log.i("shabadListeners->isLikedByUser", "error---------->" + t);
 
                 //for getting error in network put here Toast, so get the error on network
             }
@@ -396,7 +391,6 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
     public void generateShabadsData() {
 
         for (int i = 0; i < NavigationActivity.shabadsList.size(); i++) {
-            Log.i("URL", "" + NavigationActivity.shabadsList.get(i).getShabadUrl());
             shabadLinks[i] = NavigationActivity.shabadsList.get(i).getShabadUrl().replace(" ", "+");
             if (NavigationActivity.shabadsList.get(i).getShabadUrl().equals(current_shabad.getShabadUrl())) {
                 originalShabadIndex = i;
@@ -488,14 +482,12 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
 
     private void like_click_event() {
         like.setEnabled(false);
-        Log.e("shabadListeners", "like_click_event=>" + isLiked);
         if (isLiked) {
             Call<JsonElement> call = mCreatePlayList.unlikeShabad(new LikeShabad(Integer.parseInt(current_shabad.getShabadId()),
                     JBSehajBaniPreferences.getLoginId(mSharedPreferences)));
             call.enqueue(new Callback<JsonElement>() {
                 @Override
                 public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                    Log.i("shabadListeners", "" + new Gson().toJson(response.body()));
                     like.setImageResource(R.drawable.favorite);
                     like.setColorFilter(Color.argb(255, 255, 255, 255));
                     isLiked = !isLiked;
@@ -512,15 +504,12 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
             });
         } else {
 
-            Log.i("shabadListeners->isLikedByUser", "api call====user->" + JBSehajBaniPreferences.getLoginId(mSharedPreferences));
-            Log.i("shabadListeners->isLikedByUser", "api call====shabad_id->" + current_shabad.getShabadId());
 
             Call<JsonElement> call = mCreatePlayList.likeShabad(new LikeShabad(Integer.parseInt(current_shabad.getShabadId()),
                     JBSehajBaniPreferences.getLoginId(mSharedPreferences)));
             call.enqueue(new Callback<JsonElement>() {
                 @Override
                 public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                    Log.i("shabadListeners", "" + new Gson().toJson(response.body()));
                     like.setImageResource(R.drawable.favorite_filled);
                     like.setColorFilter(ContextCompat.getColor(ShabadPlayerActivity.this, R.color.khalsa), android.graphics.PorterDuff.Mode.MULTIPLY);
                     isLiked = !isLiked;
@@ -531,9 +520,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
 
                 @Override
                 public void onFailure(Call<JsonElement> call, Throwable t) {
-                    Log.i("shabadListeners", "error---------->" + t);
                     like.setEnabled(true);
-                    //for getting error in network put here Toast, so get the error on network
                 }
             });
         }
@@ -702,7 +689,6 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
     }
 
     private void showCurrentShabad(int showShabadIndex) {
-        Log.i("index-number-class", "" + showShabadIndex);
         current_shabad = NavigationActivity.shabadsList.get(showShabadIndex);
         shabad_player_AB.setTitle(current_shabad.getShabadEnglishTitle());
         raagi_name_TV.setText(current_shabad.getRaagiName());

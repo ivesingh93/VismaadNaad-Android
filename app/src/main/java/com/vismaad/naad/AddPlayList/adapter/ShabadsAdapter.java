@@ -136,14 +136,9 @@ public class ShabadsAdapter extends BaseAdapter {
                 mViewholder.row_list_checkedtextview.setChecked(!flag);
                 isSelected[position] = !isSelected[position];
                 if (mViewholder.row_list_checkedtextview.isChecked()) {
-                    Log.i("SELECTED-POS", "" + position);
                     position1.add(position);
-                    // mViewholder.checkedImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.tick_ico));
-                    // mViewholder.rl1.setBackgroundColor(Color.parseColor("#F16585"));
                     mViewholder.row_list_checkbox_image.setVisibility(View.VISIBLE);
                 } else {
-                    //holder.checkedImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.tick_unselelcted_ico));
-                    //mViewholder.rl1.setBackgroundResource(0);
                     mViewholder.row_list_checkbox_image.setVisibility(View.GONE);
                 }
             }
@@ -184,11 +179,6 @@ public class ShabadsAdapter extends BaseAdapter {
                 mContext.startActivity(intent);
             }
         });
-
-       /* mViewholder.txtAddress.setText("Address: " + mArrayList.get(position).getAddress1());
-        mViewholder.txtLocationZip.setText("City: " + mArrayList.get(position).getCity() + " , "
-                + "State: " + mArrayList.get(position).getState());*/
-
 
         return convertView;
 

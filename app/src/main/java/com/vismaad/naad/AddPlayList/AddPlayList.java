@@ -47,10 +47,6 @@ import java.util.ArrayList;
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressFlower;
 
-/**
- * Created by satnamsingh on 20/06/18.
- */
-
 public class AddPlayList extends AppCompatActivity implements IPlayListView, View.OnClickListener, com.vismaad.naad.addshabads.view.IPlayListView {
 
 
@@ -88,19 +84,14 @@ public class AddPlayList extends AppCompatActivity implements IPlayListView, Vie
                 @Override
                 public void onItemClick(AdapterView<?> mAdapter, View view, int i, long l) {
 
-                  //  Log.i("playlist_name", mPlayListArrayList.get(i));
                     mAddShabadsLists= new ArrayList<AddShabadsList>();
                     pos = i;
                     mAddShabadsList = new AddShabadsList();
-                    //mShabadArrayList.get(mAdapter.getPos().get(k));
                     mAddShabadsList.setId(shabadID);
                     mAddShabadsList.setPlaylist_name(mPlayListArrayList.get(i).getName());
                     mAddShabadsList.setUserName(JBSehajBaniPreferences.getLoginId(mSharedPreferences));
                     mAddShabadsLists.add(mAddShabadsList);
                     mShabadsPresenterCompl.doAddShabads(mAddShabadsLists);
-
-
-                    // sa
 
                 }
             });
@@ -167,9 +158,7 @@ public class AddPlayList extends AppCompatActivity implements IPlayListView, Vie
                         fetchData();
                     }
 
-                    Toast toast = Toast.makeText(AddPlayList.this, msg, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();

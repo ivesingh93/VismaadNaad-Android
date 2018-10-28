@@ -98,7 +98,6 @@ public class PlayListShabadsAdapter extends RecyclerView.Adapter<PlayListShabads
         holder.shabad_title_TV.setText(shabad.getShabadEnglishTitle());
         holder.shabads_length_TV.setText(shabad.getShabadLength());
      //   holder.shabads_raggi.setText(shabad.getRaagiName());
-        // Log.i("RAGGI_NAME", "" + shabadList.get(position).getRaagiName());
 
 
         holder.shabad_thumbnail_IV.setText((position+1)+".");
@@ -198,7 +197,6 @@ public class PlayListShabadsAdapter extends RecyclerView.Adapter<PlayListShabads
                     String msg = (String) json.get("Message");
                     if (responseCode == 200) {
                         //mShabadsListAdaters.notifyDataSetChanged();
-                        Log.i("position", "" + position1);
                         mFilteredList.remove(position1);
                         notifyDataSetChanged();
                     }

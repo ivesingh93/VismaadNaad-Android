@@ -42,11 +42,9 @@ public class IGetShabadsList implements IGetShabadsInterface {
         call.enqueue(new Callback<List<Shabad>>() {
             @Override
             public void onResponse(Call<List<Shabad>> call, Response<List<Shabad>> response) {
-                Log.i("play_list", "" + new Gson().toJson(response.body()));
                 for (Shabad raagiShabad : response.body()) {
                     shabadList.add(raagiShabad);
                 }
-                //shabadAdapter.notifyDataSetChanged();
 
                 mIShabadsList.onResult(shabadList, 1);
             }
