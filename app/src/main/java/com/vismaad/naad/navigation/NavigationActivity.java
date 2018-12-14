@@ -1,11 +1,13 @@
 package com.vismaad.naad.navigation;
 
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -13,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -154,7 +157,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
 
         if (JBSehajBaniPreferences.getCount(mSharedPreferences) == 10) {
 
-
+            showAboutDialog();
             JBSehajBaniPreferences.setCount(mSharedPreferences, 0);
         }
 
@@ -190,6 +193,58 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                 mRandomNumberReceiver,
                 new IntentFilter("BROADCAST_RANDOM_NUMBER")
         );
+
+    }
+
+    private void showAboutDialog() {
+        final Dialog dialog = new Dialog(this);
+
+        dialog.setContentView(R.layout.rate_popup);
+        dialog.show();
+
+
+        Button btnRate = (Button) dialog.findViewById(R.id.btnRate);
+        Button btnFeedback = (Button) dialog.findViewById(R.id.btnFeedback);
+        Button btnClose = (Button) dialog.findViewById(R.id.btnClose);
+
+
+        btnRate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse("market://details?id=" + getPackageName());
+                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                // To count with Play market backstack, After pressing back button,
+                // to taken back to our application, we need to add following flags to intent.
+                goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+
+                try {
+                    startActivity(goToMarket);
+                    dialog.dismiss();
+                } catch (ActivityNotFoundException e) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+                }
+            }
+        });
+
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                JBSehajBaniPreferences.setCount(mSharedPreferences, 0);
+            }
+        });
+
+
+        btnFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
 
     }
 

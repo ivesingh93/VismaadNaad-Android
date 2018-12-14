@@ -37,7 +37,9 @@
     <string name="YOUR_ADMOB_APP_ID">ca-app-pub-1910245378817352~6396367053</string>
     <string name="ads_banner">ca-app-pub-1910245378817352/2592853410</string>
     <string name="ads_full">ca-app-pub-1910245378817352/8787151707</string>
-
+    <string name="show_dialog_with_default_style">Show dialog with default style</string>
+    <string name="show_dialog_with_custom_style">Show dialog with custom style</string>
+    <string name="stop_rate_dialog">Stop rate dialog</string>
 </resources><!--
 
     //4e1ab053b38360b326ac5edebbd36f58-->

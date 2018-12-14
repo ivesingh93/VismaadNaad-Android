@@ -19,5 +19,7 @@ public class SehajBaniPreferences {
     public static String ADS_SHABADS = "ads";
     public static int ADS_SHABADS_VALUE = 0;
 
+    public static String Count = "count";
+    public static int Count_VALUE = 0;
 
 }

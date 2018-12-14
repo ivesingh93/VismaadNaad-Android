@@ -45,4 +45,12 @@ public class JBSehajBaniPreferences {
         return preferences.getString(SehajBaniPreferences.SKIP_BUTTON, SehajBaniPreferences.SKIP_BUTTON_VALUE);
     }
 
+    public static void setCount(SharedPreferences preferences, int count) {
+        preferences.edit().putInt(SehajBaniPreferences.Count, count).commit();
+    }
+
+    public static int getCount(SharedPreferences preferences) {
+        return preferences.getInt(SehajBaniPreferences.Count, SehajBaniPreferences.Count_VALUE);
+    }
+
 }
