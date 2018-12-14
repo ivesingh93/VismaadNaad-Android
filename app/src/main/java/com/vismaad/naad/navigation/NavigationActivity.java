@@ -242,6 +242,35 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         btnFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showFeedbackDialog();
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+
+    public void showFeedbackDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.feed_back);
+        dialog.show();
+
+        EditText email_username_ET = (EditText) dialog.findViewById(R.id.email_username_ET);
+        EditText meg_ET = (EditText) dialog.findViewById(R.id.meg_ET);
+        Button btnSubmit = (Button) dialog.findViewById(R.id.btnSubmit);
+        Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
+
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 dialog.dismiss();
             }
         });
