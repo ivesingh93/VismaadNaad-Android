@@ -56,7 +56,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
     private ShabadPlayerForegroundService playerService;
 
     private RelativeLayout miniPlayerLayout;
-   // private AdView adView_mini;
+    // private AdView adView_mini;
     private ImageView playBtn;
     private TextView shabadName, raagiName;
     private Shabad currentShabad;
@@ -69,6 +69,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
     SearchView searchView = null;
     BroadcastReceiver mBroadcastReceiver;
     private SharedPreferences mSharedPreferences;
+    int count = 0;
 
     @Override
     public void onBackPressed() {
@@ -113,9 +114,12 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
     };
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+
+
         updater = new UpdateUIReceiver();
         showShabadReceiver = new ShowShabadReceiver();
         FirebaseApp.initializeApp(this);
@@ -133,9 +137,31 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
 //        layoutParams.setBehavior(new BottomNavigationBehavior());
         mSharedPreferences = getSharedPreferences(
                 SehajBaniPreferences.Atree_PREFERENCES, Context.MODE_PRIVATE);
+
+        if (JBSehajBaniPreferences.getCount(mSharedPreferences) > 0) {
+
+            count = JBSehajBaniPreferences.getCount(mSharedPreferences);
+            count++;
+
+        } else {
+
+            count++;
+
+        }
+
+        JBSehajBaniPreferences.setCount(mSharedPreferences, count++);
+        Log.i("Lunch count", "" + JBSehajBaniPreferences.getCount(mSharedPreferences));
+
+        if (JBSehajBaniPreferences.getCount(mSharedPreferences) == 10) {
+
+
+            JBSehajBaniPreferences.setCount(mSharedPreferences, 0);
+        }
+
+
         miniPlayerLayout = (RelativeLayout) findViewById(R.id.mini_player);
         miniPlayerLayout.setOnClickListener(this);
-       // adView_mini = (AdView) findViewById(R.id.adView_mini);
+        // adView_mini = (AdView) findViewById(R.id.adView_mini);
         playBtn = (ImageView) findViewById(R.id.play_pause_mini_player);
         playBtn.setOnClickListener(this);
         shabadName = (TextView) findViewById(R.id.shabad_name_mini_player);
