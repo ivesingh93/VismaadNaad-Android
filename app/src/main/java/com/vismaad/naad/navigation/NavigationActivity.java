@@ -168,13 +168,13 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
 
         JBSehajBaniPreferences.setCount(mSharedPreferences, count++);
         Log.i("Lunch count", "" + JBSehajBaniPreferences.getCount(mSharedPreferences));
+        if (JBSehajBaniPreferences.getYesFeedback(mSharedPreferences).equalsIgnoreCase("")) {
+            if (JBSehajBaniPreferences.getCount(mSharedPreferences) == 10) {
 
-        //if (JBSehajBaniPreferences.getCount(mSharedPreferences) == 10) {
-
-        showAboutDialog();
-        JBSehajBaniPreferences.setCount(mSharedPreferences, 0);
-        // }
-
+                showAboutDialog();
+                JBSehajBaniPreferences.setCount(mSharedPreferences, 0);
+            }
+        }
 
         miniPlayerLayout = (RelativeLayout) findViewById(R.id.mini_player);
         miniPlayerLayout.setOnClickListener(this);
@@ -286,7 +286,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                 call.enqueue(new Callback<JsonElement>() {
                     @Override
                     public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                        Log.i("feedback", "" + response.body());
+                        Log.i("feedback", "" + response.message());
                         dialog.dismiss();
 
 
@@ -302,6 +302,8 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                             String msg = (String) json.get("Message");
 
                             if (responseCode == 200) {
+                                JBSehajBaniPreferences.setYesFeedback(mSharedPreferences, "YES");
+
 
                             } else {
                                 JBSehajBaniPreferences.setCount(mSharedPreferences, 0);

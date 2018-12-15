@@ -53,4 +53,13 @@ public class JBSehajBaniPreferences {
         return preferences.getInt(SehajBaniPreferences.Count, SehajBaniPreferences.Count_VALUE);
     }
 
+    public static void setYesFeedback(SharedPreferences preferences, String raggi) {
+        preferences.edit().putString(SehajBaniPreferences.YES_FEEDBACK, raggi).commit();
+    }
+
+    public static String getYesFeedback(SharedPreferences preferences) {
+        return preferences.getString(SehajBaniPreferences.YES_FEEDBACK, SehajBaniPreferences.YES_FEEDBACK_VALUE);
+    }
+
+
 }

@@ -70,7 +70,7 @@ public interface PlayList {
     ///api/userRoutes/addShabad
 
     @Headers("Content-Type: application/json")
-    @POST("userrRoutes/feedback")
+    @POST("userRoutes/feedback")
     Call<JsonElement> feedback(@Body JBFeedback likeShabad);
 
 

@@ -16,6 +16,11 @@ public class SehajBaniPreferences {
     public static String SKIP_BUTTON = "btnSkip";
     public static String SKIP_BUTTON_VALUE = "";
 
+
+
+    public static String YES_FEEDBACK = "yes_feedback";
+    public static String YES_FEEDBACK_VALUE = "";
+
     public static String ADS_SHABADS = "ads";
     public static int ADS_SHABADS_VALUE = 0;
 
