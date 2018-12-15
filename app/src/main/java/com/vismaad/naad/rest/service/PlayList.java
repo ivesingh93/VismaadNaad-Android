@@ -3,6 +3,7 @@ package com.vismaad.naad.rest.service;
 import com.google.gson.JsonElement;
 import com.vismaad.naad.AddPlayList.model.JBShabadsList;
 import com.vismaad.naad.addshabads.model.AddShabadsList;
+import com.vismaad.naad.rest.model.JBfeedback.JBFeedback;
 import com.vismaad.naad.rest.model.playlist.AddShabads;
 import com.vismaad.naad.rest.model.playlist.CreatePlayList;
 import com.vismaad.naad.rest.model.playlist.LikeShabad;
@@ -68,6 +69,11 @@ public interface PlayList {
     Call<JsonElement> add_playlist(@Body List<AddShabadsList> addShabadsList);
     ///api/userRoutes/addShabad
 
+    @Headers("Content-Type: application/json")
+    @POST("userrRoutes/feedback")
+    Call<JsonElement> feedback(@Body JBFeedback likeShabad);
+
+
 
     @GET("userRoutes/users/{username}/playlists/{playlist_name}")
     Call<List<Shabad>> getPlayListShabads(@Path("username") String username, @Path("playlist_name") String playlist_name);
@@ -76,6 +82,9 @@ public interface PlayList {
     @Headers("Content-Type: application/json")
     @POST("userRoutes/removeShabads")
     Call<JsonElement> remove_playlist(@Body List<AddShabadsList> addShabadsList);
+
+
+
 
      /*   @FormUrlEncoded
     @POST("userRoutes/addShabad")

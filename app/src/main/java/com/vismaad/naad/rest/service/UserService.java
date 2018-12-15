@@ -29,7 +29,6 @@ public interface UserService {
     @POST("userRoutes/authenticate")
     Call<JsonElement> login(@Body UserCredentials userCredentials);
 
-    @POST("userrRoutes/feedback")
-    Call<UserCredentials> feedback(@Path("feedback") String feedback, @Path("username") String username);
+
 
 }

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +20,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -31,21 +33,36 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.FirebaseApp;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.home.HomeFragment;
 import com.vismaad.naad.navigation.playlist.PlayListFrag;
+import com.vismaad.naad.player.ShabadPlayerActivity;
 import com.vismaad.naad.player.service.App;
 import com.vismaad.naad.player.service.MediaPlayerState;
 import com.vismaad.naad.player.service.ShabadPlayerForegroundService;
+import com.vismaad.naad.rest.instance.RetrofitClient;
+import com.vismaad.naad.rest.model.JBfeedback.JBFeedback;
 import com.vismaad.naad.rest.model.raagi.Shabad;
+import com.vismaad.naad.rest.service.PlayList;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 import com.vismaad.naad.utils.Utils;
 import com.vismaad.naad.welcome.WelcomeActivity;
+import com.vismaad.naad.welcome.login.LoginActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.PAUSED;
 import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.PLAYING;
@@ -73,6 +90,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
     BroadcastReceiver mBroadcastReceiver;
     private SharedPreferences mSharedPreferences;
     int count = 0;
+    PlayList mCreatePlayList;
 
     @Override
     public void onBackPressed() {
@@ -142,24 +160,20 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                 SehajBaniPreferences.Atree_PREFERENCES, Context.MODE_PRIVATE);
 
         if (JBSehajBaniPreferences.getCount(mSharedPreferences) > 0) {
-
             count = JBSehajBaniPreferences.getCount(mSharedPreferences);
             count++;
-
         } else {
-
             count++;
-
         }
 
         JBSehajBaniPreferences.setCount(mSharedPreferences, count++);
         Log.i("Lunch count", "" + JBSehajBaniPreferences.getCount(mSharedPreferences));
 
-        if (JBSehajBaniPreferences.getCount(mSharedPreferences) == 10) {
+        //if (JBSehajBaniPreferences.getCount(mSharedPreferences) == 10) {
 
-            showAboutDialog();
-            JBSehajBaniPreferences.setCount(mSharedPreferences, 0);
-        }
+        showAboutDialog();
+        JBSehajBaniPreferences.setCount(mSharedPreferences, 0);
+        // }
 
 
         miniPlayerLayout = (RelativeLayout) findViewById(R.id.mini_player);
@@ -193,6 +207,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                 mRandomNumberReceiver,
                 new IntentFilter("BROADCAST_RANDOM_NUMBER")
         );
+        mCreatePlayList = RetrofitClient.getClient().create(PlayList.class);
 
     }
 
@@ -255,8 +270,8 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         dialog.setContentView(R.layout.feed_back);
         dialog.show();
 
-        EditText email_username_ET = (EditText) dialog.findViewById(R.id.email_username_ET);
-        EditText meg_ET = (EditText) dialog.findViewById(R.id.meg_ET);
+        final EditText email_username_ET = (EditText) dialog.findViewById(R.id.email_username_ET);
+        final EditText meg_ET = (EditText) dialog.findViewById(R.id.meg_ET);
         Button btnSubmit = (Button) dialog.findViewById(R.id.btnSubmit);
         Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
 
@@ -264,6 +279,68 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //  sendFeedback(email_username_ET.getText().toString(), meg_ET.getText().toString());
+
+                Call<JsonElement> call = mCreatePlayList.feedback(new JBFeedback(email_username_ET.getText().toString(),
+                        meg_ET.getText().toString()));
+                call.enqueue(new Callback<JsonElement>() {
+                    @Override
+                    public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                        Log.i("feedback", "" + response.body());
+                        dialog.dismiss();
+
+
+                        /*{
+                            "ResponseCode": 200,
+                                "Message": "Feedback submitted successfully"
+                        }*/
+
+
+                        try {
+                            JSONObject json = (JSONObject) new JSONTokener(new Gson().toJson(response.body())).nextValue();
+                            int responseCode = (int) json.get("ResponseCode");
+                            String msg = (String) json.get("Message");
+
+                            if (responseCode == 200) {
+
+                            } else {
+                                JBSehajBaniPreferences.setCount(mSharedPreferences, 0);
+                            }
+
+                            Toast toast = Toast.makeText(NavigationActivity.this, msg, Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                /*try {
+                   // JSONObject object = (JSONObject) new JSONTokener(new Gson().toJson(response.body())).nextValue();
+                    Log.i("feedback", response.message());
+
+                    *//*if (object.getBoolean("Result")) {
+                        like.setImageResource(R.drawable.favorite_filled);
+                        like.setColorFilter(ContextCompat.getColor(ShabadPlayerActivity.this, R.color.appThemeColor), android.graphics.PorterDuff.Mode.MULTIPLY);
+                        isLiked = true;
+                    } else {
+                        like.setImageResource(R.drawable.favorite);
+                        like.setColorFilter(Color.argb(255, 255, 255, 255));
+                        isLiked = false;
+                    }*//*
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }*/
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonElement> call, Throwable t) {
+
+                        //for getting error in network put here Toast, so get the error on network
+                    }
+                });
+
 
             }
         });
@@ -321,6 +398,12 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
             loadFragment(new PlayListFrag());
         }
     };
+
+
+    public void sendFeedback(String username, String feedback) {
+
+    }
+
 
  /*   @Override
     protected void o {
