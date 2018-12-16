@@ -168,7 +168,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
 
         JBSehajBaniPreferences.setCount(mSharedPreferences, count++);
         Log.i("Lunch count", "" + JBSehajBaniPreferences.getCount(mSharedPreferences));
-        if (JBSehajBaniPreferences.getYesFeedback(mSharedPreferences).equalsIgnoreCase("")) {
+        if (!JBSehajBaniPreferences.getYesFeedback(mSharedPreferences).equalsIgnoreCase("YES")) {
             if (JBSehajBaniPreferences.getCount(mSharedPreferences) == 10) {
 
                 showAboutDialog();
@@ -235,6 +235,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                         Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
                 try {
+                    JBSehajBaniPreferences.setYesFeedback(mSharedPreferences, "YES");
                     startActivity(goToMarket);
                     dialog.dismiss();
                 } catch (ActivityNotFoundException e) {
@@ -271,6 +272,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         dialog.show();
 
         final EditText email_username_ET = (EditText) dialog.findViewById(R.id.email_username_ET);
+        email_username_ET.setVisibility(View.GONE);
         final EditText meg_ET = (EditText) dialog.findViewById(R.id.meg_ET);
         Button btnSubmit = (Button) dialog.findViewById(R.id.btnSubmit);
         Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
@@ -281,7 +283,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
             public void onClick(View view) {
                 //  sendFeedback(email_username_ET.getText().toString(), meg_ET.getText().toString());
 
-                Call<JsonElement> call = mCreatePlayList.feedback(new JBFeedback(email_username_ET.getText().toString(),
+                Call<JsonElement> call = mCreatePlayList.feedback(new JBFeedback(JBSehajBaniPreferences.getLoginId(mSharedPreferences),
                         meg_ET.getText().toString()));
                 call.enqueue(new Callback<JsonElement>() {
                     @Override
