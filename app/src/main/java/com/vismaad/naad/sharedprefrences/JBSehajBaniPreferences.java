@@ -53,13 +53,19 @@ public class JBSehajBaniPreferences {
         return preferences.getInt(SehajBaniPreferences.Count, SehajBaniPreferences.Count_VALUE);
     }
 
-    public static void setYesFeedback(SharedPreferences preferences, String raggi) {
-        preferences.edit().putString(SehajBaniPreferences.YES_FEEDBACK, raggi).commit();
+    public static void setYesFeedback(SharedPreferences preferences, String feedbackGiven) {
+        preferences.edit().putString(SehajBaniPreferences.YES_FEEDBACK, feedbackGiven).commit();
     }
 
     public static String getYesFeedback(SharedPreferences preferences) {
         return preferences.getString(SehajBaniPreferences.YES_FEEDBACK, SehajBaniPreferences.YES_FEEDBACK_VALUE);
     }
 
+    public static void setYesRating(SharedPreferences preferences, String ratingGiven) {
+        preferences.edit().putString(SehajBaniPreferences.YES_RATING, ratingGiven).commit();
+    }
 
+    public static String getYesRating(SharedPreferences preferences) {
+        return preferences.getString(SehajBaniPreferences.YES_RATING, SehajBaniPreferences.YES_RATING_VALUE);
+    }
 }

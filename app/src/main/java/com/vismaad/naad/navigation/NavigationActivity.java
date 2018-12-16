@@ -168,7 +168,8 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
 
         JBSehajBaniPreferences.setCount(mSharedPreferences, count++);
         Log.i("Lunch count", "" + JBSehajBaniPreferences.getCount(mSharedPreferences));
-        if (!JBSehajBaniPreferences.getYesFeedback(mSharedPreferences).equalsIgnoreCase("YES")) {
+        if (!JBSehajBaniPreferences.getYesFeedback(mSharedPreferences).equalsIgnoreCase("YES") ||
+                !JBSehajBaniPreferences.getYesRating(mSharedPreferences).equalsIgnoreCase("YES")) {
             if (JBSehajBaniPreferences.getCount(mSharedPreferences) == 10) {
 
                 showAboutDialog();
@@ -235,7 +236,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                         Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
                 try {
-                    JBSehajBaniPreferences.setYesFeedback(mSharedPreferences, "YES");
+                    JBSehajBaniPreferences.setYesRating(mSharedPreferences, "YES");
                     startActivity(goToMarket);
                     dialog.dismiss();
                 } catch (ActivityNotFoundException e) {

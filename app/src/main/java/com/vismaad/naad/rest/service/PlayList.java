@@ -71,7 +71,7 @@ public interface PlayList {
 
     @Headers("Content-Type: application/json")
     @POST("userRoutes/feedback")
-    Call<JsonElement> feedback(@Body JBFeedback likeShabad);
+    Call<JsonElement> feedback(@Body JBFeedback feedback);
 
 
 
