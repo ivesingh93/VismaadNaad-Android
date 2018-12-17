@@ -316,7 +316,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
 
-        dialog.getWindow().setLayout(width, 800);
+        dialog.getWindow().setLayout(width, 700);
         final EditText email_username_ET = (EditText) dialog.findViewById(R.id.email_username_ET);
         email_username_ET.setVisibility(View.GONE);
         final EditText meg_ET = (EditText) dialog.findViewById(R.id.meg_ET);
@@ -353,7 +353,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                             String msg = (String) json.get("Message");
 
                             if (responseCode == 200) {
-                                JBSehajBaniPreferences.setYesFeedback(mSharedPreferences, "YES");
+                                //JBSehajBaniPreferences.setYesFeedback(mSharedPreferences, "YES");
                               //  JBSehajBaniPreferences.setYesGiven(mSharedPreferences, "YES");
 
                             } else {

@@ -28,7 +28,7 @@ public class JBFeedback {
         this.username = username;
     }
 
-    public JBFeedback(String feedback, String username) {
+    public JBFeedback( String username,String feedback) {
         this.feedback = feedback;
         this.username = username;
 

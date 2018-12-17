@@ -31,7 +31,6 @@
 
 
         <EditText
-           android:maxLines="10"
             android:id="@+id/meg_ET"
             android:layout_width="fill_parent"
             android:layout_height="120dp"
@@ -43,41 +42,84 @@
             android:fontFamily="@font/tinos"
             android:gravity="top"
             android:hint="Feedback"
+            android:maxLines="10"
             android:padding="10dp"
             android:textColor="@color/gray"
             android:textColorHint="@color/gray"
             android:textSize="20sp" />
 
 
-        <Button
-            android:id="@+id/btnSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight=".5"
-            android:width="150dp"
-            android:background="@color/appThemeColor"
-            android:text="Submit"
-            android:textColor="@color/white" />
+        <!-- <Button
+             android:id="@+id/btnSubmit"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:layout_marginLeft="30dp"
+             android:layout_marginRight="30dp"
+             android:layout_marginTop="20dp"
+             android:layout_weight=".5"
+             android:width="150dp"
+             android:background="@color/appThemeColor"
+             android:text="Submit"
+             android:textColor="@color/white" />
 
-        <Button
-            android:layout_marginBottom="10dp"
-            android:id="@+id/btnCancel"
+         <Button
+             android:layout_marginBottom="20dp"
+             android:id="@+id/btnCancel"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:layout_marginLeft="30dp"
+             android:layout_marginRight="30dp"
+             android:layout_marginTop="20dp"
+             android:layout_weight=".5"
+             android:width="150dp"
+             android:background="@color/appThemeColor"
+             android:text="Cancel"
+             android:textColor="@color/white" />-->
+
+
+        <LinearLayout
+            android:id="@+id/ln"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight=".5"
-            android:width="150dp"
-            android:background="@color/appThemeColor"
-            android:text="Cancel"
-            android:textColor="@color/white" />
+            android:layout_below="@+id/editName"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="100px"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/imageDialog"
+                android:layout_weight=".5"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="@color/white"
+                android:text=" Skip "
+                android:textColor="@color/black" />
+
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="100px"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textDialog"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/imageDialog"
+                android:layout_weight=".5"
+                android:background="@drawable/rounded_button"
+                android:text="Submit"
+                android:textColor="#FFF" />
+        </LinearLayout>
 
 
     </LinearLayout>
+
+
 </LinearLayout>
