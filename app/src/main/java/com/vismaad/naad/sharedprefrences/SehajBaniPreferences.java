@@ -26,6 +26,11 @@ public class SehajBaniPreferences {
     public static String YES_RATING = "yes_rating";
     public static String YES_RATING_VALUE = "";
 
+
+   // public static String YES_GIVEN = "yes_given";
+  //  public static String YES_GIVEN_VALUE = "";
+
+
     public static String ADS_SHABADS = "ads";
     public static int ADS_SHABADS_VALUE = 0;
 

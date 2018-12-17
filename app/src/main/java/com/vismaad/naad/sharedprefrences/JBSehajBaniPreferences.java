@@ -68,4 +68,13 @@ public class JBSehajBaniPreferences {
     public static String getYesRating(SharedPreferences preferences) {
         return preferences.getString(SehajBaniPreferences.YES_RATING, SehajBaniPreferences.YES_RATING_VALUE);
     }
+
+
+   /* public static void setYesGiven(SharedPreferences preferences, String given) {
+        preferences.edit().putString(SehajBaniPreferences.YES_GIVEN, given).commit();
+    }
+
+    public static String getYesGiven(SharedPreferences preferences) {
+        return preferences.getString(SehajBaniPreferences.YES_GIVEN, SehajBaniPreferences.YES_GIVEN_VALUE);
+    }*/
 }

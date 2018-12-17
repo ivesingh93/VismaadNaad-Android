@@ -19,6 +19,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -167,29 +168,55 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         }
 
         JBSehajBaniPreferences.setCount(mSharedPreferences, count++);
-        Log.i("Lunch count", "" + JBSehajBaniPreferences.getCount(mSharedPreferences));
-        if (!JBSehajBaniPreferences.getYesFeedback(mSharedPreferences).equalsIgnoreCase("YES") ||
-                !JBSehajBaniPreferences.getYesRating(mSharedPreferences).equalsIgnoreCase("YES")) {
+        Log.i("Lunch count", "" + JBSehajBaniPreferences.getYesFeedback(mSharedPreferences));
+
+        //if (!JBSehajBaniPreferences.getYesGiven(mSharedPreferences).equalsIgnoreCase("YES")) {
+        if (!JBSehajBaniPreferences.getYesRating(mSharedPreferences).equalsIgnoreCase("YES")) {
             if (JBSehajBaniPreferences.getCount(mSharedPreferences) == 10) {
 
                 showAboutDialog();
                 JBSehajBaniPreferences.setCount(mSharedPreferences, 0);
             }
+        } else {
+            if (!JBSehajBaniPreferences.getYesFeedback(mSharedPreferences).equalsIgnoreCase("YES")) {
+                if (JBSehajBaniPreferences.getCount(mSharedPreferences) == 10) {
+
+                    showAboutDialog();
+                    JBSehajBaniPreferences.setCount(mSharedPreferences, 0);
+                }
+            }
+            // }
         }
 
-        miniPlayerLayout = (RelativeLayout) findViewById(R.id.mini_player);
+        miniPlayerLayout = (RelativeLayout)
+
+                findViewById(R.id.mini_player);
         miniPlayerLayout.setOnClickListener(this);
         // adView_mini = (AdView) findViewById(R.id.adView_mini);
-        playBtn = (ImageView) findViewById(R.id.play_pause_mini_player);
+        playBtn = (ImageView)
+
+                findViewById(R.id.play_pause_mini_player);
         playBtn.setOnClickListener(this);
-        shabadName = (TextView) findViewById(R.id.shabad_name_mini_player);
-        raagiName = (TextView) findViewById(R.id.raagi_name_mini_player);
-        borderView = findViewById(R.id.border_line);
+        shabadName = (TextView)
+
+                findViewById(R.id.shabad_name_mini_player);
+
+        raagiName = (TextView)
+
+                findViewById(R.id.raagi_name_mini_player);
+
+        borderView =
+
+                findViewById(R.id.border_line);
         MobileAds.initialize(NavigationActivity.this,
-                getResources().getString(R.string.YOUR_ADMOB_APP_ID));
+
+                getResources().
+
+                        getString(R.string.YOUR_ADMOB_APP_ID));
+
         checkMiniPlayerVisibility();
 
-//        toolbar.setTitle("Home");
+        //        toolbar.setTitle("Home");
         loadFragment(new HomeFragment());
 
 
@@ -204,11 +231,15 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                 loadFragment(new PlayListFrag());
             }
         };*/
-        LocalBroadcastManager.getInstance(NavigationActivity.this).registerReceiver(
-                mRandomNumberReceiver,
-                new IntentFilter("BROADCAST_RANDOM_NUMBER")
-        );
-        mCreatePlayList = RetrofitClient.getClient().create(PlayList.class);
+        LocalBroadcastManager.getInstance(NavigationActivity.this).
+
+                registerReceiver(
+                        mRandomNumberReceiver,
+                        new IntentFilter("BROADCAST_RANDOM_NUMBER")
+                );
+        mCreatePlayList = RetrofitClient.getClient().
+
+                create(PlayList.class);
 
     }
 
@@ -227,21 +258,26 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         btnRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri uri = Uri.parse("market://details?id=" + getPackageName());
-                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-                // To count with Play market backstack, After pressing back button,
-                // to taken back to our application, we need to add following flags to intent.
-                goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
-                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                if (!JBSehajBaniPreferences.getYesRating(mSharedPreferences).equalsIgnoreCase("YES")) {
+                    Uri uri = Uri.parse("market://details?id=" + getPackageName());
+                    Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                    // To count with Play market backstack, After pressing back button,
+                    // to taken back to our application, we need to add following flags to intent.
+                    goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                            Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                            Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
-                try {
-                    JBSehajBaniPreferences.setYesRating(mSharedPreferences, "YES");
-                    startActivity(goToMarket);
-                    dialog.dismiss();
-                } catch (ActivityNotFoundException e) {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+                    try {
+                       // JBSehajBaniPreferences.setYesGiven(mSharedPreferences, "YES");
+                        JBSehajBaniPreferences.setYesRating(mSharedPreferences, "YES");
+                        startActivity(goToMarket);
+                        dialog.dismiss();
+                    } catch (ActivityNotFoundException e) {
+                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+                    }
+                } else {
+                    Toast.makeText(NavigationActivity.this, "You already given the rating", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -259,7 +295,11 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         btnFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showFeedbackDialog();
+                if (!JBSehajBaniPreferences.getYesFeedback(mSharedPreferences).equalsIgnoreCase("YES")) {
+                    showFeedbackDialog();
+                } else {
+                    Toast.makeText(NavigationActivity.this, "You already given the feedback", Toast.LENGTH_LONG).show();
+                }
                 dialog.dismiss();
             }
         });
@@ -271,7 +311,12 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.feed_back);
         dialog.show();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
 
+        dialog.getWindow().setLayout(width, 800);
         final EditText email_username_ET = (EditText) dialog.findViewById(R.id.email_username_ET);
         email_username_ET.setVisibility(View.GONE);
         final EditText meg_ET = (EditText) dialog.findViewById(R.id.meg_ET);
@@ -283,6 +328,9 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onClick(View view) {
                 //  sendFeedback(email_username_ET.getText().toString(), meg_ET.getText().toString());
+
+
+                Log.i("user-name", JBSehajBaniPreferences.getLoginId(mSharedPreferences));
 
                 Call<JsonElement> call = mCreatePlayList.feedback(new JBFeedback(JBSehajBaniPreferences.getLoginId(mSharedPreferences),
                         meg_ET.getText().toString()));
@@ -306,7 +354,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
 
                             if (responseCode == 200) {
                                 JBSehajBaniPreferences.setYesFeedback(mSharedPreferences, "YES");
-
+                              //  JBSehajBaniPreferences.setYesGiven(mSharedPreferences, "YES");
 
                             } else {
                                 JBSehajBaniPreferences.setCount(mSharedPreferences, 0);
