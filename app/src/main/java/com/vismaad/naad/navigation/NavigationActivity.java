@@ -98,7 +98,6 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         super.onBackPressed();
         finish();
         if (!JBSehajBaniPreferences.getLoginId(mSharedPreferences).equalsIgnoreCase("")) {
-            Toast.makeText(getApplicationContext(), "" + JBSehajBaniPreferences.getLoginId(mSharedPreferences), Toast.LENGTH_SHORT).show();
             WelcomeActivity.welcomeActivity.finish();
         }
     }
@@ -177,16 +176,18 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                 showAboutDialog();
                 JBSehajBaniPreferences.setCount(mSharedPreferences, 0);
             }
-        } else {
-            if (!JBSehajBaniPreferences.getYesFeedback(mSharedPreferences).equalsIgnoreCase("YES")) {
-                if (JBSehajBaniPreferences.getCount(mSharedPreferences) == 10) {
-
-                    showAboutDialog();
-                    JBSehajBaniPreferences.setCount(mSharedPreferences, 0);
-                }
-            }
-            // }
         }
+//        else {
+//            if (!JBSehajBaniPreferences.getYesFeedback(mSharedPreferences).equalsIgnoreCase("YES")) {
+//                if (JBSehajBaniPreferences.getCount(mSharedPreferences) == 10) {
+//
+//                    showAboutDialog();
+//                    JBSehajBaniPreferences.setCount(mSharedPreferences, 0);
+//                }
+//            }
+//            // }
+//        }
+
 
         miniPlayerLayout = (RelativeLayout)
 

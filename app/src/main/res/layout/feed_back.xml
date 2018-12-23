@@ -41,7 +41,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/tinos"
             android:gravity="top"
-            android:hint="Feedback"
+            android:hint="Please enter your feedback here"
             android:maxLines="10"
             android:padding="10dp"
             android:textColor="@color/gray"
