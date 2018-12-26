@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,6 +37,17 @@ public class Shabad implements Parcelable {
     @SerializedName("listeners")
     private int listeners;
 
+    @SerializedName("image_url")
+    private String image_url;
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
+
     public int getListeners() {
         return listeners;
     }
@@ -69,6 +79,7 @@ public class Shabad implements Parcelable {
         listeners = in.readInt();
         raagi_name = in.readString();
         shabad_url = in.readString();
+        image_url = in.readString();
         id = in.readString();
     }
 
@@ -180,6 +191,7 @@ public class Shabad implements Parcelable {
         parcel.writeInt(listeners);
         parcel.writeString(raagi_name);
         parcel.writeString(shabad_url);
+        parcel.writeString(image_url);
         parcel.writeString(id);
     }
 

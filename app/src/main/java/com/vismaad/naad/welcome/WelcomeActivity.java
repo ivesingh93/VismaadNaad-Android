@@ -1,6 +1,5 @@
 package com.vismaad.naad.welcome;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -18,13 +17,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -34,30 +30,23 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.vismaad.naad.R;
-import com.vismaad.naad.custom_views.BlurTransformation;
 import com.vismaad.naad.databinding.ActivityWelcomeBinding;
-import com.vismaad.naad.navigation.NavigationActivity;
+import com.vismaad.naad.newwork.PopularShabadRaagisActivity;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 import com.vismaad.naad.utils.BlurBuilder;
 import com.vismaad.naad.welcome.login.LoginActivity;
-import com.vismaad.naad.welcome.login.presenter.ILoginFBGMail;
 import com.vismaad.naad.welcome.login.presenter.LoginFBGMail;
-import com.vismaad.naad.welcome.login.presenter.LoginPresenterCompl;
 import com.vismaad.naad.welcome.login.view.ILoginFB;
 import com.vismaad.naad.welcome.signup.SignupActivity;
 
@@ -72,9 +61,6 @@ import java.util.Arrays;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressFlower;
-import jp.wasabeef.blurry.Blurry;
-
-import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 /**
  * Author - Ivkaran Singh
@@ -104,13 +90,13 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         generateKeyHash();
         initial();
         if (!JBSehajBaniPreferences.getLoginId(mSharedPreferences).equalsIgnoreCase("")) {
-            mIntent = new Intent(WelcomeActivity.this, NavigationActivity.class);
+            mIntent = new Intent(WelcomeActivity.this, PopularShabadRaagisActivity.class);
             startActivity(mIntent);
             finish();
         }
 
         if (JBSehajBaniPreferences.getBtnSkip(mSharedPreferences).equalsIgnoreCase("YES")) {
-            mIntent = new Intent(WelcomeActivity.this, NavigationActivity.class);
+            mIntent = new Intent(WelcomeActivity.this, PopularShabadRaagisActivity.class);
             startActivity(mIntent);
             finish();
         }
@@ -178,7 +164,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.continue_with_facebook_button:
                 AccessToken accessToken = AccessToken.getCurrentAccessToken();
                 if (accessToken != null) {
-                    Intent mIntent = new Intent(WelcomeActivity.this, NavigationActivity.class);
+                    Intent mIntent = new Intent(WelcomeActivity.this, PopularShabadRaagisActivity.class);
                     mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(mIntent);
                     finish();
@@ -271,7 +257,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 dialog.dismiss();
                 JBSehajBaniPreferences.setBtnSkip(mSharedPreferences, "YES");
 
-                Intent mIntent = new Intent(WelcomeActivity.this, NavigationActivity.class);
+                Intent mIntent = new Intent(WelcomeActivity.this, PopularShabadRaagisActivity.class);
                 mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(mIntent);
                 finish();
@@ -452,13 +438,13 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             String msg = (String) json.get("Message");
             if (responseCode == 200) {
                 if (loginType.equalsIgnoreCase("GM")) {
-                    Intent mIntent = new Intent(WelcomeActivity.this, NavigationActivity.class);
+                    Intent mIntent = new Intent(WelcomeActivity.this, PopularShabadRaagisActivity.class);
                     startActivity(mIntent);
                     finish();
 
                     JBSehajBaniPreferences.setLoginId(mSharedPreferences, (String) json.get("username"));
                 } else {
-                    Intent mIntent = new Intent(WelcomeActivity.this, NavigationActivity.class);
+                    Intent mIntent = new Intent(WelcomeActivity.this, PopularShabadRaagisActivity.class);
                     startActivity(mIntent);
                     finish();
 

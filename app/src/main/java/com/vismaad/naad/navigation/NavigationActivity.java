@@ -219,7 +219,6 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         //        toolbar.setTitle("Home");
         loadFragment(new HomeFragment());
 
-
    /*     registerReceiver(mBroadcastReceiver, new IntentFilter("start.fragment.action"));
 
         mBroadcastReceiver = new BroadcastReceiver() {

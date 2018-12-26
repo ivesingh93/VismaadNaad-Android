@@ -534,7 +534,7 @@ public class RaagiInfoAdapter extends RecyclerView.Adapter<RaagiInfoAdapter.Raag
             raagi_thumbnail_IV = itemView.findViewById(R.id.raagi_thumbnail_IV);
             raagi_menu_IV = itemView.findViewById(R.id.raagi_menu_IV);
             raagi_name_TV = itemView.findViewById(R.id.raagi_name_TV);
-            shabads_count_TV = itemView.findViewById(R.id.shabads_count_TV);
+            shabads_count_TV = itemView.findViewById(R.id.count);
             raagi_card_layout = itemView.findViewById(R.id.raagi_card_layout);
             raagi_card_view = itemView.findViewById(R.id.raagi_card_view);
         }

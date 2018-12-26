@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 27
@@ -86,4 +87,8 @@ android {
     apply plugin: 'kotlin-android-extensions'
     apply plugin: 'com.google.gms.google-services'
     buildToolsVersion '27.0.3'
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
 }

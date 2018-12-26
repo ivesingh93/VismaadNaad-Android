@@ -62,6 +62,7 @@ import com.vismaad.naad.navigation.NavigationActivity;
 import com.vismaad.naad.navigation.home.raagi_detail.RaagiDetailActivity;
 import com.vismaad.naad.navigation.home.raagi_detail.adapter.ShabadAdapter;
 import com.vismaad.naad.navigation.playlist.PlayListFrag;
+import com.vismaad.naad.newwork.PopRagiAndShabad;
 import com.vismaad.naad.player.presenter.ShabadPlayerPresenterImpl;
 import com.vismaad.naad.player.service.App;
 import com.vismaad.naad.player.service.MediaPlayerState;
@@ -118,6 +119,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
     private ImageButton like;
     private Typeface gurbani_lipi_face;
     public static Shabad current_shabad;
+    public static PopRagiAndShabad.PopularShabad shabad_pop;
     private ScrollView gurbani_SV;
     private SimpleExoPlayerView simpleExoPlayerView;
     private SimpleExoPlayer player;
@@ -219,7 +221,6 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
             }
         });
     }
-
 
 
     private void loadRewardedVideoAd() {
@@ -370,10 +371,10 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(JBSehajBaniPreferences.getLoginId(mSharedPreferences)!=null &&
+                if (JBSehajBaniPreferences.getLoginId(mSharedPreferences) != null &&
                         !JBSehajBaniPreferences.getLoginId(mSharedPreferences).equals(""))
 
-                like_click_event();
+                    like_click_event();
                 else {
                     createDialog();
                 }
@@ -491,8 +492,8 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
                     like.setImageResource(R.drawable.favorite);
                     like.setColorFilter(Color.argb(255, 255, 255, 255));
                     isLiked = !isLiked;
-                    if(like_tv.getText().toString()!=null && !like_tv.getText().toString().equals("0"))
-                        like_tv.setText(""+(Integer.parseInt(like_tv.getText().toString())-1));
+                    if (like_tv.getText().toString() != null && !like_tv.getText().toString().equals("0"))
+                        like_tv.setText("" + (Integer.parseInt(like_tv.getText().toString()) - 1));
                     like.setEnabled(true);
                 }
 
@@ -513,8 +514,8 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
                     like.setImageResource(R.drawable.favorite_filled);
                     like.setColorFilter(ContextCompat.getColor(ShabadPlayerActivity.this, R.color.khalsa), android.graphics.PorterDuff.Mode.MULTIPLY);
                     isLiked = !isLiked;
-                    if(like_tv.getText().toString()!=null )
-                        like_tv.setText(""+(Integer.parseInt(like_tv.getText().toString())+1));
+                    if (like_tv.getText().toString() != null)
+                        like_tv.setText("" + (Integer.parseInt(like_tv.getText().toString()) + 1));
                     like.setEnabled(true);
                 }
 
@@ -544,6 +545,17 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
             NavigationActivity.shabadsList = getIntent().getExtras().getParcelableArrayList("shabads");
             current_shabad = getIntent().getExtras().getParcelable("current_shabad");
         }
+
+        if (getIntent() != null && getIntent().hasExtra("shabads_pop")) {
+            NavigationActivity.shabadsList = getIntent().getExtras().getParcelableArrayList("shabads_pop");
+
+            shabad_pop = getIntent().getExtras().getParcelable("current_shabad_pop");
+            //current_shabad = getIntent().getExtras().getParcelable("current_shabad_pop");
+
+            //current_shabad = shabad_pop;
+        }
+
+
         playSong = getIntent().getBooleanExtra(PLAY_SONG, false);
         shabadDuration = getIntent().getLongExtra(SHABAD_DURATION, 0);
     }

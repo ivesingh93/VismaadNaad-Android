@@ -31,8 +31,8 @@
         <item>@drawable/eight_gold</item>
         <item>@drawable/nine_gold</item>
     </array>
-  <!--  <string name="YOUR_ADMOB_APP_ID">ca-app-pub-3940256099942544~3347511713</string>-->
-   <!-- <string name="UNIT_ID">ca-app-pub-3940256099942544/6300978111</string>-->
+    <!--  <string name="YOUR_ADMOB_APP_ID">ca-app-pub-3940256099942544~3347511713</string>-->
+    <!-- <string name="UNIT_ID">ca-app-pub-3940256099942544/6300978111</string>-->
     <string name="hintSearchMess">Search ragies</string>
     <string name="YOUR_ADMOB_APP_ID">ca-app-pub-1910245378817352~6396367053</string>
     <string name="ads_banner">ca-app-pub-1910245378817352/2592853410</string>

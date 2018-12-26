@@ -5,10 +5,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />s
-    <!-- To support mutiple screen devices and any density screen sizes.
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    s
+    <!--
+    To support mutiple screen devices and any density screen sizes.
     Here xlargeScreens is false because it refers to tablet screens.
-    if you want, then you can set it true to support the app for tablets -->
+    if you want, then you can set it true to support the app for tablets
+    -->
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -25,61 +28,72 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--<activity android:name=".MainActivity" android:theme="@style/AppThemes.StatusBarTransparent">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.MAIN" />-->
-        <!--<category android:name="android.intent.category.LAUNCHER" />-->
-        <!--</intent-filter>-->
-        <!--</activity>-->
+
+        <!-- <activity android:name=".MainActivity" android:theme="@style/AppThemes.StatusBarTransparent"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
         <activity
             android:name=".whatsapp_toolbar.CollapsingImageViewActivity"
             android:theme="@style/AppThemes.StatusBarTransparent">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".whatsapp_toolbar.customcoordiantorbehavior.CollapsingActivity"
             android:theme="@style/AppThemes.StatusBarTransparent">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
+        <activity android:name=".AddPlayList.AddPlayListPopup">
 
-        <activity android:name="com.vismaad.naad.AddPlayList.AddPlayListPopup">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-
-
         <activity
             android:name=".whatsapp_toolbar.ScrollingActivity"
             android:theme="@style/AppThemes.StatusBarTransparent">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name="com.vismaad.naad.welcome.WelcomeActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:name=".newwork.PopularShabadRaagisActivity"
+            android:theme="@style/AppThemes.StatusBarTransparent">
+<!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+-->
         </activity>
+        <activity
+            android:name=".welcome.WelcomeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
+        <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <activity android:name="com.vismaad.naad.AddPlayList.ShabadsPlayList" />
-        <activity android:name="com.vismaad.naad.AddPlayList.AddPlayList" />
-        <activity android:name="com.vismaad.naad.AddPlayList.SelectPlayListShabads" />
-        <activity android:name="com.vismaad.naad.youtubelinks.YoutubeScreen" />
-
-
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity android:name=".AddPlayList.ShabadsPlayList" />
+        <activity android:name=".AddPlayList.AddPlayList" />
+        <activity android:name=".AddPlayList.SelectPlayListShabads" />
+        <activity android:name=".youtubelinks.YoutubeScreen" />
         <activity
             android:name=".welcome.signup.SignupActivity"
             android:theme="@style/AppTheme.NoActionBar"
@@ -88,18 +102,15 @@
             android:name=".navigation.NavigationActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
-
         <activity
-            android:name="com.vismaad.naad.welcome.login.LoginActivity"
+            android:name=".welcome.login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
-            android:name="com.vismaad.naad.AddPlayList.PlaylistShabads"
+            android:name=".AddPlayList.PlaylistShabads"
             android:theme="@style/AppThemes.StatusBarTransparent" />
-
         <activity
-            android:name="com.vismaad.naad.shabadtutorials.AllShabadTutorials"
+            android:name=".shabadtutorials.AllShabadTutorials"
             android:theme="@style/AppThemes.StatusBarTransparent" />
 
         <meta-data
@@ -120,7 +131,6 @@
                 <action android:name="android.intent.action.HEADSET_PLUG" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".player.ShabadPlayerActivity$ShowShabadReceiver" />
         <receiver android:name=".navigation.NavigationActivity$UpdateUIReceiver" />
         <receiver android:name=".navigation.NavigationActivity$ShowShabadReceiver" />
@@ -138,7 +148,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".player.ShabadPlayerActivity"
@@ -150,12 +159,13 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service
-            android:name=".google.MyFirebaseInstanceIdService">
+        <service android:name=".google.MyFirebaseInstanceIdService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <activity android:name=".newwork.PopularShabadsActivity"></activity>
     </application>
 
 </manifest>

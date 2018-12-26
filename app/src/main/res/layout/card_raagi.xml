@@ -68,7 +68,7 @@
                 android:textSize="13sp" />
 
             <TextView
-                android:id="@+id/shabads_count_TV"
+                android:id="@+id/count"
                 android:transitionName="raagi_shabads_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
