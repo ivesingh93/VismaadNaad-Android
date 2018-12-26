@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/mainLayOut"
+    android:background="@color/main_background"
+    android:orientation="vertical">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@+id/lastView"
+    android:orientation="vertical">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="Popular Shabads"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:padding="7dp"
+
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+
+                    android:background="@color/gray"/>
+
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/shabadRecycle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    tools:listitem="@layout/card_shabad"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="38dp">
+
+
+                <TextView
+                    android:id="@+id/see_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="see more"
+                    android:textColor="@color/appThemeColor"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical|right"
+                    android:padding="7dp"
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/root_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.SearchView
+                    android:id="@+id/search"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:visibility="gone"
+                    app:queryBackground="@android:color/transparent"
+                    android:queryBackground="@android:color/transparent"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    />
+            </LinearLayout>
+            <!-- Added the margin left and right to 5dp because the other 5 dp
+             will be added from card_raagi layout to the left and right sides
+              Layoutmanager, spancount, listitem can be removed as they are
+              already created from the class file. So it will not affect the app.
+              It is used to preview it here in studio
+             -->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="38dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="7dp"
+                    android:text="Raagi"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+
+                    android:background="@color/gray"/>
+
+            </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/raagi_RV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:clipToPadding="false"
+                android:scrollbars="vertical"
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                app:spanCount="3"
+                tools:listitem="@layout/card_raagi" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="38dp">
+
+                <TextView
+                    android:id="@+id/see_more_raagis"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="see more"
+                    android:textColor="@color/appThemeColor"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical|right"
+                    android:padding="7dp"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/lastView"
+        android:layout_above="@+id/bottom_player"
+        android:background="@color/gray"></View>
+
+    <include
+        android:id="@+id/bottom_player"
+        layout="@layout/mini_player_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/ads_banner">
+
+    </com.google.android.gms.ads.AdView>
+
+</RelativeLayout><!--
+</android.support.design.widget.CoordinatorLayout>-->
