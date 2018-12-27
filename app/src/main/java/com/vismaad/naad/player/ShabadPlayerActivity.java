@@ -140,7 +140,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
     ACProgressFlower dialog;
     PlayList mCreatePlayList;
     private boolean isLiked;
-
+    public static ArrayList<PopRagiAndShabad.PopularShabad> raagishabadsList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -547,12 +547,44 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
         }
 
         if (getIntent() != null && getIntent().hasExtra("shabads_pop")) {
-            NavigationActivity.shabadsList = getIntent().getExtras().getParcelableArrayList("shabads_pop");
+
+            raagishabadsList  = getIntent().getExtras().getParcelableArrayList("shabads_pop");
+
+
+
+
+
+
+
+
+            //  NavigationActivity.shabadsList = getIntent().getExtras().getParcelableArrayList("shabads_pop");
 
             shabad_pop = getIntent().getExtras().getParcelable("current_shabad_pop");
-            //current_shabad = getIntent().getExtras().getParcelable("current_shabad_pop");
 
-            //current_shabad = shabad_pop;
+
+            Gson gson = new Gson();
+            String json = gson.toJson(shabad_pop);
+            // Log.i("json--get", json);
+
+            try {
+                // JSONObject jsonObj = new JSONObject(json);
+
+                // Gson gson1 = new Gson(); // Or use new GsonBuilder().create();
+                current_shabad = gson.fromJson(json, Shabad.class);
+                NavigationActivity.shabadsList.add(current_shabad);
+
+                Log.i("Current-shabads", current_shabad.getImage_url());
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //current_shabad.en =  shabad_pop.getShabadEnglishTitle();
+
+
+            // current_shabad = getIntent().getExtras().getParcelable("current_shabad_pop");
+
+            // shabad_pop.get= current_shabad  ;
         }
 
 
