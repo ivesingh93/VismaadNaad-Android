@@ -29,6 +29,7 @@
     <color name="gray">#808080</color>
     <color name="silver">#C0C0C0</color>
     <color name="whiteDark">#ebebeb</color>
+    <color name="amazon_back">#181E2A</color>
 
 
 </resources>

@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="84dp"
+    android:layout_height="wrap_content"
 
     android:orientation="vertical">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/shabad_card_view"
         android:clickable="true"
 
@@ -19,13 +19,16 @@
         <RelativeLayout
             android:id="@+id/rlplay"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/nav_bar"
+            android:layout_margin="0.5dp"
+            android:padding="2dp"
             android:layout_toLeftOf="@+id/shabad_menu_IV">
 
             <ImageView
                 android:id="@+id/shabad_thumbnail_IV"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_centerVertical="true"
                 android:gravity="right"
                 android:textSize="22dp"
@@ -45,12 +48,13 @@
                 android:layout_toRightOf="@+id/shabad_thumbnail_IV"
                 android:layout_toStartOf="@+id/raagi_menu_IV"
                 android:focusable="false"
+
                 android:fontFamily="@font/tinos"
                 android:gravity=""
                 android:paddingTop="5dp"
                 android:text="Shabad Title"
                 android:textColor="#fff"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"/>
 
             <RelativeLayout
@@ -111,11 +115,7 @@
             app:srcCompat="@drawable/ic_more_vert_white_24dp" />
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/gray"/>
+
 
     </RelativeLayout>
 
