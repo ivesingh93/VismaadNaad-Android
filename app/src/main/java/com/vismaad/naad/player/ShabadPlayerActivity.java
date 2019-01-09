@@ -140,7 +140,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
     ACProgressFlower dialog;
     PlayList mCreatePlayList;
     private boolean isLiked;
-    public static ArrayList<PopRagiAndShabad.PopularShabad> raagishabadsList = new ArrayList<>();
+    public static ArrayList<Shabad> raagishabadsList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -571,8 +571,9 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
 
                 // Gson gson1 = new Gson(); // Or use new GsonBuilder().create();
                 current_shabad = gson.fromJson(json, Shabad.class);
-                NavigationActivity.shabadsList.add(current_shabad);
-
+                for(int i=0;i<raagishabadsList.size();i++) {
+                    NavigationActivity.shabadsList = raagishabadsList;
+                }
                 Log.i("Current-shabads", current_shabad.getImage_url());
 
 

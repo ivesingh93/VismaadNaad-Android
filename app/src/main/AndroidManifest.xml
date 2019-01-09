@@ -100,7 +100,6 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".navigation.NavigationActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".welcome.login.LoginActivity"

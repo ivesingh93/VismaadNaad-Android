@@ -139,7 +139,8 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         updater = new UpdateUIReceiver();
         showShabadReceiver = new ShowShabadReceiver();
@@ -242,6 +243,18 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                 create(PlayList.class);
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+
+        }
+        return true;
+    }
+
 
     private void showAboutDialog() {
         final Dialog dialog = new Dialog(this);

@@ -43,16 +43,18 @@ public class PopularShabadAdapter extends RecyclerView.Adapter<PopularShabadAdap
 
     private Context context;
     private ArrayList<PopRagiAndShabad.PopularShabad> shabadList;
-  // private List<PopRagiAndShabad.PopularShabad> mFilteredList;
+    // private List<PopRagiAndShabad.PopularShabad> mFilteredList;
     int pos = 0;
     private SharedPreferences mSharedPreferences;
     private InterstitialAd mInterstitialAd;
+    public  ArrayList<Shabad> arrToPass;
     int count;
 
 
-    public PopularShabadAdapter(Context context, ArrayList<PopRagiAndShabad.PopularShabad> shabadList) {
+    public PopularShabadAdapter(Context context, ArrayList<PopRagiAndShabad.PopularShabad> shabadList,ArrayList<Shabad> arrToPass) {
         this.context = context;
         this.shabadList = shabadList;
+        this.arrToPass = arrToPass;
         //this.mFilteredList = shabadList;
         // mFilteredList = shabadList;
         mSharedPreferences = context.getSharedPreferences(
@@ -83,7 +85,7 @@ public class PopularShabadAdapter extends RecyclerView.Adapter<PopularShabadAdap
                 .override(Target.SIZE_ORIGINAL);
 
 
-                Glide.with(context)
+        Glide.with(context)
                 .load(shabad.getImageUrl())
                 .apply(option)
                 .into(holder.shabad_thumbnail_IV);
@@ -157,7 +159,7 @@ public class PopularShabadAdapter extends RecyclerView.Adapter<PopularShabadAdap
 
         Intent intent = new Intent(context, ShabadPlayerActivity.class);
         intent.putExtra(PLAY_SONG, true);
-        intent.putParcelableArrayListExtra("shabads_pop", shabadList);
+        intent.putParcelableArrayListExtra("shabads_pop", arrToPass);
         intent.putExtra("current_shabad_pop", shabad);
         intent.putExtra(MediaPlayerState.SHABAD_DURATION, (long) 0);
 
