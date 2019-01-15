@@ -13,8 +13,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/shabad_card_view"
         android:clickable="true"
-
-        android:background="?attr/selectableItemBackground">
+        android:background="@color/main_background">
 
         <RelativeLayout
             android:id="@+id/rlplay"

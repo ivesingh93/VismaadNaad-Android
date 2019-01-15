@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:clickable="true"
         app:cardElevation="0dp"
-        app:cardBackgroundColor="@android:color/transparent"
+        app:cardBackgroundColor="@color/main_background"
         android:foreground="?attr/selectableItemBackground">
 
         <!--z
