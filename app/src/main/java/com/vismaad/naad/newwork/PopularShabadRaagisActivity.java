@@ -229,10 +229,7 @@ public class PopularShabadRaagisActivity extends AppCompatActivity implements Vi
 
                 findViewById(R.id.border_line);
         MobileAds.initialize(PopularShabadRaagisActivity.this,
-
-                getResources().
-
-                        getString(R.string.YOUR_ADMOB_APP_ID));
+getResources().getString(R.string.YOUR_ADMOB_APP_ID));
 
         checkMiniPlayerVisibility();
 

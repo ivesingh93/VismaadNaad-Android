@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.facebook.common.util.UriUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -196,7 +197,7 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
     private PipelineDraweeController controller;
 
     //static variables
-    private int BLUR_PRECENTAGE = 50;
+    private int BLUR_PRECENTAGE = 10;
 
     private SharedPreferences mSharedPreferences;
     PlayListShabadsAdapter mShabadsListAdaters;
@@ -354,10 +355,35 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
         final Random rand = new Random();
         final int rndInt = rand.nextInt(imgs.length());
         final int resID = imgs.getResourceId(rndInt, 0);
+        String name = getResources().getResourceEntryName(resID);
+       // Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), resID);
+       // Bitmap blurredBitmap = BlurBuilder.blur(this, originalBitmap);
+       // blurImageView.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
+        /*Uri imageUri = (new Uri.Builder())
+                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+                .authority(getResources().getResourcePackageName(resID))
+                .appendPath(getResources().getResourceTypeName(resID))
+                .appendPath(getResources().getResourceEntryName(resID))
+                .build();*/
 
-        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), resID);
-        Bitmap blurredBitmap = BlurBuilder.blur(this, originalBitmap);
-        blurImageView.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
+        Uri imageUri = new Uri.Builder()
+                .scheme(UriUtil.LOCAL_RESOURCE_SCHEME) // "res"
+                .path(String.valueOf(resID))
+                .build();
+
+        postprocessor = new BlurPostprocessor(this, BLUR_PRECENTAGE);
+        imageRequest = ImageRequestBuilder.newBuilderWithSource(imageUri)
+                .setPostprocessor(postprocessor)
+                .build();
+        controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
+                .setImageRequest(imageRequest)
+                .setOldController(blurImageView.getController())
+                .build();
+
+        //LOAD BLURRED IMAGE ON SimpleDraweeView(VIEW)
+        blurImageView.setController(controller);
+
+      //  blurImageView.setImageURI(imageUri);
 
         appBarLayout.addOnOffsetChangedListener(this);
 

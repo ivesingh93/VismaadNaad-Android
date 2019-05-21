@@ -18,7 +18,11 @@
 
  <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-
+    <dimen name="three">3dp</dimen>
+    <dimen name="five">5dp</dimen>
+    <dimen name="thirty">30dp</dimen>
+    <dimen name="twfive">25dp</dimen>
+    <dimen name="tw">20dp</dimen>
     <dimen name="header_view_start_margin_left">16dp</dimen>
     <dimen name="header_view_end_margin_left">40dp</dimen>
     <dimen name="header_view_end_margin_right">14dp</dimen>

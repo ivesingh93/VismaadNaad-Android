@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-    s
+
     <!--
     To support mutiple screen devices and any density screen sizes.
     Here xlargeScreens is false because it refers to tablet screens.

@@ -348,6 +348,7 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
                 .build();
 
         //INSTANTATE CONTROLLOR()
+
         controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
                 .setImageRequest(imageRequest)
                 .setOldController(blurImageView.getController())

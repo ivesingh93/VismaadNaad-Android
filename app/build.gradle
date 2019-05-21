@@ -15,6 +15,8 @@ android {
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
+        aaptOptions.cruncherEnabled = false
+        aaptOptions.useNewCruncher = false
     }
     dataBinding {
         enabled true
@@ -76,6 +78,7 @@ android {
         implementation 'com.google.android.gms:play-services-ads:15.0.0'
         implementation 'com.facebook.android:audience-network-sdk:4.99.1'
         implementation 'com.google.firebase:firebase-messaging:17.3.4'
+
     }
     repositories {
         mavenCentral()
@@ -86,10 +89,5 @@ android {
 
     apply plugin: 'kotlin-android-extensions'
     apply plugin: 'com.google.gms.google-services'
-    buildToolsVersion '27.0.3'
-}
-
-dependencies {
-    implementation 'com.android.support.constraint:constraint-layout:+'
 
 }
