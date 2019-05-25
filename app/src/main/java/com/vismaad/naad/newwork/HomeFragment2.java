@@ -44,6 +44,7 @@ import com.vismaad.naad.navigation.home.presenter.HomePresenterImpl;
 import com.vismaad.naad.navigation.home.view.HomeView;
 import com.vismaad.naad.newwork.adapter.PopularRagisAdapter;
 import com.vismaad.naad.newwork.adapter.PopularShabadAdapter;
+import com.vismaad.naad.newwork.adapter.RadioStationsAdapter;
 import com.vismaad.naad.player.ShabadPlayerActivity;
 import com.vismaad.naad.player.service.App;
 import com.vismaad.naad.player.service.MediaPlayerState;
@@ -73,17 +74,23 @@ import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.PAUS
 import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.PLAYING;
 import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.STOPPED;
 
-public class HomeFragment2 extends Fragment implements HomeView, ShabadTutoralsAdapter.ItemListener,AdapterView.OnItemClickListener {
+public class HomeFragment2 extends Fragment implements HomeView, ShabadTutoralsAdapter.ItemListener, AdapterView.OnItemClickListener {
 
     private RaagiService raagiService;
-    private ArrayList<PopRagiAndShabad.PopularShabad> ArrpopShabads= new ArrayList<>();
-    private List<PopRagiAndShabad.RaagisInfo> ArrpopRagi= new ArrayList<>();
+    private ArrayList<PopRagiAndShabad.PopularShabad> ArrpopShabads = new ArrayList<>();
+    private List<PopRagiAndShabad.RaagisInfo> ArrpopRagi = new ArrayList<>();
+    private ArrayList<PopRagiAndShabad.RadioChannels> ArrayRadioChannel = new ArrayList<>();
+
+
     private PopularShabadAdapter popShabadAdapter;
     private PopularRagisAdapter popRagisRealAdapter;
+    private RadioStationsAdapter mRadioStationsAdapter;
+
+
     RaagiInfoAdapter raagiInfoAdapter;
 
-    private RecyclerView raagi_RV,shabadRecycle;
-    private TextView see_more,see_more_ragi;
+    private RecyclerView raagi_RV, shabadRecycle, radioRecycle;
+    private TextView see_more, see_more_ragi, radio_see_more;
     ACProgressFlower dialog;
     private RelativeLayout mainLayOut;
     private ShabadPlayerForegroundService playerService;
@@ -91,7 +98,7 @@ public class HomeFragment2 extends Fragment implements HomeView, ShabadTutoralsA
     private PopularShabadRaagisActivity.UpdateUIReceiver updater;
     private ImageView raagi_thumbnail_IV, shabad_menu_IV, playBtn;
     private RelativeLayout miniPlayerLayout;
-    private String raagi_image_url, raagi_name="";
+    private String raagi_image_url, raagi_name = "";
 
     public ArrayList<Shabad> shabadsList = new ArrayList<>();
     private String[] shabadLinks, shabadTitles;
@@ -103,7 +110,6 @@ public class HomeFragment2 extends Fragment implements HomeView, ShabadTutoralsA
 
     RaagiService mCreatePlayList;
     private ArrayList<Shabad> shabadList = new ArrayList<>();
-
 
 
     public HomeFragment2() {
@@ -144,7 +150,6 @@ public class HomeFragment2 extends Fragment implements HomeView, ShabadTutoralsA
         init(view);
 
 
-
         mSharedPreferences = getActivity().getSharedPreferences(
                 SehajBaniPreferences.Atree_PREFERENCES, Context.MODE_PRIVATE);
 
@@ -164,30 +169,42 @@ public class HomeFragment2 extends Fragment implements HomeView, ShabadTutoralsA
         dialog.show();
 
 
-
         mainLayOut.setVisibility(View.GONE);
         raagiService = RetrofitClient.getClient().create(RaagiService.class);
-        popShabadAdapter = new PopularShabadAdapter(getActivity(), ArrpopShabads,shabadList);
+        popShabadAdapter = new PopularShabadAdapter(getActivity(), ArrpopShabads, shabadList);
         popRagisRealAdapter = new PopularRagisAdapter(getActivity(), ArrpopRagi);
+
+        mRadioStationsAdapter = new RadioStationsAdapter(getActivity(), ArrayRadioChannel);
 
         raagi_RV.setAdapter(popRagisRealAdapter);
         shabadRecycle.setAdapter(popShabadAdapter);
+        radioRecycle.setAdapter(mRadioStationsAdapter);
+
 
         see_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(),PopularShabadsActivity.class));
+                startActivity(new Intent(getActivity(), PopularShabadsActivity.class));
             }
         });
         see_more_ragi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(),NavigationActivity.class));
+                startActivity(new Intent(getActivity(), NavigationActivity.class));
             }
         });
 
+        radio_see_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), MoreRadioStation.class));
+            }
+        });
+
+
         ArrpopShabads.clear();
         ArrpopRagi.clear();
+        ArrayRadioChannel.clear();
 
         Call<PopRagiAndShabad> raagiShabadsCall = raagiService.popularRagiandShabad();
 
@@ -195,15 +212,16 @@ public class HomeFragment2 extends Fragment implements HomeView, ShabadTutoralsA
             @Override
             public void onResponse(Call<PopRagiAndShabad> call, Response<PopRagiAndShabad> response) {
                 ArrpopShabads.addAll(response.body().getPopularShabads());
-                ArrpopRagi.addAll( response.body().getRaagisInfo());
+                ArrpopRagi.addAll(response.body().getRaagisInfo());
+                ArrayRadioChannel.addAll(response.body().getRadioChannels());
 
                 popShabadAdapter.notifyDataSetChanged();
                 popRagisRealAdapter.notifyDataSetChanged();
+                mRadioStationsAdapter.notifyDataSetChanged();
                 mainLayOut.setVisibility(View.VISIBLE);
 
 
                 fetchData();
-
 
 
             }
@@ -215,11 +233,6 @@ public class HomeFragment2 extends Fragment implements HomeView, ShabadTutoralsA
 
             }
         });
-
-
-
-
-
 
 
         return view;
@@ -234,19 +247,18 @@ public class HomeFragment2 extends Fragment implements HomeView, ShabadTutoralsA
                 for (Shabad raagiShabad : response.body()) {
                     shabadList.add(raagiShabad);
                 }
-                if(dialog !=null){
+                if (dialog != null) {
                     dialog.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Shabad>> call, Throwable t) {
-                if(dialog !=null){
+                if (dialog != null) {
                     dialog.dismiss();
                 }
             }
         });
-
 
 
     }
@@ -291,14 +303,20 @@ public class HomeFragment2 extends Fragment implements HomeView, ShabadTutoralsA
             playBtn.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_play_button));
         }
     }
+
     @Override
     public void init(View view) {
         miniPlayerLayout = view.findViewById(R.id.mini_player);
         raagi_RV = view.findViewById(R.id.raagi_RV);
-        shabadRecycle =view.findViewById(R.id.shabadRecycle);
-        see_more =view.findViewById(R.id.see_more);
-        see_more_ragi =view.findViewById(R.id.see_more_raagis);
-        mainLayOut =view.findViewById(R.id.mainLayOut);
+        shabadRecycle = view.findViewById(R.id.shabadRecycle);
+
+        radioRecycle = view.findViewById(R.id.radioRecycle);
+
+        see_more = view.findViewById(R.id.see_more);
+        see_more_ragi = view.findViewById(R.id.see_more_raagis);
+        radio_see_more = view.findViewById(R.id.radio_see_more);
+
+        mainLayOut = view.findViewById(R.id.mainLayOut);
         playBtn = view.findViewById(R.id.play_pause_mini_player);
         mAdView = view.findViewById(R.id.adView);
         shabadName = view.findViewById(R.id.shabad_name_mini_player);
@@ -331,7 +349,6 @@ public class HomeFragment2 extends Fragment implements HomeView, ShabadTutoralsA
     public void onItemClick(ShabadTutorial item) {
 
     }
-
 
 
     public interface OnItem1SelectedListener {

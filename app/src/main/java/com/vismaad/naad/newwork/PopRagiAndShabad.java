@@ -17,9 +17,17 @@ public class PopRagiAndShabad    {
         @SerializedName("popularShabads")
         @Expose
         public List<PopularShabad> popularShabads = new ArrayList<>();
+
         @SerializedName("raagisInfo")
         @Expose
         public List<RaagisInfo> raagisInfo = new ArrayList<>();
+
+
+    @SerializedName("radioChannels")
+    @Expose
+    public List<RadioChannels> radioChannels = new ArrayList<>();
+
+
 
 
     public List<PopularShabad> getPopularShabads() {
@@ -30,6 +38,10 @@ public class PopRagiAndShabad    {
         return raagisInfo;
     }
 
+
+    public List<RadioChannels> getRadioChannels() {
+        return radioChannels;
+    }
 
 
 
@@ -193,4 +205,48 @@ public class PopRagiAndShabad    {
             return minutesOfShabads;
         }
     }
+
+
+    public class RadioChannels {
+
+        @SerializedName("id")
+        @Expose
+        public Integer Id;
+
+        @SerializedName("name")
+        @Expose
+        public String Name;
+
+
+        @SerializedName("link")
+        @Expose
+        public String Link;
+
+
+        @SerializedName("image_url")
+        @Expose
+        public String ImageURL;
+
+
+
+        public Integer getId() {
+            return Id;
+        }
+
+        public String getName() {
+            return Name;
+        }
+
+        public String getLink() {
+            return Link;
+        }
+
+        public String getImageUrl() {
+            return ImageURL;
+        }
+
+
+    }
+
+
 }

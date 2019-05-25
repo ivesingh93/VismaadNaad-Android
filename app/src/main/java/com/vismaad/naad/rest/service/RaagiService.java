@@ -1,6 +1,7 @@
 package com.vismaad.naad.rest.service;
 
 import com.vismaad.naad.newwork.PopRagiAndShabad;
+import com.vismaad.naad.rest.model.raagi.MoreRadio;
 import com.vismaad.naad.rest.model.raagi.RaagiInfo;
 import com.vismaad.naad.rest.model.raagi.Shabad;
 
@@ -25,6 +26,10 @@ public interface RaagiService {
     @GET("raagiRoutes/homePage")
     Call<PopRagiAndShabad> popularRagiandShabad();
 
+    //http://vismaadnaad.com/api/raagiRoutes/radioChannels
+
+    @GET("raagiRoutes/radioChannels")
+    Call<List<MoreRadio>> moreRadioStations();
 
 
     @GET("raagiRoutes/popularShabads")
