@@ -78,6 +78,7 @@ android {
         implementation 'com.google.android.gms:play-services-ads:15.0.0'
         implementation 'com.facebook.android:audience-network-sdk:4.99.1'
         implementation 'com.google.firebase:firebase-messaging:17.3.4'
+        implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.6.1'
 
     }
     repositories {

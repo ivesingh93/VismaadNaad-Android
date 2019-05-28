@@ -27,6 +27,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.home.raagi_detail.RaagiDetailActivity;
 import com.vismaad.naad.newwork.PopRagiAndShabad;
+import com.vismaad.naad.newwork.RadioPlayer;
 import com.vismaad.naad.player.ShabadPlayerActivity;
 import com.vismaad.naad.player.service.MediaPlayerState;
 import com.vismaad.naad.rest.model.raagi.MoreRadio;
@@ -87,12 +88,12 @@ public class MoreRadioAdapter extends RecyclerView.Adapter<MoreRadioAdapter.Shab
         holder.shabad_card_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                create_intent(holder, shabadList);
+                create_intent(holder, shabadList.get(position).getName(),shabadList.get(position).getLink(),shabadList.get(position).getImageUrl());
             }
         });
     }
 
-    private void create_intent(final MoreRadioAdapter.ShabadViewHolder holder, List<MoreRadio> shabadList) {
+    private void create_intent(final MoreRadioAdapter.ShabadViewHolder holder, String name,String link,String imageLink) {
         if (JBSehajBaniPreferences.getAdsCount(mSharedPreferences) > 0) {
             count = JBSehajBaniPreferences.getAdsCount(mSharedPreferences);
         }
@@ -116,12 +117,10 @@ public class MoreRadioAdapter extends RecyclerView.Adapter<MoreRadioAdapter.Shab
             });
         }
 
-        Intent intent = new Intent(context, ShabadPlayerActivity.class);
-        intent.putExtra(PLAY_SONG, true);
-        //intent.putParcelableArrayListExtra("shabads", mFilteredList);
-       // intent.putExtra("current_shabad", raagiInfo.);
-       // intent.putExtra(MediaPlayerState.SHABAD_DURATION, (long) 0);
-
+        Intent intent = new Intent(context, RadioPlayer.class);
+        intent.putExtra("RADIO_NAME",name);
+        intent.putExtra("NAME",link);
+        intent.putExtra("IMAGE",imageLink);
         context.startActivity(intent);
     }
 

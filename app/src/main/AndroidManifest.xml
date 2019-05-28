@@ -135,6 +135,14 @@
                 <action android:name="android.intent.action.HEADSET_PLUG" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".player.service.RadioPlayerService$HeadphoneReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.HEADSET_PLUG" />
+            </intent-filter>
+        </receiver>
+
+
+
         <receiver android:name=".player.ShabadPlayerActivity$ShowShabadReceiver" />
         <receiver android:name=".navigation.NavigationActivity$UpdateUIReceiver" />
         <receiver android:name=".navigation.NavigationActivity$ShowShabadReceiver" />
@@ -158,6 +166,9 @@
             android:launchMode="singleTop" />
 
         <service android:name=".player.service.ShabadPlayerForegroundService" />
+        <service android:name=".player.service.RadioPlayerService" />
+
+
         <service android:name=".google.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -170,6 +181,8 @@
         </service>
 
         <activity android:name=".newwork.PopularShabadsActivity"></activity>
+        <activity android:name=".newwork.RadioPlayer"></activity>
+
     </application>
 
 </manifest>

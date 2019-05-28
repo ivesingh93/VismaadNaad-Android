@@ -28,6 +28,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.home.raagi_detail.RaagiDetailActivity;
 import com.vismaad.naad.newwork.PopRagiAndShabad;
+import com.vismaad.naad.newwork.RadioPlayer;
 import com.vismaad.naad.player.ShabadPlayerActivity;
 import com.vismaad.naad.player.service.MediaPlayerState;
 import com.vismaad.naad.rest.model.raagi.Shabad;
@@ -40,7 +41,7 @@ import java.util.List;
 
 import static com.vismaad.naad.Constants.PLAY_SONG;
 
-public class RadioStationsAdapter extends RecyclerView.Adapter<RadioStationsAdapter.ShabadViewHolder>  {
+public class RadioStationsAdapter extends RecyclerView.Adapter<RadioStationsAdapter.ShabadViewHolder> {
 
     private Context context;
     private List<PopRagiAndShabad.RadioChannels> shabadList;
@@ -72,7 +73,7 @@ public class RadioStationsAdapter extends RecyclerView.Adapter<RadioStationsAdap
         RequestOptions option = new RequestOptions().fitCenter()
                 .override(Target.SIZE_ORIGINAL);
 
-     //   holder.count.setText(""+shabadList.get(position).getShabadsCount());
+        //   holder.count.setText(""+shabadList.get(position).getShabadsCount());
 
         holder.count.setVisibility(View.GONE);
         holder.title.setText(shabadList.get(position).getName());
@@ -83,24 +84,26 @@ public class RadioStationsAdapter extends RecyclerView.Adapter<RadioStationsAdap
         holder.raagi_card_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //create_intent(holder, shabad);
+                create_intent(shabadList.get(position).getName(), shabadList.get(position).getLink(), shabadList.get(position).getImageUrl());
             }
         });
+
+        holder.title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                create_intent(shabadList.get(position).getName(), shabadList.get(position).getLink(), shabadList.get(position).getImageUrl());
+            }
+        });
+
     }
 
-    private void create_intent(final PopularRagisAdapter.ShabadViewHolder holder, PopRagiAndShabad.RaagisInfo raagiInfo) {
-        Pair<View, String> p1 = Pair.create((View) holder.imageView, "raagi_image");
-        Pair<View, String> p2 = Pair.create((View) holder.title, "raagi_name");
-        Pair<View, String> p3 = Pair.create((View) holder.count, "raagi_shabads_count");
-        ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, p1, p2, p3);
+    private void create_intent(String name, String link, String imageLink) {
 
-        Intent intent = new Intent(context, RaagiDetailActivity.class);
-        intent.putExtra("raagi_image_url", raagiInfo.getRaagiImageUrl());
-        intent.putExtra("raagi_name", raagiInfo.getRaagiName());
-        intent.putExtra("num_of_shabads", raagiInfo.getShabadsCount());
-        intent.putExtra("total_shabads_length", raagiInfo.getMinutesOfShabads());
-
-        context.startActivity(intent, activityOptionsCompat.toBundle());
+        Intent intent = new Intent(context, RadioPlayer.class);
+        intent.putExtra("RADIO_NAME", name);
+        intent.putExtra("NAME", link);
+        intent.putExtra("IMAGE", imageLink);
+        context.startActivity(intent);
     }
 
     @Override
@@ -109,17 +112,16 @@ public class RadioStationsAdapter extends RecyclerView.Adapter<RadioStationsAdap
     }
 
 
-
     class ShabadViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView;
         TextView title, count;
         CardView raagi_card_layout;
+
         public ShabadViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.raagi_name_TV);
             count = (TextView) itemView.findViewById(R.id.count);
-
             imageView = (ImageView) itemView.findViewById(R.id.raagi_thumbnail_IV);
             raagi_card_layout = (CardView) itemView.findViewById(R.id.raagi_card_layout);
         }
