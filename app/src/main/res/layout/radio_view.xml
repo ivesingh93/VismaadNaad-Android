@@ -261,13 +261,20 @@
 
         </RelativeLayout>
 
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView_mini"
+        <include
+            android:id="@+id/bottom_player"
+            layout="@layout/mini_player_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/mini_player1"
+            android:layout_alignParentBottom="true" />
+
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:visibility="visible"
             ads:adSize="BANNER"
             ads:adUnitId="@string/ads_banner">
 

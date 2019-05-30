@@ -745,7 +745,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
         shabadPlayerPresenterImpl.setTranslationSize(App.getPreferanceInt(Constants.FONT_SIZE));
         saveLastShabadToPlay();
     }
-
+//9599972362
     public void onTranslationSelected(View view) {
         boolean checked = ((CheckBox) view).isChecked();
 

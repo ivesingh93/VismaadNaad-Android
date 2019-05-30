@@ -27,6 +27,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
     private static Application _instance;
     private static SharedPreferences _preferences;
     private static ShabadPlayerForegroundService playerService;
+    private static RadioPlayerService mRadioPlayerService;
     private static Gson gson;
 
     public static Gson getGson() {
@@ -55,6 +56,21 @@ public class App extends Application implements Application.ActivityLifecycleCal
     public static void setService (ShabadPlayerForegroundService s) {
         playerService = s;
     }
+
+    public static RadioPlayerService getRadioService() {
+        if (mRadioPlayerService == null) {
+            mRadioPlayerService = new RadioPlayerService();
+        }
+        return mRadioPlayerService;
+    }
+
+    public static void setService (RadioPlayerService s) {
+        mRadioPlayerService = s;
+    }
+
+
+
+
     /**
      * Gets shared preferences.
      *

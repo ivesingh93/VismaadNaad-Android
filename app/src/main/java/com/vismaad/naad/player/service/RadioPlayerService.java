@@ -14,6 +14,7 @@ import android.content.ServiceConnection;
 import android.media.AudioManager;
 import android.media.MediaMetadata;
 import android.media.session.MediaSession;
+
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
@@ -38,6 +39,7 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
@@ -45,6 +47,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.gson.JsonElement;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
@@ -80,7 +83,7 @@ public class RadioPlayerService extends Service {
     private DefaultDataSourceFactory dataSourceFactory;
     static RadioPlayerService instance;
     private static boolean headsetConnected = false;
-    private String[] shabad_links, shabad_titles;
+    private String shabad_links, shabad_titles;
     private String raagi_name;
     private int original_shabad_ind = 0;
     private int lastWindowIndex = -1;
@@ -108,7 +111,7 @@ public class RadioPlayerService extends Service {
         notificationManager = new NotificationManager(context);
         TrackSelection.Factory trackSelectionFactory = new AdaptiveTrackSelection.Factory(new DefaultBandwidthMeter());
         trackSelector = new DefaultTrackSelector(trackSelectionFactory);
-
+        initPlayer();
        /* countDownTimer = new CountDownTimer(25 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -131,8 +134,8 @@ public class RadioPlayerService extends Service {
 
             @Override
             public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-                countDownTimer.cancel();
-                countDownTimer.start();
+               // countDownTimer.cancel();
+              //  countDownTimer.start();
             }
 
             @Override
@@ -249,7 +252,7 @@ public class RadioPlayerService extends Service {
             if (intent.hasExtra(MediaPlayerState.SHABAD_LINKS)) {
 
                 raagi_name = intent.getStringExtra(MediaPlayerState.RAAGI_NAME);
-                shabad_links = intent.getExtras().getStringArray(MediaPlayerState.SHABAD_LINKS);
+                shabad_links = intent.getExtras().getString(MediaPlayerState.SHABAD_LINKS);
                 //shabad_titles = intent.getExtras().getStringArray(MediaPlayerState.SHABAD_TITLES);
               //  original_shabad_ind = intent.getExtras().getInt(MediaPlayerState.ORIGINAL_SHABAD);
                // currentShabad = intent.getExtras().getParcelable(MediaPlayerState.SHABAD);
@@ -258,6 +261,8 @@ public class RadioPlayerService extends Service {
                 //long duration = intent.getLongExtra(MediaPlayerState.SHABAD_DURATION, 0);
 
                 setPlaylist(shabad_links, original_shabad_ind, play, 0);
+
+
 
                // saveLastShabadToPlay();
             }
@@ -414,7 +419,7 @@ public class RadioPlayerService extends Service {
 */
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, NavigationActivity.class), 0);
 
-        Intent swipeToDismissIntent = new Intent(this, ShabadPlayerForegroundService.class);
+        Intent swipeToDismissIntent = new Intent(this, RadioPlayerService.class);
         swipeToDismissIntent.setAction(MediaPlayerState.SWIPE_TO_DISMISS);
         PendingIntent pSwipeToDismiss = PendingIntent.getService(this, 0, swipeToDismissIntent, 0);
 
@@ -428,7 +433,7 @@ public class RadioPlayerService extends Service {
 
         builder.setSmallIcon(R.mipmap.ic_launcher)
                 .setSmallIcon(R.drawable.status_icon)
-                .setContentTitle(shabad_titles[player.getCurrentWindowIndex()])
+                .setContentTitle(shabad_titles)
                 .setContentText(raagi_name)
                 .setDeleteIntent(pSwipeToDismiss)
                 .setContentIntent(contentIntent)
@@ -439,7 +444,7 @@ public class RadioPlayerService extends Service {
                 (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
 
         android.support.v4.media.app.NotificationCompat.MediaStyle mediaStyle = new android.support.v4.media.app.NotificationCompat.MediaStyle()
-                .setShowActionsInCompactView(0, 1, 2);
+                .setShowActionsInCompactView(0);
 
         if (mMediaSession != null) {
             mediaStyle.setMediaSession(mMediaSession.getSessionToken());
@@ -485,25 +490,37 @@ public class RadioPlayerService extends Service {
         }
     }
 
-    public void setPlaylist(String[] songUrl, int currentInd, boolean play, long duration) {
+    public void setPlaylist(String songUrl, int currentInd, boolean play, long duration) {
         if (player != null) {
-            player.prepare(buildMediaSource(songUrl));
-            player.seekTo(currentInd, duration);
+           // player.prepare(buildMediaSource(songUrl));
+           // player.seekTo(currentInd, duration);
+            Uri uri1 = Uri.parse(songUrl);
+            MediaSource mediaSource = buildMediaSource(uri1);
+            player.setPlayWhenReady(true);
+            player.prepare(mediaSource, true, false);
+
             if (play) {
                 play();
             }
         }
     }
+    private MediaSource buildMediaSource(Uri uri) {
+        //dialog.dismiss();
 
-    private ConcatenatingMediaSource buildMediaSource(String[] url) {
+        return new ExtractorMediaSource.Factory(
+                new DefaultHttpDataSourceFactory("exoplayer-codelab")).
+                createMediaSource(uri);
+    }
+    /*private ConcatenatingMediaSource buildMediaSource(String[] url) {
         ExtractorMediaSource[] mediaS = new ExtractorMediaSource[url.length];
         for (int i = 0; i < url.length; i++) {
             if (Patterns.WEB_URL.matcher(url[i]).matches()) {
-                mediaS[i] = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(url[i]));
+                mediaS[i] = new ExtractorMediaSource.Factory(dataSourceFactory)
+                        .createMediaSource(Uri.parse(url[i]));
             }
         }
         return new ConcatenatingMediaSource(mediaS);
-    }
+    }*/
 
     public void log(String message) {
     }
@@ -540,7 +557,7 @@ public class RadioPlayerService extends Service {
                 }
             };
             bindService(new Intent(context,
-                    ShabadPlayerForegroundService.class), mConnection, Context.BIND_AUTO_CREATE);
+                    RadioPlayerService.class), mConnection, Context.BIND_AUTO_CREATE);
             if (s != null) {
                 switch (s) {
                     case MediaPlayerState.Action_Pause_play:

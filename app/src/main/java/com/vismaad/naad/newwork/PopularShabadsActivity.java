@@ -151,7 +151,8 @@ public class PopularShabadsActivity  extends AppCompatActivity implements IShaba
         updater = new UpdateUIReceiver();
         mSharedPreferences = PopularShabadsActivity.this.getSharedPreferences(
                 SehajBaniPreferences.Atree_PREFERENCES, Context.MODE_PRIVATE);
-        LocalBroadcastManager.getInstance(this).registerReceiver(updater, new IntentFilter(MediaPlayerState.updateUI));
+        LocalBroadcastManager.getInstance(this).registerReceiver(updater,
+                new IntentFilter(MediaPlayerState.updateUI));
 
         playerService = App.getService();
 
@@ -161,7 +162,7 @@ public class PopularShabadsActivity  extends AppCompatActivity implements IShaba
         total_shabads_length = getIntent().getIntExtra("total_shabads_length", 0);
 *///        toolbar.setTitle(raagi_name);
 
-
+       // 9599972362
         JBSehajBaniPreferences.setRaggiId(mSharedPreferences, raagi_name);
 
         //initCollapsingToolbar();

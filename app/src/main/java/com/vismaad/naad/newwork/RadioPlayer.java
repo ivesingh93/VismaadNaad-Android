@@ -1,13 +1,20 @@
 package com.vismaad.naad.newwork;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -40,7 +47,11 @@ import java.util.List;
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressFlower;
 
-public class RadioPlayer extends AppCompatActivity {
+import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.PAUSED;
+import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.PLAYING;
+import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.STOPPED;
+
+public class RadioPlayer extends AppCompatActivity implements  View.OnClickListener {
     SimpleExoPlayerView playerView;
     SimpleExoPlayer player;
     AdView adView_mini;
@@ -48,8 +59,11 @@ public class RadioPlayer extends AppCompatActivity {
     String name, link,image;
     Bundle bundle;
     TextView radioName;
-    ImageView imageRadio;
-
+    ImageView imageRadio,playBtn;
+    private RadioPlayerService playerService;
+    private UpdateUIReceiver updater;
+    private RelativeLayout miniPlayerLayout;
+    private TextView shabadName, raagiName;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +71,10 @@ public class RadioPlayer extends AppCompatActivity {
         if (Util.SDK_INT > 23) {
             initial();
         }
-
+        updater = new UpdateUIReceiver();
+        LocalBroadcastManager.getInstance(this).registerReceiver(updater,
+                new IntentFilter(MediaPlayerState.updateUI));
+        playerService = App.getRadioService();
     }
 
     private void initial() {
@@ -65,6 +82,15 @@ public class RadioPlayer extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         bundle = getIntent().getExtras();
         playerView = (SimpleExoPlayerView) findViewById(R.id.radio_player);
+        playBtn = findViewById(R.id.play_pause_mini_player);
+
+        miniPlayerLayout = findViewById(R.id.mini_player);
+        shabadName = findViewById(R.id.shabad_name_mini_player);
+        raagiName = findViewById(R.id.raagi_name_mini_player);
+
+
+
+        playBtn.setOnClickListener(this);
         MobileAds.initialize(RadioPlayer.this,
                 getResources().getString(R.string.YOUR_ADMOB_APP_ID));
         adView_mini = findViewById(R.id.adView_mini);
@@ -105,6 +131,20 @@ public class RadioPlayer extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (playerService != null) {
+            updateUI();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(updater);
+    }
+
     private MediaSource buildMediaSource(Uri uri) {
         dialog.dismiss();
 
@@ -116,8 +156,8 @@ public class RadioPlayer extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        player.release();
-        player = null;
+        //player.release();
+        //player = null;
     }
 
     @Override
@@ -146,4 +186,71 @@ public class RadioPlayer extends AppCompatActivity {
         App.setPreferencesInt(Constants.PLAYER_STATE, 1);
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.mini_player:
+                // redirect to shabad playing screen 3rd screen
+                if (bundle != null) {
+                    name = bundle.getString("RADIO_NAME");
+                    link = bundle.getString("NAME");
+                    image = bundle.getString("IMAGE");
+
+                    radioName.setText(name);
+                    RequestOptions option = new RequestOptions().fitCenter()
+                            .override(Target.SIZE_ORIGINAL);
+                    Glide.with(RadioPlayer.this)
+                            .load(image)
+                            .into(imageRadio);
+                    Uri uri = Uri.parse(link);
+                    MediaSource mediaSource = buildMediaSource(uri);
+                    player.setPlayWhenReady(true);
+                    player.prepare(mediaSource, true, false);
+                }
+                break;
+            case R.id.play_pause_mini_player:
+                playPauseShabad();
+                break;
+        }
+    }
+
+
+
+    public class UpdateUIReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null) {
+                updateUI();
+            }
+        }
+    }
+
+    private void updateUI() {
+        if (playerService.getStatus() == PLAYING) {
+            playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_pause_button));
+        } else if (playerService.getStatus() == PAUSED) {
+            playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_button));
+        } else if (playerService.getStatus() == STOPPED) {
+            playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_button));
+        }
+    }
+
+    private void playPauseShabad() {
+        if (playerService.getStatus() == STOPPED) {
+            startPlayerService();
+            playerService.play();
+          //  playerService.setDuration(App.getPreferenceLong(MediaPlayerState.SHABAD_DURATION));
+        } else if (playerService.getStatus() == PLAYING) {
+            playerService.pause();
+            updateUI();
+            App.setPreferencesInt(Constants.PLAYER_STATE, 1);
+        } else if (playerService.getStatus() == PAUSED) {
+            if (App.getPreferanceInt(Constants.PLAYER_STATE) == 0) {
+                startPlayerService();
+            }
+            playerService.play();
+            updateUI();
+        }
+    }
 }
