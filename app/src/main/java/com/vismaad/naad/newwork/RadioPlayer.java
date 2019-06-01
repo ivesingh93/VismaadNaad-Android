@@ -1,12 +1,16 @@
 package com.vismaad.naad.newwork;
 
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -51,23 +55,28 @@ import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.PAUS
 import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.PLAYING;
 import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.STOPPED;
 
-public class RadioPlayer extends AppCompatActivity implements  View.OnClickListener {
+public class RadioPlayer extends AppCompatActivity implements View.OnClickListener {
     SimpleExoPlayerView playerView;
     SimpleExoPlayer player;
     AdView adView_mini;
     ACProgressFlower dialog;
-    String name, link,image;
+    String name, link, image;
     Bundle bundle;
     TextView radioName;
-    ImageView imageRadio,playBtn;
+    ImageView imageRadio, playBtn;
     private RadioPlayerService playerService;
     private UpdateUIReceiver updater;
     private RelativeLayout miniPlayerLayout;
     private TextView shabadName, raagiName;
+    RadioPlayerService mRadioPlayerService;
+    private boolean isBound;
+    private boolean mServiceConnected = false, playSong = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.radio_player);
+        mRadioPlayerService = App.getRadioService();
         if (Util.SDK_INT > 23) {
             initial();
         }
@@ -89,12 +98,11 @@ public class RadioPlayer extends AppCompatActivity implements  View.OnClickListe
         raagiName = findViewById(R.id.raagi_name_mini_player);
 
 
-
         playBtn.setOnClickListener(this);
         MobileAds.initialize(RadioPlayer.this,
                 getResources().getString(R.string.YOUR_ADMOB_APP_ID));
         adView_mini = findViewById(R.id.adView_mini);
-        radioName  = findViewById(R.id.radioName);
+        radioName = findViewById(R.id.radioName);
         imageRadio = findViewById(R.id.imageRadio);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView_mini.loadAd(adRequest);
@@ -128,8 +136,14 @@ public class RadioPlayer extends AppCompatActivity implements  View.OnClickListe
             MediaSource mediaSource = buildMediaSource(uri);
             player.setPlayWhenReady(true);
             player.prepare(mediaSource, true, false);
+            startPlayerService();
+            doBindService();
         }
     }
+
+
+
+
 
     @Override
     protected void onResume() {
@@ -145,6 +159,21 @@ public class RadioPlayer extends AppCompatActivity implements  View.OnClickListe
         LocalBroadcastManager.getInstance(this).unregisterReceiver(updater);
     }
 
+    private ServiceConnection mConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            mRadioPlayerService = ((RadioPlayerService.LocalBinder) service).getService();
+            // player = shabadPlayerForegroundService.getPlayer();
+            playerView.setPlayer(player);
+            mServiceConnected = true;
+            App.setService(mRadioPlayerService);
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            mRadioPlayerService = null;
+            mServiceConnected = false;
+        }
+    };
+
     private MediaSource buildMediaSource(Uri uri) {
         dialog.dismiss();
 
@@ -156,9 +185,9 @@ public class RadioPlayer extends AppCompatActivity implements  View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        //player.release();
-        //player = null;
+        doUnbindService();
     }
+
 
     @Override
     public void onBackPressed() {
@@ -215,7 +244,6 @@ public class RadioPlayer extends AppCompatActivity implements  View.OnClickListe
     }
 
 
-
     public class UpdateUIReceiver extends BroadcastReceiver {
 
         @Override
@@ -240,7 +268,7 @@ public class RadioPlayer extends AppCompatActivity implements  View.OnClickListe
         if (playerService.getStatus() == STOPPED) {
             startPlayerService();
             playerService.play();
-          //  playerService.setDuration(App.getPreferenceLong(MediaPlayerState.SHABAD_DURATION));
+            //  playerService.setDuration(App.getPreferenceLong(MediaPlayerState.SHABAD_DURATION));
         } else if (playerService.getStatus() == PLAYING) {
             playerService.pause();
             updateUI();
@@ -253,4 +281,18 @@ public class RadioPlayer extends AppCompatActivity implements  View.OnClickListe
             updateUI();
         }
     }
+
+    private void doBindService() {
+        bindService(new Intent(RadioPlayer.this,
+                RadioPlayerService.class), mConnection, Context.BIND_AUTO_CREATE);
+        isBound = true;
+    }
+    private void doUnbindService() {
+        if (isBound) {
+            // Detach our existing connection.
+            unbindService(mConnection);
+            isBound = false;
+        }
+    }
+
 }

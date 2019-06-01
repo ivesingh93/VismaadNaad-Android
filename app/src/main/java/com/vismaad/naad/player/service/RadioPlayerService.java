@@ -708,8 +708,4 @@ public class RadioPlayerService extends Service {
         });
     }
 
-
-
-
-
 }

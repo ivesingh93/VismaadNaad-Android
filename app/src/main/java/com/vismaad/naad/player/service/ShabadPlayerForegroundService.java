@@ -383,7 +383,7 @@ public class ShabadPlayerForegroundService extends Service {
         App.setPreferencesInt(Constants.PLAYER_STATE, 0);
         setStatus(STOPPED);
         setSessionState();
-        stopForeground(true);
+        //stopForeground(true);
         stopSelf();
         log("Service Stopped and exit");
     }

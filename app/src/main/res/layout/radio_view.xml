@@ -262,6 +262,7 @@
         </RelativeLayout>
 
         <include
+            android:visibility="gone"
             android:id="@+id/bottom_player"
             layout="@layout/mini_player_layout"
             android:layout_width="match_parent"
