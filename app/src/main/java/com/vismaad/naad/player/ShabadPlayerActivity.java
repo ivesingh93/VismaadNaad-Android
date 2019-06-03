@@ -66,6 +66,7 @@ import com.vismaad.naad.newwork.PopRagiAndShabad;
 import com.vismaad.naad.player.presenter.ShabadPlayerPresenterImpl;
 import com.vismaad.naad.player.service.App;
 import com.vismaad.naad.player.service.MediaPlayerState;
+import com.vismaad.naad.player.service.RadioPlayerService;
 import com.vismaad.naad.player.service.ShabadPlayerForegroundService;
 import com.vismaad.naad.player.view.ShabadPlayerView;
 import com.vismaad.naad.rest.instance.RetrofitClient;
@@ -792,6 +793,11 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
     @Override
     protected void onResume() {
         super.onResume();
+        if (Utils.isMyServiceRunning(RadioPlayerService.class,ShabadPlayerActivity.this)==true)
+        {
+            stopService(new Intent(ShabadPlayerActivity.this, RadioPlayerService.class));
+        }
+
     }
 
     private void saveLastShabadToPlay() {

@@ -45,6 +45,7 @@ import com.vismaad.naad.player.service.MediaPlayerState;
 import com.vismaad.naad.player.service.RadioPlayerService;
 import com.vismaad.naad.player.service.ShabadPlayerForegroundService;
 import com.vismaad.naad.rest.model.raagi.MoreRadio;
+import com.vismaad.naad.utils.Utils;
 
 import java.util.List;
 
@@ -142,15 +143,19 @@ public class RadioPlayer extends AppCompatActivity implements View.OnClickListen
     }
 
 
-
-
-
     @Override
     protected void onResume() {
         super.onResume();
         if (playerService != null) {
             updateUI();
         }
+
+
+        if (Utils.isMyServiceRunning(ShabadPlayerForegroundService.class, RadioPlayer.this) == true) {
+            stopService(new Intent(RadioPlayer.this, ShabadPlayerForegroundService.class));
+        }
+
+
     }
 
     @Override
@@ -287,6 +292,7 @@ public class RadioPlayer extends AppCompatActivity implements View.OnClickListen
                 RadioPlayerService.class), mConnection, Context.BIND_AUTO_CREATE);
         isBound = true;
     }
+
     private void doUnbindService() {
         if (isBound) {
             // Detach our existing connection.
