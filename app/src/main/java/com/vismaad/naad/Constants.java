@@ -39,6 +39,11 @@ public final class Constants {
 
     public static String STARTFOREGROUND_ACTION = "com.vismaad.naad.player.service.startforeground";
     public static String STOPFOREGROUND_ACTION = "com.vismaad.naad.player.service.stopforeground";
+
+
+    public static String STARTRADIO_ACTION = "com.vismaad.naad.player.service.startforeground";
+    public static String STOPRADIO_ACTION = "com.vismaad.naad.player.service.stopforeground";
+
 }
 
 

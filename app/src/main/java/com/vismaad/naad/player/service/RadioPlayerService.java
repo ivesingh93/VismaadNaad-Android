@@ -70,8 +70,6 @@ import static com.vismaad.naad.player.ShabadPlayerActivity.current_shabad;
 public class RadioPlayerService extends Service {
     static public final int STOPPED = -1, PAUSED = 0, PLAYING = 1;
     public static final String TAG = "MyServiceTag";
-
-    CountDownTimer countDownTimer;
     private final IBinder mBinder = new RadioPlayerService.LocalBinder();
     public static Context context;
     private Timeline.Window window;
@@ -248,7 +246,7 @@ public class RadioPlayerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent != null && intent.getAction().equals(Constants.STARTFOREGROUND_ACTION)) {
+        if (intent != null && intent.getAction().equals(Constants.STARTRADIO_ACTION)) {
             if (intent.hasExtra(MediaPlayerState.SHABAD_LINKS)) {
 
                 raagi_name = intent.getStringExtra(MediaPlayerState.RAAGI_NAME);
@@ -268,7 +266,7 @@ public class RadioPlayerService extends Service {
             }
         } else {
             if (intent != null && intent.getAction().equals(
-                    Constants.STOPFOREGROUND_ACTION)) {
+                    Constants.STOPRADIO_ACTION)) {
                 stop();
             }
         }
@@ -388,7 +386,7 @@ public class RadioPlayerService extends Service {
         App.setPreferencesInt(Constants.PLAYER_STATE, 0);
         setStatus(STOPPED);
         setSessionState();
-        stopForeground(true);
+        //stopForeground(true);
         stopSelf();
         //log("Service Stopped and exit");
     }
