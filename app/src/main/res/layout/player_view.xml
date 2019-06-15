@@ -56,6 +56,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/imageRadio"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
             <ScrollView
                 android:id="@+id/gurbani_SV"
                 android:background="@color/sepia"

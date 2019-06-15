@@ -118,6 +118,7 @@ public class MoreRadioAdapter extends RecyclerView.Adapter<MoreRadioAdapter.Shab
         }
 
         Intent intent = new Intent(context, RadioPlayer.class);
+        intent.putExtra("radio", "radio");
         intent.putExtra("RADIO_NAME",name);
         intent.putExtra("NAME",link);
         intent.putExtra("IMAGE",imageLink);

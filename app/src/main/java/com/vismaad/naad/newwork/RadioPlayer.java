@@ -1,24 +1,38 @@
 package com.vismaad.naad.newwork;
 
 import android.app.ActivityManager;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -37,79 +51,310 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.vismaad.naad.AddPlayList.AddPlayList;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
+import com.vismaad.naad.navigation.NavigationActivity;
+import com.vismaad.naad.player.ShabadDialog;
 import com.vismaad.naad.player.ShabadPlayerActivity;
+import com.vismaad.naad.player.presenter.ShabadPlayerPresenterImpl;
 import com.vismaad.naad.player.service.App;
 import com.vismaad.naad.player.service.MediaPlayerState;
 import com.vismaad.naad.player.service.RadioPlayerService;
 import com.vismaad.naad.player.service.ShabadPlayerForegroundService;
+import com.vismaad.naad.player.view.ShabadPlayerView;
+import com.vismaad.naad.rest.instance.RetrofitClient;
+import com.vismaad.naad.rest.model.playlist.LikeShabad;
 import com.vismaad.naad.rest.model.raagi.MoreRadio;
+import com.vismaad.naad.rest.model.raagi.Shabad;
+import com.vismaad.naad.rest.service.PlayList;
+import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
+import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 import com.vismaad.naad.utils.Utils;
+import com.vismaad.naad.welcome.WelcomeActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressFlower;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import static com.vismaad.naad.Constants.BIG_FONT_SINGLE_BREAK;
+import static com.vismaad.naad.Constants.DOUBLE_BREAK;
+import static com.vismaad.naad.Constants.ENGLISH_FONT;
+import static com.vismaad.naad.Constants.GURBANI_FONT;
+import static com.vismaad.naad.Constants.PLAY_SONG;
+import static com.vismaad.naad.Constants.PUNJABI_FONT;
+import static com.vismaad.naad.Constants.SINGLE_BREAK;
+import static com.vismaad.naad.Constants.TEEKA_ARTH_FONT;
+import static com.vismaad.naad.Constants.TEEKA_PAD_ARTH_FONT;
+import static com.vismaad.naad.player.service.MediaPlayerState.SHABAD_DURATION;
 import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.PAUSED;
 import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.PLAYING;
 import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.STOPPED;
 
-public class RadioPlayer extends AppCompatActivity implements View.OnClickListener {
-    SimpleExoPlayerView playerView;
-    SimpleExoPlayer player;
-    AdView adView_mini;
-    ACProgressFlower dialog;
-    String name, link, image;
-    Bundle bundle;
-    TextView radioName;
-    ImageView imageRadio, playBtn;
-   // private RadioPlayerService playerService;
-    private UpdateUIReceiver updater;
-    private RelativeLayout miniPlayerLayout;
-    private TextView shabadName, raagiName;
-    RadioPlayerService mRadioPlayerService;
+public class RadioPlayer extends AppCompatActivity implements ShabadPlayerView {
+
+    private ShabadPlayerPresenterImpl shabadPlayerPresenterImpl;
+    private ActionBar shabad_player_AB;
+    private TextView gurbani_TV, raagi_name_TV, shabad_title_TV, like_tv;
+    private LinearLayout like_layout;
+    private ImageButton like;
+    private Typeface gurbani_lipi_face;
+    public static Shabad current_shabad;
+    public static PopRagiAndShabad.PopularShabad shabad_pop;
+    private ScrollView gurbani_SV;
+    private SimpleExoPlayerView simpleExoPlayerView;
+    private SimpleExoPlayer player;
     private boolean isBound;
-    private boolean mServiceConnected = false, playSong = false;
+    private ShabadPlayerForegroundService shabadPlayerForegroundService;
+    private String[] shabadLinks, shabadTitles;
+    private int originalShabadIndex = 0;
+    public RadioPlayer.ShowShabadReceiver showShabadReceiver;
+    private ShabadDialog shabadDialog;
+    private boolean mServiceConnected = false, playSong = false, isToPlay = false;
+    private long shabadDuration;
+    float hitPercent = 0.3f; //30% of the time it will show ad
+    final Random generator = new Random();
+    AdView adView_mini;
+    private SharedPreferences mSharedPreferences;
+    Random mRandom;
+    int randomNumber;
+    ACProgressFlower dialog;
+    PlayList mCreatePlayList;
+    private boolean isLiked;
+    public static ArrayList<Shabad> raagishabadsList = new ArrayList<>();
+    String name, link, image;
+    ImageView imageRadio;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.radio_player);
-      //
-        mRadioPlayerService = App.getRadioService();
-        if (Util.SDK_INT > 23) {
-            initial();
-        }
+        setContentView(R.layout.activity_shabad_player);
+        // MobileAds.initialize(this, "ca-app-pub-3940256099942544/5224354917");
 
-        //updater = new UpdateUIReceiver();
-       // LocalBroadcastManager.getInstance(this).registerReceiver(updater,
-          //      new IntentFilter(MediaPlayerState.updateUI));
-       // playerService = App.getRadioService();
+        // Use an activity context to get the rewarded video instance.
+
+        shabadPlayerForegroundService = App.getService();
+
+
+        shabadPlayerPresenterImpl = new ShabadPlayerPresenterImpl(this, RadioPlayer.this);
+        shabadPlayerPresenterImpl.init();
+        LocalBroadcastManager.getInstance(this).registerReceiver(showShabadReceiver, new IntentFilter(MediaPlayerState.SHOW_SHABAD));
+        mSharedPreferences = getSharedPreferences(
+                SehajBaniPreferences.Atree_PREFERENCES, Context.MODE_PRIVATE);
+        //TODO - When back button is pressed from this page and a new shabad is clicked, it doesn't play the shabad.
+        //TODO - App crashes when on raagiDetail page and notification is on top and next/prev button is pressed.
+        //TODO - Set Volume to Mid High
+
+        mCreatePlayList = RetrofitClient.getClient().create(PlayList.class);
+        if (getIntent() != null && !getIntent().hasExtra("radio")) {
+            isLikedByUser();
+            fetchLikeNo();
+        }
+    }
+
+    private void fetchLikeNo() {
+        Call<JsonElement> call = mCreatePlayList.shabadLikes(current_shabad.getShabadId());
+        call.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                //response.body() have your LoginResult fields and methods  (example you have to access error then try like this response.body().getError() )
+                try {
+                    JSONObject object = (JSONObject) new JSONTokener(new Gson().toJson(response.body())).nextValue();
+                    int likes = object.getInt("likes");
+                    like_tv.setText("" + likes);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                //for getting error in network put here Toast, so get the error on network
+            }
+        });
+    }
+
+    private void isLikedByUser() {
+
+        Call<JsonElement> call = mCreatePlayList.isLiked(JBSehajBaniPreferences.getLoginId(mSharedPreferences),
+                current_shabad.getShabadId());
+        call.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                try {
+                    JSONObject object = (JSONObject) new JSONTokener(new Gson().toJson(response.body())).nextValue();
+                    if (object.getBoolean("Result")) {
+                        like.setImageResource(R.drawable.favorite_filled);
+                        like.setColorFilter(ContextCompat.getColor(RadioPlayer.this, R.color.appThemeColor), android.graphics.PorterDuff.Mode.MULTIPLY);
+                        isLiked = true;
+                    } else {
+                        like.setImageResource(R.drawable.favorite);
+                        like.setColorFilter(Color.argb(255, 255, 255, 255));
+                        isLiked = false;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+
+                //for getting error in network put here Toast, so get the error on network
+            }
+        });
+    }
+
+
+    private void loadRewardedVideoAd() {
+
 
     }
 
-    private void initial() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        bundle = getIntent().getExtras();
-        playerView = (SimpleExoPlayerView) findViewById(R.id.radio_player);
-        playBtn = findViewById(R.id.play_pause_mini_player);
 
-        miniPlayerLayout = findViewById(R.id.mini_player);
-        shabadName = findViewById(R.id.shabad_name_mini_player);
-        raagiName = findViewById(R.id.raagi_name_mini_player);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (getIntent() != null && !getIntent().hasExtra("radio")) {
+            getMenuInflater().inflate(R.menu.menu_shabad_player, menu);
+
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+
+            case R.id.action_font_settings:
+                shabadDialog.create_dialog_box();
+                break;
+
+            case R.id.add_to_playlist:
+                if (!JBSehajBaniPreferences.getLoginId(mSharedPreferences).equalsIgnoreCase("")) {
+                    Intent mIntent = new Intent(RadioPlayer.this, AddPlayList.class);
+                    mIntent.putExtra("RAGGI_NAME", current_shabad.getRaagiName());
+                    mIntent.putExtra("SHABAD_ID", current_shabad.getShabadId());
+                    mIntent.putExtra("SHABAD_NAME", current_shabad.getShabadEnglishTitle());
+                    startActivity(mIntent);
+                } else {
+                    createDialog();
+                }
+                break;
+
+        }
+        return true;
+    }
+
+    public void createDialog() {
+        // dialog.show();
+        final Dialog dialog = new Dialog(RadioPlayer.this);
+        dialog.setContentView(R.layout.dialog_login);
+        dialog.setTitle("Alert!");
+
+        dialog.show();
+
+        Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
+        Button btnSubmit = (Button) dialog.findViewById(R.id.btnSubmit);
+        final EditText editName = (EditText) dialog.findViewById(R.id.editName);
 
 
-        playBtn.setOnClickListener(this);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Close dialog
+                dialog.dismiss();
+                //Intent mIntent = new Intent(ShabadPlayerActivity.this, NavigationActivity.class);
+                //mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                // startActivity(mIntent);
+                // finish();
+            }
+        });
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JBSehajBaniPreferences.setBtnSkip(mSharedPreferences, "NO");
+                Intent mIntent = new Intent(RadioPlayer.this, WelcomeActivity.class);
+                startActivity(mIntent);
+
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        doUnbindService();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(showShabadReceiver);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        finish();
+    }
+
+    @Override
+    public void changeShabadColor(int color) {
+        gurbani_SV.setBackgroundResource(color);
+
+    }
+
+    @Override
+    public void initUI() {
+        //MobileAds.initialize(this, "ca-app-pub-3940256099942544/5224354917");
+
+        // Use an activity context to get the rewarded video instance.
+
+        shabad_player_AB = getSupportActionBar();
+        gurbani_TV = findViewById(R.id.gurbani_TV);
+        like_tv = findViewById(R.id.like_tv);
+        like_layout = findViewById(R.id.like_layout);
+        like = findViewById(R.id.like);
+        raagi_name_TV = findViewById(R.id.raagi_name_TV);
+        shabad_title_TV = findViewById(R.id.shabad_title_TV);
+        gurbani_lipi_face = Typeface.createFromAsset(getAssets(), "fonts/gurblipi_.ttf");
+        gurbani_TV.setTypeface(gurbani_lipi_face);
+        shabadLinks = new String[NavigationActivity.shabadsList.size()];
+        shabadTitles = new String[NavigationActivity.shabadsList.size()];
+        showShabadReceiver = new RadioPlayer.ShowShabadReceiver();
+        gurbani_SV = findViewById(R.id.gurbani_SV);
+        shabadDialog = new ShabadDialog(this, shabadPlayerPresenterImpl);
+        shabadPlayerPresenterImpl.changeShabadView(shabadDialog.getSharedPreferences().getInt("background_color_position", 0));
+
+
         MobileAds.initialize(RadioPlayer.this,
                 getResources().getString(R.string.YOUR_ADMOB_APP_ID));
+
         adView_mini = findViewById(R.id.adView_mini);
-        radioName = findViewById(R.id.radioName);
-        imageRadio = findViewById(R.id.imageRadio);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView_mini.loadAd(adRequest);
+
         dialog = new ACProgressFlower.Builder(RadioPlayer.this)
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
                 .themeColor(Color.WHITE)
@@ -120,181 +365,414 @@ public class RadioPlayer extends AppCompatActivity implements View.OnClickListen
         dialog.setCanceledOnTouchOutside(true);
         //loadRewardedVideoAd();
         dialog.show();
+        mRandom = new Random();
 
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (JBSehajBaniPreferences.getLoginId(mSharedPreferences) != null &&
+                        !JBSehajBaniPreferences.getLoginId(mSharedPreferences).equals(""))
 
-        player = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector());
-        playerView.setPlayer(player);
-
-        if (bundle != null) {
-            name = bundle.getString("RADIO_NAME");
-            link = bundle.getString("NAME");
-            image = bundle.getString("IMAGE");
-
-            radioName.setText(name);
-            RequestOptions option = new RequestOptions().fitCenter()
-                    .override(Target.SIZE_ORIGINAL);
-            Glide.with(RadioPlayer.this)
-                    .load(image)
-                    .into(imageRadio);
-           // Uri uri = Uri.parse(link);
-           // MediaSource mediaSource = buildMediaSource(uri);
-          //  player.setPlayWhenReady(true);
-          //  player.prepare(mediaSource, true, false);
-
-            startPlayerService();
-            doBindService();
-        }
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-       /* if (mRadioPlayerService != null) {
-            updateUI();
-        }*/
-
-
-        if (Utils.isMyServiceRunning(ShabadPlayerForegroundService.class, RadioPlayer.this) == true) {
-            stopService(new Intent(RadioPlayer.this, ShabadPlayerForegroundService.class));
-        }
-
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-       // LocalBroadcastManager.getInstance(this).unregisterReceiver(updater);
-    }
-
-    private ServiceConnection mConnection = new ServiceConnection() {
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            mRadioPlayerService = ((RadioPlayerService.LocalBinder) service).getService();
-             player = mRadioPlayerService.getPlayer();
-            playerView.setPlayer(player);
-            mServiceConnected = true;
-            App.setService(mRadioPlayerService);
-        }
-
-        public void onServiceDisconnected(ComponentName className) {
-            mRadioPlayerService = null;
-            mServiceConnected = false;
-        }
-    };
-
-    private MediaSource buildMediaSource(Uri uri) {
-        dialog.dismiss();
-
-        return new ExtractorMediaSource.Factory(
-                new DefaultHttpDataSourceFactory("exoplayer-codelab")).
-                createMediaSource(uri);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        doUnbindService();
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-
-        }
-        return true;
-    }
-
-    private void startPlayerService() {
-        dialog.dismiss();
-        Intent intent = new Intent(this, RadioPlayerService.class);
-        intent.putExtra(MediaPlayerState.RAAGI_NAME, name);
-        intent.putExtra(MediaPlayerState.SHABAD_LINKS, link);
-        intent.putExtra(MediaPlayerState.Action_Play, true);
-        intent.setAction(Constants.STARTRADIO_ACTION);
-        startService(intent);
-        App.setPreferencesInt(Constants.PLAYER_STATE, 1);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.mini_player:
-                // redirect to shabad playing screen 3rd screen
-                if (bundle != null) {
-                    name = bundle.getString("RADIO_NAME");
-                    link = bundle.getString("NAME");
-                    image = bundle.getString("IMAGE");
-
-                    radioName.setText(name);
-                    RequestOptions option = new RequestOptions().fitCenter()
-                            .override(Target.SIZE_ORIGINAL);
-                    Glide.with(RadioPlayer.this)
-                            .load(image)
-                            .into(imageRadio);
-                    Uri uri = Uri.parse(link);
-                    MediaSource mediaSource = buildMediaSource(uri);
-                    player.setPlayWhenReady(true);
-                    player.prepare(mediaSource, true, false);
+                    like_click_event();
+                else {
+                    createDialog();
                 }
-                break;
-            case R.id.play_pause_mini_player:
-                playPauseShabad();
-                break;
-        }
+            }
+        });
     }
 
+    @Override
+    public void showCustomAppbar() {
+        shabad_player_AB.setDisplayShowTitleEnabled(false);
+        shabad_player_AB.setDisplayHomeAsUpEnabled(true);
+    }
 
-    public class UpdateUIReceiver extends BroadcastReceiver {
+    @Override
+    public void generateShabadsData() {
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent != null) {
-                updateUI();
+        for (int i = 0; i < NavigationActivity.shabadsList.size(); i++) {
+            shabadLinks[i] = NavigationActivity.shabadsList.get(i).getShabadUrl().replace(" ", "+");
+            if (NavigationActivity.shabadsList.get(i).getShabadUrl().equals(current_shabad.getShabadUrl())) {
+                originalShabadIndex = i;
+            }
+            shabadTitles[i] = NavigationActivity.shabadsList.get(i).getShabadEnglishTitle();
+        }
+        if (getIntent() != null && !getIntent().hasExtra("radio")) {
+            showCurrentShabad(originalShabadIndex);
+        }
+//        int j = 0;
+//        shabadLinks[j] = current_shabad.getShabadUrl().replace(" ", "+");
+//        for(int i = 0; i < nextShabads().size(); i++){
+//            shabadLinks[j++] = nextShabads().get(i).getShabadUrl().replace(" ", "+");
+//        }
+//        for(int i = 0; i < previousShabads().size(); i++){
+//            if(j == shabadLinks.length){
+//                break;
+//            }else{
+//                shabadLinks[j++] = previousShabads().get(i).getShabadUrl().replace(" ", "+");
+//            }
+//
+//        }
+    }
+
+    @Override
+    public void initPlayer() {
+
+        if (getIntent() != null && !getIntent().hasExtra("radio")) {
+
+            if (!isServiceRunning()) {
+                simpleExoPlayerView = findViewById(R.id.player);
+                dialog.dismiss();
+                player = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector());
+                simpleExoPlayerView.setPlayer(player);
+                player.seekTo(shabadDuration);
+
+                Intent intent = new Intent(this, ShabadPlayerForegroundService.class);
+                intent.putExtra(MediaPlayerState.RAAGI_NAME, current_shabad.getRaagiName());
+                intent.putExtra(MediaPlayerState.SHABAD_TITLES, shabadTitles);
+                intent.putExtra(MediaPlayerState.SHABAD_LINKS, shabadLinks);
+                intent.putExtra(MediaPlayerState.ORIGINAL_SHABAD, originalShabadIndex);
+                intent.putExtra(MediaPlayerState.SHABAD, current_shabad);
+                intent.putExtra(MediaPlayerState.shabad_list, NavigationActivity.shabadsList);
+                intent.setAction(Constants.STARTFOREGROUND_ACTION);
+                intent.addCategory(ShabadPlayerForegroundService.TAG);
+                if (playSong) {
+                    intent.putExtra(MediaPlayerState.Action_Play, true);
+                    startService(intent);
+                } else {
+                    intent.putExtra(MediaPlayerState.Action_Play, false);
+                    intent.putExtra(SHABAD_DURATION, shabadDuration);
+                    if (shabadPlayerForegroundService.getStatus() != PLAYING) {
+                        startService(intent);
+                    }
+                }
+                doBindService();
+            } else {
+                if (!mServiceConnected) {
+                    doBindService();
+                    dialog.dismiss();
+                    simpleExoPlayerView = findViewById(R.id.player);
+                    player = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector());
+                    simpleExoPlayerView.setPlayer(player);
+                    player.seekTo(shabadDuration);
+                }
+                Intent intent = new Intent(this, ShabadPlayerForegroundService.class);
+                intent.putExtra(MediaPlayerState.RAAGI_NAME, current_shabad.getRaagiName());
+                intent.putExtra(MediaPlayerState.SHABAD_TITLES, shabadTitles);
+                intent.putExtra(MediaPlayerState.SHABAD_LINKS, shabadLinks);
+                intent.putExtra(MediaPlayerState.ORIGINAL_SHABAD, originalShabadIndex);
+                intent.putExtra(MediaPlayerState.SHABAD, current_shabad);
+                intent.putExtra(MediaPlayerState.shabad_list, NavigationActivity.shabadsList);
+                intent.addCategory(ShabadPlayerForegroundService.TAG);
+                intent.setAction(Constants.STARTFOREGROUND_ACTION);
+                if (playSong) {
+                    intent.putExtra(MediaPlayerState.Action_Play, true);
+                    startService(intent);
+                } else {
+                    intent.putExtra(MediaPlayerState.Action_Play, false);
+                    intent.putExtra(SHABAD_DURATION, shabadDuration);
+                    if (shabadPlayerForegroundService.getStatus() != PLAYING) {
+                        startService(intent);
+                    }
+                }
+
+
             }
         }
-    }
+        if (getIntent() != null && !getIntent().hasExtra("radio")) {
 
-    private void updateUI() {
-        if (mRadioPlayerService.getStatus() == PLAYING) {
-            playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_pause_button));
-        } else if (mRadioPlayerService.getStatus() == PAUSED) {
-            playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_button));
-        } else if (mRadioPlayerService.getStatus() == STOPPED) {
-            playBtn.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_play_button));
-        }
-    }
+            if (!isServiceRunning()) {
+                simpleExoPlayerView = findViewById(R.id.player);
+                dialog.dismiss();
+                player = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector());
+                simpleExoPlayerView.setPlayer(player);
+                player.seekTo(shabadDuration);
 
-    private void playPauseShabad() {
-        if (mRadioPlayerService.getStatus() == STOPPED) {
-            startPlayerService();
-            mRadioPlayerService.play();
-            //  playerService.setDuration(App.getPreferenceLong(MediaPlayerState.SHABAD_DURATION));
-        } else if (mRadioPlayerService.getStatus() == PLAYING) {
-            mRadioPlayerService.pause();
-            updateUI();
-            App.setPreferencesInt(Constants.PLAYER_STATE, 1);
-        } else if (mRadioPlayerService.getStatus() == PAUSED) {
-            if (App.getPreferanceInt(Constants.PLAYER_STATE) == 0) {
-                startPlayerService();
+                Intent intent = new Intent(this, ShabadPlayerForegroundService.class);
+                intent.putExtra(MediaPlayerState.RAAGI_NAME, name);
+                intent.putExtra(MediaPlayerState.SHABAD_TITLES, "");
+                intent.putExtra(MediaPlayerState.SHABAD_LINKS, link);
+                intent.putExtra(MediaPlayerState.ORIGINAL_SHABAD, "");
+                intent.putExtra(MediaPlayerState.SHABAD, link);
+                intent.putExtra(MediaPlayerState.shabad_list, "");
+                intent.setAction(Constants.STARTFOREGROUND_ACTION);
+                intent.addCategory(ShabadPlayerForegroundService.TAG);
+                if (playSong) {
+                    intent.putExtra(MediaPlayerState.Action_Play, true);
+                    startService(intent);
+                } else {
+                    intent.putExtra(MediaPlayerState.Action_Play, false);
+                    intent.putExtra(SHABAD_DURATION, "");
+                    if (shabadPlayerForegroundService.getStatus() != PLAYING) {
+                        startService(intent);
+                    }
+                }
+                doBindService();
+            } else {
+                if (!mServiceConnected) {
+                    doBindService();
+                    dialog.dismiss();
+                    simpleExoPlayerView = findViewById(R.id.player);
+                    player = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector());
+                    simpleExoPlayerView.setPlayer(player);
+                    player.seekTo(shabadDuration);
+                }
+                Intent intent = new Intent(this, ShabadPlayerForegroundService.class);
+                intent.putExtra(MediaPlayerState.RAAGI_NAME, name);
+                intent.putExtra(MediaPlayerState.SHABAD_TITLES, "");
+                intent.putExtra(MediaPlayerState.SHABAD_LINKS, link);
+                intent.putExtra(MediaPlayerState.ORIGINAL_SHABAD, "");
+                intent.putExtra(MediaPlayerState.SHABAD, link);
+                intent.putExtra(MediaPlayerState.shabad_list, "");
+                intent.addCategory(ShabadPlayerForegroundService.TAG);
+                intent.setAction(Constants.STARTFOREGROUND_ACTION);
+                if (playSong) {
+                    intent.putExtra(MediaPlayerState.Action_Play, true);
+                    startService(intent);
+                } else {
+                    intent.putExtra(MediaPlayerState.Action_Play, false);
+                    intent.putExtra(SHABAD_DURATION, "");
+                    if (shabadPlayerForegroundService.getStatus() != PLAYING) {
+                        startService(intent);
+                    }
+                }
+
+
             }
-            mRadioPlayerService.play();
-            updateUI();
+
+
         }
+    }
+
+    private void like_click_event() {
+        like.setEnabled(false);
+        if (isLiked) {
+            Call<JsonElement> call = mCreatePlayList.unlikeShabad(new LikeShabad(Integer.parseInt(current_shabad.getShabadId()),
+                    JBSehajBaniPreferences.getLoginId(mSharedPreferences)));
+            call.enqueue(new Callback<JsonElement>() {
+                @Override
+                public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                    like.setImageResource(R.drawable.favorite);
+                    like.setColorFilter(Color.argb(255, 255, 255, 255));
+                    isLiked = !isLiked;
+                    if (like_tv.getText().toString() != null && !like_tv.getText().toString().equals("0"))
+                        like_tv.setText("" + (Integer.parseInt(like_tv.getText().toString()) - 1));
+                    like.setEnabled(true);
+                }
+
+                @Override
+                public void onFailure(Call<JsonElement> call, Throwable t) {
+                    like.setEnabled(true);
+                    //for getting error in network put here Toast, so get the error on network
+                }
+            });
+        } else {
+
+
+            Call<JsonElement> call = mCreatePlayList.likeShabad(new LikeShabad(Integer.parseInt(current_shabad.getShabadId()),
+                    JBSehajBaniPreferences.getLoginId(mSharedPreferences)));
+            call.enqueue(new Callback<JsonElement>() {
+                @Override
+                public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                    like.setImageResource(R.drawable.favorite_filled);
+                    like.setColorFilter(ContextCompat.getColor(RadioPlayer.this, R.color.khalsa), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    isLiked = !isLiked;
+                    if (like_tv.getText().toString() != null)
+                        like_tv.setText("" + (Integer.parseInt(like_tv.getText().toString()) + 1));
+                    like.setEnabled(true);
+                }
+
+                @Override
+                public void onFailure(Call<JsonElement> call, Throwable t) {
+                    like.setEnabled(true);
+                }
+            });
+        }
+
+    }
+
+
+    @Override
+    public void setFetchedShabadValues(Shabad fetched_shabad) {
+        current_shabad.setShabadSize(fetched_shabad.getShabadSize());
+        current_shabad.setGurmukhiList(fetched_shabad.getGurmukhiList());
+        current_shabad.setPunjabiList(fetched_shabad.getPunjabiList());
+        current_shabad.setTeekaPadArthList(fetched_shabad.getTeekaPadArthList());
+        current_shabad.setTeekaArthList(fetched_shabad.getTeekaArthList());
+        current_shabad.setEnglishList(fetched_shabad.getEnglishList());
+    }
+
+    @Override
+    public void getIntentValues() {
+        if (getIntent() != null && getIntent().hasExtra("shabads")) {
+            NavigationActivity.shabadsList = getIntent().getExtras().getParcelableArrayList("shabads");
+            current_shabad = getIntent().getExtras().getParcelable("current_shabad");
+            playSong = getIntent().getBooleanExtra(PLAY_SONG, false);
+            shabadDuration = getIntent().getLongExtra(SHABAD_DURATION, 0);
+        }
+
+        if (getIntent() != null && getIntent().hasExtra("shabads_pop")) {
+
+            raagishabadsList = getIntent().getExtras().getParcelableArrayList("shabads_pop");
+
+
+            //  NavigationActivity.shabadsList = getIntent().getExtras().getParcelableArrayList("shabads_pop");
+
+            shabad_pop = getIntent().getExtras().getParcelable("current_shabad_pop");
+
+
+            Gson gson = new Gson();
+            String json = gson.toJson(shabad_pop);
+            // Log.i("json--get", json);
+
+            try {
+                // JSONObject jsonObj = new JSONObject(json);
+
+                // Gson gson1 = new Gson(); // Or use new GsonBuilder().create();
+                current_shabad = gson.fromJson(json, Shabad.class);
+                for (int i = 0; i < raagishabadsList.size(); i++) {
+                    NavigationActivity.shabadsList = raagishabadsList;
+                }
+                Log.i("Current-shabads", current_shabad.getImage_url());
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            playSong = getIntent().getBooleanExtra(PLAY_SONG, false);
+            shabadDuration = getIntent().getLongExtra(SHABAD_DURATION, 0);
+            //current_shabad.en =  shabad_pop.getShabadEnglishTitle();
+
+
+            // current_shabad = getIntent().getExtras().getParcelable("current_shabad_pop");
+
+            // shabad_pop.get= current_shabad  ;
+        }
+
+        if (getIntent() != null && getIntent().hasExtra("radio")) {
+            imageRadio = (ImageView) findViewById(R.id.imageRadio);
+            raagi_name_TV = findViewById(R.id.raagi_name_TV);
+            gurbani_SV = findViewById(R.id.gurbani_SV);
+            name = getIntent().getExtras().getString("RADIO_NAME");
+            link = getIntent().getExtras().getString("NAME");
+            image = getIntent().getExtras().getString("IMAGE");
+            //NavigationActivity.shabadsList = getIntent().getExtras().getParcelableArrayList("shabads");
+            //current_shabad = getIntent().getExtras().getParcelable("current_shabad");
+            playSong = getIntent().getBooleanExtra(PLAY_SONG, false);
+            shabadDuration = getIntent().getLongExtra(SHABAD_DURATION, 0);
+            showRadioDetails(name, link, image);
+           // shabad_title_TV.setVisibility(View.GONE);
+        }
+
+
+        //  playSong = getIntent().getBooleanExtra(PLAY_SONG, false);
+        // shabadDuration = getIntent().getLongExtra(SHABAD_DURATION, 0);
+    }
+
+    @Override
+    public void showGurmukhi() {
+        StringBuilder shabad_text = new StringBuilder();
+        for (int i = 0; i < current_shabad.getShabadSize(); i++) {
+            shabad_text.append(GURBANI_FONT + current_shabad.getGurmukhiList().get(i) + BIG_FONT_SINGLE_BREAK);
+            shabad_text.append("<br>");
+        }
+        gurbani_TV.setText(Html.fromHtml(shabad_text.toString().replace("<>", "&lt&gt") + "<br><br>"));
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //loadRewardedVideoAd();
+    }
+
+    @Override
+    public void showGurmukhiTeeka() {
+        StringBuilder shabad_text = new StringBuilder();
+        for (int i = 0; i < current_shabad.getShabadSize(); i++) {
+            shabad_text.append(GURBANI_FONT + current_shabad.getGurmukhiList().get(i) + BIG_FONT_SINGLE_BREAK);
+            shabad_text.append(teeka_null_case(current_shabad.getTeekaPadArthList().get(i), current_shabad.getTeekaArthList().get(i)));
+        }
+        gurbani_TV.setText(Html.fromHtml(shabad_text.toString().replace("<>", "&lt&gt") + "<br><br>"));
+    }
+
+    @Override
+    public void showGurmukhiPunjabi() {
+        StringBuilder shabad_text = new StringBuilder();
+        for (int i = 0; i < current_shabad.getShabadSize(); i++) {
+            shabad_text.append(GURBANI_FONT + current_shabad.getGurmukhiList().get(i) + BIG_FONT_SINGLE_BREAK);
+            shabad_text.append(PUNJABI_FONT + current_shabad.getPunjabiList().get(i) + DOUBLE_BREAK);
+        }
+        gurbani_TV.setText(Html.fromHtml(shabad_text.toString().replace("<>", "&lt&gt") + "<br><br>"));
+    }
+
+    @Override
+    public void showGurmukhiEnglish() {
+        StringBuilder shabad_text = new StringBuilder();
+        for (int i = 0; i < current_shabad.getShabadSize(); i++) {
+            shabad_text.append(GURBANI_FONT + current_shabad.getGurmukhiList().get(i) + BIG_FONT_SINGLE_BREAK);
+            shabad_text.append(ENGLISH_FONT + current_shabad.getEnglishList().get(i) + DOUBLE_BREAK);
+        }
+        gurbani_TV.setText(Html.fromHtml(shabad_text.toString().replace("<>", "&lt&gt") + "<br><br>"));
+    }
+
+    @Override
+    public void showGurmukhiTeekaPunjabi() {
+        StringBuilder shabad_text = new StringBuilder();
+        for (int i = 0; i < current_shabad.getShabadSize(); i++) {
+            shabad_text.append(GURBANI_FONT + current_shabad.getGurmukhiList().get(i) + BIG_FONT_SINGLE_BREAK);
+            shabad_text.append(PUNJABI_FONT + current_shabad.getPunjabiList().get(i) + SINGLE_BREAK);
+            shabad_text.append(teeka_null_case(current_shabad.getTeekaPadArthList().get(i), current_shabad.getTeekaArthList().get(i)));
+        }
+        gurbani_TV.setText(Html.fromHtml(shabad_text.toString().replace("<>", "&lt&gt") + "<br><br>"));
+    }
+
+    @Override
+    public void showGurmukhiTeekaEnglish() {
+        StringBuilder shabad_text = new StringBuilder();
+        for (int i = 0; i < current_shabad.getShabadSize(); i++) {
+            shabad_text.append(GURBANI_FONT + current_shabad.getGurmukhiList().get(i) + BIG_FONT_SINGLE_BREAK);
+            shabad_text.append(ENGLISH_FONT + current_shabad.getEnglishList().get(i) + SINGLE_BREAK);
+            shabad_text.append(teeka_null_case(current_shabad.getTeekaPadArthList().get(i), current_shabad.getTeekaArthList().get(i)));
+        }
+        gurbani_TV.setText(Html.fromHtml(shabad_text.toString().replace("<>", "&lt&gt") + "<br><br>"));
+    }
+
+    @Override
+    public void showGurmukhiPunjabiEnglish() {
+        StringBuilder shabad_text = new StringBuilder();
+        for (int i = 0; i < current_shabad.getShabadSize(); i++) {
+            shabad_text.append(GURBANI_FONT + current_shabad.getGurmukhiList().get(i) + BIG_FONT_SINGLE_BREAK);
+            shabad_text.append(PUNJABI_FONT + current_shabad.getPunjabiList().get(i) + SINGLE_BREAK);
+            shabad_text.append(ENGLISH_FONT + current_shabad.getEnglishList().get(i) + DOUBLE_BREAK);
+        }
+        gurbani_TV.setText(Html.fromHtml(shabad_text.toString().replace("<>", "&lt&gt") + "<br><br>"));
+    }
+
+    @Override
+    public void showGurmukhiTeekaPunjabiEnglish() {
+        StringBuilder shabad_text = new StringBuilder();
+        for (int i = 0; i < current_shabad.getShabadSize(); i++) {
+            shabad_text.append(GURBANI_FONT + current_shabad.getGurmukhiList().get(i) + BIG_FONT_SINGLE_BREAK);
+            shabad_text.append(PUNJABI_FONT + current_shabad.getPunjabiList().get(i) + SINGLE_BREAK);
+            shabad_text.append(ENGLISH_FONT + current_shabad.getEnglishList().get(i) + SINGLE_BREAK);
+            shabad_text.append(teeka_null_case(current_shabad.getTeekaPadArthList().get(i), current_shabad.getTeekaArthList().get(i)));
+        }
+        gurbani_TV.setText(Html.fromHtml(shabad_text.toString().replace("<>", "&lt&gt") + "<br><br>"));
+    }
+
+    @Override
+    public void changeTranlationSize(int size) {
+        gurbani_TV.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
     }
 
     private void doBindService() {
+        // Establish a connection with the service.  We use an explicit
+        // class name because we want a specific service implementation that
+        // we know will be running in our own process (and thus won't be
+        // supporting component replacement by other applications).
         bindService(new Intent(RadioPlayer.this,
-                RadioPlayerService.class), mConnection, Context.BIND_AUTO_CREATE);
+                ShabadPlayerForegroundService.class), mConnection, Context.BIND_AUTO_CREATE);
         isBound = true;
     }
 
@@ -306,4 +784,142 @@ public class RadioPlayer extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+    private ServiceConnection mConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            shabadPlayerForegroundService = ((ShabadPlayerForegroundService.LocalBinder) service).getService();
+            player = shabadPlayerForegroundService.getPlayer();
+            simpleExoPlayerView.setPlayer(player);
+            mServiceConnected = true;
+            App.setService(shabadPlayerForegroundService);
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            shabadPlayerForegroundService = null;
+            mServiceConnected = false;
+        }
+    };
+
+    private boolean isServiceRunning() {
+        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        assert manager != null;
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if ("com.vismaad.naad.player.service.ShabadPlayerForegroundService".equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void showCurrentShabad(int showShabadIndex) {
+        current_shabad = NavigationActivity.shabadsList.get(showShabadIndex);
+        shabad_player_AB.setTitle(current_shabad.getShabadEnglishTitle());
+        raagi_name_TV.setText(current_shabad.getRaagiName());
+        shabad_title_TV.setText(current_shabad.getShabadEnglishTitle());
+        shabadPlayerPresenterImpl.prepareShabad(current_shabad.getStartingId(), current_shabad.getEndingId());
+        // todo prepare lyrics from shared preference otherwise load default
+        shabadPlayerPresenterImpl.prepareTranslation(App.getPrefranceDataBoolean(Constants.TEEKA_CB),
+                App.getPrefranceDataBoolean(Constants.PUNJABI_CB), App.getPrefranceDataBoolean(Constants.ENGLISH_CB));
+        shabadPlayerPresenterImpl.setTranslationSize(App.getPreferanceInt(Constants.FONT_SIZE));
+        saveLastShabadToPlay();
+    }
+
+
+    public void showRadioDetails(String name, String link, String image) {
+        raagi_name_TV.setText(name);
+        gurbani_SV.setVisibility(View.GONE);
+        imageRadio.setVisibility(View.VISIBLE);
+        RequestOptions option = new RequestOptions().fitCenter()
+                .override(Target.SIZE_ORIGINAL);
+        Glide.with(RadioPlayer.this)
+                .load(image)
+                .into(imageRadio);
+
+    }
+
+
+    //9599972362
+    public void onTranslationSelected(View view) {
+        boolean checked = ((CheckBox) view).isChecked();
+
+        switch (view.getId()) {
+            case R.id.teeka_CB:
+                shabadDialog.setTeeka(checked);
+                App.setPreferencesBoolean(Constants.TEEKA_CB, checked);
+                break;
+
+            case R.id.punjabi_CB:
+                shabadDialog.setPunjabi(checked);
+                App.setPreferencesBoolean(Constants.PUNJABI_CB, checked);
+                break;
+
+            case R.id.english_CB:
+                shabadDialog.setEnglish(checked);
+                App.setPreferencesBoolean(Constants.ENGLISH_CB, checked);
+                break;
+        }
+        shabadPlayerPresenterImpl.prepareTranslation(App.getPrefranceDataBoolean(Constants.TEEKA_CB),
+                App.getPrefranceDataBoolean(Constants.PUNJABI_CB), App.getPrefranceDataBoolean(Constants.ENGLISH_CB));
+    }
+
+    private String teeka_null_case(String pad_arth, String arth) {
+        String teeka = "";
+        if (pad_arth.equals("") || arth.equals("")) {
+            if (pad_arth.equals("") && !arth.equals(""))
+                teeka = TEEKA_ARTH_FONT + arth + DOUBLE_BREAK;
+
+            if (!pad_arth.equals("") && arth.equals(""))
+                teeka = TEEKA_PAD_ARTH_FONT + pad_arth + DOUBLE_BREAK;
+
+            if (pad_arth.equals("") && arth.equals(""))
+                teeka = SINGLE_BREAK;
+
+        } else {
+            teeka = TEEKA_PAD_ARTH_FONT + pad_arth + SINGLE_BREAK + TEEKA_ARTH_FONT + arth + DOUBLE_BREAK;
+        }
+
+        return teeka;
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Utils.isMyServiceRunning(RadioPlayerService.class, RadioPlayer.this) == true) {
+            stopService(new Intent(RadioPlayer.this, RadioPlayerService.class));
+        }
+
+    }
+
+    private void saveLastShabadToPlay() {
+        // store shabad list in shared pref using set in android or in list of json
+        String json = App.getGson().toJson(NavigationActivity.shabadsList);
+        if (App.getPrefranceData(MediaPlayerState.shabad_list) != null && App.getPrefranceData(MediaPlayerState.shabad_list).length() > 0) {
+            App.setPreferences(MediaPlayerState.shabad_list, "");
+        }
+        App.setPreferences(MediaPlayerState.shabad_list, json);
+
+        String jsonShabad = App.getGson().toJson(current_shabad);
+        if (App.getPrefranceData(MediaPlayerState.SHABAD) != null && App.getPrefranceData(MediaPlayerState.SHABAD).length() > 0) {
+            App.setPreferences(MediaPlayerState.SHABAD, "");
+        }
+        App.setPreferences(MediaPlayerState.SHABAD, jsonShabad);
+        if (player != null)
+            App.setPreferencesLong(SHABAD_DURATION, player.getCurrentPosition());
+        else
+            App.setPreferencesLong(SHABAD_DURATION, shabadDuration);
+    }
+
+    public class ShowShabadReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null) {
+                int showShabadIndex = intent.getIntExtra(MediaPlayerState.SHOW_SHABAD, 0);
+                if (getIntent() != null && !getIntent().hasExtra("radio")) {
+                    showCurrentShabad(showShabadIndex);
+                }
+            }
+        }
+    }
 }
+

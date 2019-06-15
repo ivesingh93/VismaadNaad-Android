@@ -100,6 +100,7 @@ public class RadioStationsAdapter extends RecyclerView.Adapter<RadioStationsAdap
     private void create_intent(String name, String link, String imageLink) {
 
         Intent intent = new Intent(context, RadioPlayer.class);
+        intent.putExtra("radio", "radio");
         intent.putExtra("RADIO_NAME", name);
         intent.putExtra("NAME", link);
         intent.putExtra("IMAGE", imageLink);
