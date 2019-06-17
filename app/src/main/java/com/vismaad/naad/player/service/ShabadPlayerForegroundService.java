@@ -39,6 +39,7 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
@@ -46,6 +47,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.vismaad.naad.Constants;
@@ -92,6 +94,7 @@ public class ShabadPlayerForegroundService extends Service {
     static ShabadPlayerForegroundService instance;
     private static boolean headsetConnected = false;
     private String[] shabad_links, shabad_titles;
+    String link = "", name = "";
     private String raagi_name;
     private int original_shabad_ind = 0;
     private int lastWindowIndex = -1;
@@ -118,11 +121,11 @@ public class ShabadPlayerForegroundService extends Service {
         TrackSelection.Factory trackSelectionFactory = new AdaptiveTrackSelection.Factory(new DefaultBandwidthMeter());
         trackSelector = new DefaultTrackSelector(trackSelectionFactory);
         initPlayer();
-        countDownTimer=new CountDownTimer(25*1000, 1000) {
+        countDownTimer = new CountDownTimer(25 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-            if(millisUntilFinished/1000==1)
-                listenerCall();
+                if (millisUntilFinished / 1000 == 1)
+                    listenerCall();
             }
 
             @Override
@@ -132,7 +135,8 @@ public class ShabadPlayerForegroundService extends Service {
         };
         player.addListener(new Player.EventListener() {
             @Override
-            public void onTimelineChanged(Timeline timeline, Object manifest) {}
+            public void onTimelineChanged(Timeline timeline, Object manifest) {
+            }
 
             @Override
             public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
@@ -141,28 +145,36 @@ public class ShabadPlayerForegroundService extends Service {
             }
 
             @Override
-            public void onLoadingChanged(boolean isLoading) {}
+            public void onLoadingChanged(boolean isLoading) {
+            }
 
             @Override
-            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) { }
+            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+            }
 
             @Override
-            public void onRepeatModeChanged(int repeatMode) {}
+            public void onRepeatModeChanged(int repeatMode) {
+            }
 
             @Override
-            public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {  }
+            public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
+            }
 
             @Override
-            public void onPlayerError(ExoPlaybackException error) {}
+            public void onPlayerError(ExoPlaybackException error) {
+            }
 
             @Override
-            public void onPositionDiscontinuity(int reason) {}
+            public void onPositionDiscontinuity(int reason) {
+            }
 
             @Override
-            public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {  }
+            public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+            }
 
             @Override
-            public void onSeekProcessed() {}
+            public void onSeekProcessed() {
+            }
         });
         player.addListener(new Player.DefaultEventListener() {
             @Override
@@ -172,12 +184,22 @@ public class ShabadPlayerForegroundService extends Service {
                 error.printStackTrace();
             }
 
+
             @Override
+
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
                 if (playWhenReady && playbackState == Player.STATE_READY) {
-                    showNotification();
+                    if (link.equalsIgnoreCase("") && name.equalsIgnoreCase("")) {
+                        showNotification();
+                    } else {
+                        showNotificationRadio();
+                    }
                 } else {
-                    showNotification();
+                    if (link.equalsIgnoreCase("") && name.equalsIgnoreCase("")) {
+                        showNotification();
+                    } else {
+                        showNotificationRadio();
+                    }
                     stopForeground(false);
                 }
                 if (playWhenReady) {
@@ -197,8 +219,12 @@ public class ShabadPlayerForegroundService extends Service {
             @Override
             public void onPositionDiscontinuity(int reason) {
                 int latestWindowsIndex = player.getCurrentWindowIndex();
+                if (link.equalsIgnoreCase("") && name.equalsIgnoreCase("")) {
 
-                showNotification();
+                    showNotification();
+                } else {
+                    showNotificationRadio();
+                }
                 showShabad(latestWindowsIndex);
                 lastWindowIndex = latestWindowsIndex;
             }
@@ -222,7 +248,7 @@ public class ShabadPlayerForegroundService extends Service {
 
     private void listenerCall() {
 
-        if (current_shabad!=null && current_shabad.getShabadId() != null && !Constants.shouldCallListerAPI.contains(current_shabad.getShabadId())) {
+        if (current_shabad != null && current_shabad.getShabadId() != null && !Constants.shouldCallListerAPI.contains(current_shabad.getShabadId())) {
             Call<JsonElement> call = RetrofitClient.getClient().create(PlayList.class).shabadListeners(new ShabadListener(Integer.parseInt(current_shabad.getShabadId())));
             call.enqueue(new Callback<JsonElement>() {
                 @Override
@@ -242,7 +268,7 @@ public class ShabadPlayerForegroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && intent.getAction().equals(Constants.STARTFOREGROUND_ACTION)) {
-            if (intent.hasExtra(MediaPlayerState.SHABAD_LINKS)) {
+            if (intent.hasExtra(MediaPlayerState.SHABAD_LINKS) && !intent.hasExtra(MediaPlayerState.RADIO)) {
 
                 raagi_name = intent.getStringExtra(MediaPlayerState.RAAGI_NAME);
                 shabad_links = intent.getExtras().getStringArray(MediaPlayerState.SHABAD_LINKS);
@@ -257,6 +283,19 @@ public class ShabadPlayerForegroundService extends Service {
 
                 saveLastShabadToPlay();
             }
+            if (intent != null && intent.hasExtra(MediaPlayerState.RADIO)) {
+                raagi_name = intent.getStringExtra(MediaPlayerState.RAAGI_NAME);
+                link = intent.getExtras().getString(MediaPlayerState.SHABAD_LINKS);
+                name = intent.getExtras().getString(MediaPlayerState.SHABAD_TITLES);
+                original_shabad_ind = intent.getExtras().getInt(MediaPlayerState.ORIGINAL_SHABAD);
+                currentShabad = intent.getExtras().getParcelable(MediaPlayerState.SHABAD);
+                shabadList = intent.getParcelableArrayListExtra(MediaPlayerState.shabad_list);
+                boolean play = intent.getBooleanExtra(MediaPlayerState.Action_Play, false);
+                long duration = intent.getLongExtra(MediaPlayerState.SHABAD_DURATION, 0);
+                setRadioPlaylist(link, original_shabad_ind, play, duration);
+            }
+
+
         } else {
             if (intent != null && intent.getAction().equals(
                     Constants.STOPFOREGROUND_ACTION)) {
@@ -477,6 +516,89 @@ public class ShabadPlayerForegroundService extends Service {
         startForeground(MediaPlayerState.NOTIF_ID, notification);
     }
 
+
+    private void showNotificationRadio() {
+       /* Intent prevIntent = new Intent();
+        prevIntent.setAction(MediaPlayerState.Action_Previous);
+        PendingIntent previousPI = PendingIntent.getBroadcast(context, MediaPlayerState.PREVIOUS, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+*/
+        Intent pausePlayIntent = new Intent();
+        pausePlayIntent.setAction(MediaPlayerState.Action_Pause_play);
+        PendingIntent pausePlayPI = PendingIntent.getBroadcast(context, MediaPlayerState.PAUSE, pausePlayIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent stopIntent = new Intent();
+        stopIntent.setAction(MediaPlayerState.Action_Stop);
+        PendingIntent stopPI = PendingIntent.getBroadcast(context, MediaPlayerState.STOP, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+       /* Intent nextIntent = new Intent();
+        nextIntent.setAction(MediaPlayerState.Action_Next);
+        PendingIntent nextPI = PendingIntent.getBroadcast(context, MediaPlayerState.NEXT, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+*/
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, NavigationActivity.class), 0);
+
+        Intent swipeToDismissIntent = new Intent(this, RadioPlayerService.class);
+        swipeToDismissIntent.setAction(MediaPlayerState.SWIPE_TO_DISMISS);
+        PendingIntent pSwipeToDismiss = PendingIntent.getService(this, 0, swipeToDismissIntent, 0);
+
+        NotificationCompat.Builder builder;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder = new NotificationCompat.Builder(context, notificationManager.getMainNotificationId());
+        } else {
+            builder = new NotificationCompat.Builder(context, CHANNEL_ID);
+        }
+
+        builder.setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.status_icon)
+                .setContentTitle(name)
+                .setContentText(raagi_name)
+                .setDeleteIntent(pSwipeToDismiss)
+                .setContentIntent(contentIntent)
+                .setChannelId(CHANNEL_ID)
+                .setAutoCancel(true);
+
+        KeyguardManager keyguardManager =
+                (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+
+        android.support.v4.media.app.NotificationCompat.MediaStyle mediaStyle = new android.support.v4.media.app.NotificationCompat.MediaStyle()
+                .setShowActionsInCompactView(0);
+
+        if (mMediaSession != null) {
+            mediaStyle.setMediaSession(mMediaSession.getSessionToken());
+        }
+        //posting notification fails for huawei devices in case of mediastyle notification
+        boolean isHuawei = (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP_MR1
+                || android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP)
+                && Build.MANUFACTURER.toLowerCase(Locale.getDefault()).contains("huawei");
+        if (!isHuawei) {
+            builder.setStyle(mediaStyle);
+        }
+
+        // builder.addAction(new NotificationCompat.Action(R.drawable.ic_skip_previous_black_24dp, "Prev", previousPI));
+        if (player.getPlayWhenReady()) {
+            builder.addAction(new NotificationCompat.Action(R.drawable.ic_pause_black_24dp, "Pause", pausePlayPI));
+        } else {
+            builder.addAction(new NotificationCompat.Action(R.drawable.ic_play_arrow_black_24dp, "Play", pausePlayPI));
+        }
+        //builder.addAction(new NotificationCompat.Action(R.drawable.ic_skip_next_black_24dp, "Next", nextPI));
+        builder.addAction(new NotificationCompat.Action(R.drawable.ic_close_white_24dp, "Close", stopPI));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setVisibility(Notification.VISIBILITY_PUBLIC);
+        }
+
+        if (keyguardManager.isKeyguardLocked() && Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+            builder.setPriority(Notification.PRIORITY_MAX);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder.setChannelId(CHANNEL_ID);
+        }
+
+        Notification notification = builder.build();
+        startForeground(MediaPlayerState.NOTIF_ID, notification);
+    }
+
+
     public void initPlayer() {
         if (player == null) {
             player = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
@@ -495,6 +617,19 @@ public class ShabadPlayerForegroundService extends Service {
         }
     }
 
+    public void setRadioPlaylist(String songUrl, int currentInd, boolean play, long duration) {
+        if (player != null) {
+            Uri mUri = Uri.parse(songUrl);
+            MediaSource mediaSource = buildMediaSources(mUri);
+            player.prepare(mediaSource);
+            player.seekTo(currentInd, duration);
+            if (play) {
+                play();
+            }
+        }
+    }
+
+
     private ConcatenatingMediaSource buildMediaSource(String[] url) {
         ExtractorMediaSource[] mediaS = new ExtractorMediaSource[url.length];
         for (int i = 0; i < url.length; i++) {
@@ -504,6 +639,15 @@ public class ShabadPlayerForegroundService extends Service {
         }
         return new ConcatenatingMediaSource(mediaS);
     }
+
+    private MediaSource buildMediaSources(Uri uri) {
+
+
+        return new ExtractorMediaSource.Factory(
+                new DefaultHttpDataSourceFactory("exoplayer-codelab")).
+                createMediaSource(uri);
+    }
+
 
     public void log(String message) {
     }

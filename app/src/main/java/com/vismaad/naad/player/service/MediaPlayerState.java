@@ -20,6 +20,8 @@ public interface MediaPlayerState {
     String SHABAD_TITLES = "SHABAD_TITLES";
     String ORIGINAL_SHABAD = "ORIGINAL_SHABAD";
 
+
+    String RADIO = "radio";
     String SHABAD = "SHABAD";
     String shabad_list = "shabad_list";
     String SHABAD_DURATION = "SHABAD_DURATION";
