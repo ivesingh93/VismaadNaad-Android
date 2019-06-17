@@ -189,13 +189,13 @@ public class ShabadPlayerForegroundService extends Service {
 
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
                 if (playWhenReady && playbackState == Player.STATE_READY) {
-                    if (link.equalsIgnoreCase("") && name.equalsIgnoreCase("")) {
+                    if (link.equalsIgnoreCase("")) {
                         showNotification();
                     } else {
                         showNotificationRadio();
                     }
                 } else {
-                    if (link.equalsIgnoreCase("") && name.equalsIgnoreCase("")) {
+                    if ( link.equalsIgnoreCase("")) {
                         showNotification();
                     } else {
                         showNotificationRadio();
@@ -219,7 +219,7 @@ public class ShabadPlayerForegroundService extends Service {
             @Override
             public void onPositionDiscontinuity(int reason) {
                 int latestWindowsIndex = player.getCurrentWindowIndex();
-                if (link.equalsIgnoreCase("") && name.equalsIgnoreCase("")) {
+                if (link.equalsIgnoreCase("")) {
 
                     showNotification();
                 } else {
@@ -267,7 +267,10 @@ public class ShabadPlayerForegroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         if (intent != null && intent.getAction().equals(Constants.STARTFOREGROUND_ACTION)) {
+            link="";
+
             if (intent.hasExtra(MediaPlayerState.SHABAD_LINKS) && !intent.hasExtra(MediaPlayerState.RADIO)) {
 
                 raagi_name = intent.getStringExtra(MediaPlayerState.RAAGI_NAME);
@@ -284,6 +287,7 @@ public class ShabadPlayerForegroundService extends Service {
                 saveLastShabadToPlay();
             }
             if (intent != null && intent.hasExtra(MediaPlayerState.RADIO)) {
+
                 raagi_name = intent.getStringExtra(MediaPlayerState.RAAGI_NAME);
                 link = intent.getExtras().getString(MediaPlayerState.SHABAD_LINKS);
                 name = intent.getExtras().getString(MediaPlayerState.SHABAD_TITLES);

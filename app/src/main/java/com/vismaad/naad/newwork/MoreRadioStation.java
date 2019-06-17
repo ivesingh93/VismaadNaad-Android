@@ -228,6 +228,7 @@ public class MoreRadioStation extends AppCompatActivity implements
                 moreRadioAdapter = new MoreRadioAdapter(MoreRadioStation.this, moreList);
                 shabad_RV.setAdapter(moreRadioAdapter);
                 moreRadioAdapter.notifyDataSetChanged();
+                checkMiniPlayerVisibility();
             }
 
             @Override
@@ -343,10 +344,11 @@ public class MoreRadioStation extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        checkMiniPlayerVisibility();
+
         if (playerService != null) {
             updateUI();
         }
+
     }
 
     private void updateUI() {
@@ -360,19 +362,19 @@ public class MoreRadioStation extends AppCompatActivity implements
     }
 
     private void checkMiniPlayerVisibility() {
-        shabadsList = App.getGson().fromJson(App.getPrefranceData(MediaPlayerState.shabad_list), new TypeToken<ArrayList<Shabad>>() {
-        }.getType());
+       /* shabadsList = App.getGson().fromJson(App.getPrefranceData(MediaPlayerState.shabad_list), new TypeToken<ArrayList<Shabad>>() {
+        }.getType());*/
 
-        currentShabad = App.getGson().fromJson(App.getPrefranceData(MediaPlayerState.SHABAD), new TypeToken<Shabad>() {
-        }.getType());
+      /*  currentShabad = App.getGson().fromJson(App.getPrefranceData(MediaPlayerState.SHABAD), new TypeToken<Shabad>() {
+        }.getType());*/
 
-        if (currentShabad != null) {
-            if (currentShabad.getShabadEnglishTitle() != null && currentShabad.getShabadEnglishTitle().length() > 0) {
+        if (moreList != null) {
+            if (moreList.get(0).getName() != null) {
                 miniPlayerLayout.setVisibility(View.VISIBLE);
                 adView_mini.setVisibility(View.VISIBLE);
                 mAdView.setVisibility(View.GONE);
-                shabadName.setText(currentShabad.getShabadEnglishTitle());
-                raagiName.setText(currentShabad.getRaagiName());
+                shabadName.setText(moreList.get(0).getName());
+                raagiName.setText("");
                 AdRequest adRequest = new AdRequest.Builder().build();
                 adView_mini.loadAd(adRequest);
             } else {
@@ -386,7 +388,7 @@ public class MoreRadioStation extends AppCompatActivity implements
             mAdView.setVisibility(View.VISIBLE);
         }
 
-        if (shabadsList != null && shabadsList.size() > 0) {
+      /*  if (shabadsList != null && shabadsList.size() > 0) {
             shabadLinks = new String[shabadsList.size()];
             shabadTitles = new String[shabadsList.size()];
             for (int i = 0; i < shabadsList.size(); i++) {
@@ -396,7 +398,7 @@ public class MoreRadioStation extends AppCompatActivity implements
                 }
                 shabadTitles[i] = shabadsList.get(i).getShabadEnglishTitle();
             }
-        }
+        }*/
     }
 
     private void goToMusicPlayer() {
