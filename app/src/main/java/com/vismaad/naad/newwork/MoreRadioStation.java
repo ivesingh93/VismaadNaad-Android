@@ -144,7 +144,7 @@ public class MoreRadioStation extends AppCompatActivity implements
 //        toolbar.setTitle("Popular shabads");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         updater = new MoreRadioStation.UpdateUIReceiver();
         mSharedPreferences = MoreRadioStation.this.getSharedPreferences(
@@ -269,7 +269,7 @@ public class MoreRadioStation extends AppCompatActivity implements
         extras = getIntent().getExtras();
         mSharedPreferences = MoreRadioStation.this.getSharedPreferences(
                 SehajBaniPreferences.Atree_PREFERENCES, Context.MODE_PRIVATE);
-       // mIGetShabadsList = new IGetShabadsListNew(this);
+        // mIGetShabadsList = new IGetShabadsListNew(this);
         dialog.setCanceledOnTouchOutside(true);
         blurImageView = findViewById(R.id.blurred_image);
         layoutManager = new GridLayoutManager(this, 1);
@@ -321,7 +321,7 @@ public class MoreRadioStation extends AppCompatActivity implements
 
         extraRaagiName.setText(playlistName);
         raagi_name_TV.setText(playlistName);
-        checkMiniPlayerVisibility();
+
     }
 
     @Override
@@ -329,7 +329,18 @@ public class MoreRadioStation extends AppCompatActivity implements
         switch (view.getId()) {
             case R.id.mini_player:
                 // redirect to shabad playing screen 3rd screen
-                create_intent();
+                if (JBSehajBaniPreferences.getRadioName(mSharedPreferences).equalsIgnoreCase("")) {
+                    create_intent();
+                } else {
+                    Intent intent = new Intent(MoreRadioStation.this, RadioPlayer.class);
+                    long duration = App.getPreferenceLong(MediaPlayerState.SHABAD_DURATION);
+                    intent.putExtra("DURATION", duration);
+                    intent.putExtra("radio", "radio");
+                    intent.putExtra("RADIO_NAME", JBSehajBaniPreferences.getRadioName(mSharedPreferences));
+                    intent.putExtra("NAME", JBSehajBaniPreferences.getRadioLink(mSharedPreferences));
+                    intent.putExtra("IMAGE", JBSehajBaniPreferences.getRadioImage(mSharedPreferences));
+                    startActivity(intent);
+                }
                 break;
             case R.id.play_pause_mini_player:
                 playPauseShabad();
@@ -348,7 +359,7 @@ public class MoreRadioStation extends AppCompatActivity implements
         if (playerService != null) {
             updateUI();
         }
-
+        checkMiniPlayerVisibility();
     }
 
     private void updateUI() {
@@ -362,43 +373,19 @@ public class MoreRadioStation extends AppCompatActivity implements
     }
 
     private void checkMiniPlayerVisibility() {
-       /* shabadsList = App.getGson().fromJson(App.getPrefranceData(MediaPlayerState.shabad_list), new TypeToken<ArrayList<Shabad>>() {
-        }.getType());*/
-
-      /*  currentShabad = App.getGson().fromJson(App.getPrefranceData(MediaPlayerState.SHABAD), new TypeToken<Shabad>() {
-        }.getType());*/
-
-        if (moreList != null) {
-            if (moreList.get(0).getName() != null) {
-                miniPlayerLayout.setVisibility(View.VISIBLE);
-                adView_mini.setVisibility(View.VISIBLE);
-                mAdView.setVisibility(View.GONE);
-                shabadName.setText(moreList.get(0).getName());
-                raagiName.setText("");
-                AdRequest adRequest = new AdRequest.Builder().build();
-                adView_mini.loadAd(adRequest);
-            } else {
-                miniPlayerLayout.setVisibility(View.GONE);
-                adView_mini.setVisibility(View.GONE);
-                mAdView.setVisibility(View.VISIBLE);
-            }
-        } else {
-            miniPlayerLayout.setVisibility(View.GONE);
-            adView_mini.setVisibility(View.GONE);
-            mAdView.setVisibility(View.VISIBLE);
-        }
-
-      /*  if (shabadsList != null && shabadsList.size() > 0) {
-            shabadLinks = new String[shabadsList.size()];
-            shabadTitles = new String[shabadsList.size()];
-            for (int i = 0; i < shabadsList.size(); i++) {
-                shabadLinks[i] = shabadsList.get(i).getShabadUrl().replace(" ", "+");
-                if (shabadsList.get(i).getShabadUrl().equals(currentShabad.getShabadUrl())) {
-                    originalShabadIndex = i;
+        if (!JBSehajBaniPreferences.getRadioName(mSharedPreferences).equalsIgnoreCase("")) {
+                    miniPlayerLayout.setVisibility(View.VISIBLE);
+                    adView_mini.setVisibility(View.VISIBLE);
+                    mAdView.setVisibility(View.GONE);
+                    shabadName.setText(JBSehajBaniPreferences.getRadioName(mSharedPreferences));
+                    raagiName.setText("");
+                    AdRequest adRequest = new AdRequest.Builder().build();
+                    adView_mini.loadAd(adRequest);
+                } else {
+                    miniPlayerLayout.setVisibility(View.GONE);
+                    adView_mini.setVisibility(View.GONE);
+                    mAdView.setVisibility(View.VISIBLE);
                 }
-                shabadTitles[i] = shabadsList.get(i).getShabadEnglishTitle();
-            }
-        }*/
     }
 
     private void goToMusicPlayer() {

@@ -142,6 +142,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
     PlayList mCreatePlayList;
     private boolean isLiked;
     public static ArrayList<Shabad> raagishabadsList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -542,20 +543,19 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
 
     @Override
     public void getIntentValues() {
+        mSharedPreferences = getSharedPreferences(
+                SehajBaniPreferences.Atree_PREFERENCES, Context.MODE_PRIVATE);
         if (getIntent() != null && getIntent().hasExtra("shabads")) {
             NavigationActivity.shabadsList = getIntent().getExtras().getParcelableArrayList("shabads");
             current_shabad = getIntent().getExtras().getParcelable("current_shabad");
+            JBSehajBaniPreferences.setRadioName(mSharedPreferences, "");
+            JBSehajBaniPreferences.setRadioLink(mSharedPreferences, "");
+            JBSehajBaniPreferences.setRadioImage(mSharedPreferences, "");
         }
 
         if (getIntent() != null && getIntent().hasExtra("shabads_pop")) {
 
-            raagishabadsList  = getIntent().getExtras().getParcelableArrayList("shabads_pop");
-
-
-
-
-
-
+            raagishabadsList = getIntent().getExtras().getParcelableArrayList("shabads_pop");
 
 
             //  NavigationActivity.shabadsList = getIntent().getExtras().getParcelableArrayList("shabads_pop");
@@ -572,7 +572,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
 
                 // Gson gson1 = new Gson(); // Or use new GsonBuilder().create();
                 current_shabad = gson.fromJson(json, Shabad.class);
-                for(int i=0;i<raagishabadsList.size();i++) {
+                for (int i = 0; i < raagishabadsList.size(); i++) {
                     NavigationActivity.shabadsList = raagishabadsList;
                 }
                 Log.i("Current-shabads", current_shabad.getImage_url());
@@ -581,6 +581,9 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            JBSehajBaniPreferences.setRadioName(mSharedPreferences, "");
+            JBSehajBaniPreferences.setRadioLink(mSharedPreferences, "");
+            JBSehajBaniPreferences.setRadioImage(mSharedPreferences, "");
             //current_shabad.en =  shabad_pop.getShabadEnglishTitle();
 
 
@@ -746,7 +749,8 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
         shabadPlayerPresenterImpl.setTranslationSize(App.getPreferanceInt(Constants.FONT_SIZE));
         saveLastShabadToPlay();
     }
-//9599972362
+
+    //9599972362
     public void onTranslationSelected(View view) {
         boolean checked = ((CheckBox) view).isChecked();
 
@@ -793,8 +797,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
     @Override
     protected void onResume() {
         super.onResume();
-        if (Utils.isMyServiceRunning(RadioPlayerService.class,ShabadPlayerActivity.this)==true)
-        {
+        if (Utils.isMyServiceRunning(RadioPlayerService.class, ShabadPlayerActivity.this) == true) {
             stopService(new Intent(ShabadPlayerActivity.this, RadioPlayerService.class));
         }
 

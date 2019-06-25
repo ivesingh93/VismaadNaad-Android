@@ -293,7 +293,18 @@ public class PopularShabadsActivity  extends AppCompatActivity implements IShaba
         switch (view.getId()) {
             case R.id.mini_player:
                 // redirect to shabad playing screen 3rd screen
-                create_intent();
+                if (JBSehajBaniPreferences.getRadioName(mSharedPreferences).equalsIgnoreCase("")) {
+                    create_intent();
+                } else {
+                    Intent intent = new Intent(PopularShabadsActivity.this, RadioPlayer.class);
+                    long duration = App.getPreferenceLong(MediaPlayerState.SHABAD_DURATION);
+                    intent.putExtra("DURATION", duration);
+                    intent.putExtra("radio", "radio");
+                    intent.putExtra("RADIO_NAME", JBSehajBaniPreferences.getRadioName(mSharedPreferences));
+                    intent.putExtra("NAME", JBSehajBaniPreferences.getRadioLink(mSharedPreferences));
+                    intent.putExtra("IMAGE", JBSehajBaniPreferences.getRadioImage(mSharedPreferences));
+                    startActivity(intent);
+                }
                 break;
             case R.id.play_pause_mini_player:
                 playPauseShabad();
@@ -359,6 +370,15 @@ public class PopularShabadsActivity  extends AppCompatActivity implements IShaba
                 }
                 shabadTitles[i] = shabadsList.get(i).getShabadEnglishTitle();
             }
+        }
+
+        if (!JBSehajBaniPreferences.getRadioName(mSharedPreferences).equalsIgnoreCase("")) {
+            miniPlayerLayout.setVisibility(View.VISIBLE);
+
+            shabadName.setText(JBSehajBaniPreferences.getRadioName(mSharedPreferences));
+            raagiName.setText("");
+            AdRequest adRequest = new AdRequest.Builder().build();
+
         }
     }
 

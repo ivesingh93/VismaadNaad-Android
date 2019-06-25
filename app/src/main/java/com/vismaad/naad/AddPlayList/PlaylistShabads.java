@@ -464,6 +464,15 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
                 shabadTitles[i] = shabadsList.get(i).getShabadEnglishTitle();
             }
         }
+
+        if (!JBSehajBaniPreferences.getRadioName(mSharedPreferences).equalsIgnoreCase("")) {
+            miniPlayerLayout.setVisibility(View.VISIBLE);
+
+            shabadName.setText(JBSehajBaniPreferences.getRadioName(mSharedPreferences));
+            raagiName.setText("");
+            AdRequest adRequest = new AdRequest.Builder().build();
+
+        }
     }
 
     private void goToMusicPlayer() {

@@ -390,13 +390,13 @@ public class RadioPlayer extends AppCompatActivity implements ShabadPlayerView {
     @Override
     public void generateShabadsData() {
         if (getIntent() != null && !getIntent().hasExtra("radio")) {
-        for (int i = 0; i < NavigationActivity.shabadsList.size(); i++) {
-            shabadLinks[i] = NavigationActivity.shabadsList.get(i).getShabadUrl().replace(" ", "+");
-            if (NavigationActivity.shabadsList.get(i).getShabadUrl().equals(current_shabad.getShabadUrl())) {
-                originalShabadIndex = i;
+            for (int i = 0; i < NavigationActivity.shabadsList.size(); i++) {
+                shabadLinks[i] = NavigationActivity.shabadsList.get(i).getShabadUrl().replace(" ", "+");
+                if (NavigationActivity.shabadsList.get(i).getShabadUrl().equals(current_shabad.getShabadUrl())) {
+                    originalShabadIndex = i;
+                }
+                shabadTitles[i] = NavigationActivity.shabadsList.get(i).getShabadEnglishTitle();
             }
-            shabadTitles[i] = NavigationActivity.shabadsList.get(i).getShabadEnglishTitle();
-        }
 
             showCurrentShabad(originalShabadIndex);
         }
@@ -481,28 +481,28 @@ public class RadioPlayer extends AppCompatActivity implements ShabadPlayerView {
         }
         if (getIntent() != null && getIntent().hasExtra("radio")) {
 
-           // if (!isServiceRunning()) {
-                simpleExoPlayerView = findViewById(R.id.player);
-                dialog.dismiss();
-                player = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector());
-                simpleExoPlayerView.setPlayer(player);
-                player.seekTo(shabadDuration);
+            // if (!isServiceRunning()) {
+            simpleExoPlayerView = findViewById(R.id.player);
+            dialog.dismiss();
+            player = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector());
+            simpleExoPlayerView.setPlayer(player);
+            player.seekTo(shabadDuration);
 
-                Intent intent = new Intent(this, ShabadPlayerForegroundService.class);
-                intent.putExtra(MediaPlayerState.RAAGI_NAME, name);
-                intent.putExtra(MediaPlayerState.SHABAD_TITLES, "");
-                intent.putExtra(MediaPlayerState.SHABAD_LINKS, link);
-                intent.putExtra(MediaPlayerState.RADIO,
-                        "radio");
-                intent.putExtra(MediaPlayerState.ORIGINAL_SHABAD, "");
-                intent.putExtra(MediaPlayerState.SHABAD, link);
-                intent.putExtra(MediaPlayerState.shabad_list, "");
-                intent.setAction(Constants.STARTFOREGROUND_ACTION);
-                intent.addCategory(ShabadPlayerForegroundService.TAG);
-               // if (playSong) {
-                    intent.putExtra(MediaPlayerState.Action_Play, true);
+            Intent intent = new Intent(this, ShabadPlayerForegroundService.class);
+            intent.putExtra(MediaPlayerState.RAAGI_NAME, name);
+            intent.putExtra(MediaPlayerState.SHABAD_TITLES, "");
+            intent.putExtra(MediaPlayerState.SHABAD_LINKS, link);
+            intent.putExtra(MediaPlayerState.RADIO,
+                    "radio");
+            intent.putExtra(MediaPlayerState.ORIGINAL_SHABAD, "");
+            intent.putExtra(MediaPlayerState.SHABAD, link);
+            intent.putExtra(MediaPlayerState.shabad_list, "");
+            intent.setAction(Constants.STARTFOREGROUND_ACTION);
+            intent.addCategory(ShabadPlayerForegroundService.TAG);
+            // if (playSong) {
+            intent.putExtra(MediaPlayerState.Action_Play, true);
             intent.putExtra(SHABAD_DURATION, "");
-                    startService(intent);
+            startService(intent);
                /* } else {
                     intent.putExtra(MediaPlayerState.Action_Play, false);
 
@@ -510,8 +510,8 @@ public class RadioPlayer extends AppCompatActivity implements ShabadPlayerView {
                         startService(intent);
                   // }
                 }*/
-                doBindService();
-           // }
+            doBindService();
+            // }
         /* else {
                 if (!mServiceConnected) {
                     doBindService();
@@ -610,11 +610,17 @@ public class RadioPlayer extends AppCompatActivity implements ShabadPlayerView {
 
     @Override
     public void getIntentValues() {
+        mSharedPreferences = getSharedPreferences(
+                SehajBaniPreferences.Atree_PREFERENCES, Context.MODE_PRIVATE);
+
         if (getIntent() != null && getIntent().hasExtra("shabads")) {
             NavigationActivity.shabadsList = getIntent().getExtras().getParcelableArrayList("shabads");
             current_shabad = getIntent().getExtras().getParcelable("current_shabad");
             playSong = getIntent().getBooleanExtra(PLAY_SONG, false);
             shabadDuration = getIntent().getLongExtra(SHABAD_DURATION, 0);
+            JBSehajBaniPreferences.setRadioName(mSharedPreferences, "");
+            JBSehajBaniPreferences.setRadioLink(mSharedPreferences, "");
+            JBSehajBaniPreferences.setRadioImage(mSharedPreferences, "");
         }
 
         if (getIntent() != null && getIntent().hasExtra("shabads_pop")) {
@@ -653,7 +659,10 @@ public class RadioPlayer extends AppCompatActivity implements ShabadPlayerView {
             // current_shabad = getIntent().getExtras().getParcelable("current_shabad_pop");
 
             // shabad_pop.get= current_shabad  ;
-        }
+            JBSehajBaniPreferences.setRadioName(mSharedPreferences, "");
+            JBSehajBaniPreferences.setRadioLink(mSharedPreferences, "");
+            JBSehajBaniPreferences.setRadioImage(mSharedPreferences, "");
+         }
 
         if (getIntent() != null && getIntent().hasExtra("radio")) {
             imageRadio = (ImageView) findViewById(R.id.imageRadio);
@@ -664,6 +673,18 @@ public class RadioPlayer extends AppCompatActivity implements ShabadPlayerView {
             name = getIntent().getExtras().getString("RADIO_NAME");
             link = getIntent().getExtras().getString("NAME");
             image = getIntent().getExtras().getString("IMAGE");
+
+
+
+
+            JBSehajBaniPreferences.setRadioName(mSharedPreferences, name);
+            JBSehajBaniPreferences.setRadioLink(mSharedPreferences, link);
+            JBSehajBaniPreferences.setRadioImage(mSharedPreferences, image);
+            JBSehajBaniPreferences.setIsPlaying(mSharedPreferences, "YES");
+
+
+            Log.i("name",JBSehajBaniPreferences.getRadioName(mSharedPreferences));
+
             //NavigationActivity.shabadsList = getIntent().getExtras().getParcelableArrayList("shabads");
             //current_shabad = getIntent().getExtras().getParcelable("current_shabad");
             playSong = getIntent().getBooleanExtra(PLAY_SONG, false);

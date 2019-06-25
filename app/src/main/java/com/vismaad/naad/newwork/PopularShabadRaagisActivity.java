@@ -57,6 +57,7 @@ import com.vismaad.naad.player.service.MediaPlayerState;
 import com.vismaad.naad.player.service.ShabadPlayerForegroundService;
 import com.vismaad.naad.rest.instance.RetrofitClient;
 import com.vismaad.naad.rest.model.JBfeedback.JBFeedback;
+import com.vismaad.naad.rest.model.raagi.MoreRadio;
 import com.vismaad.naad.rest.model.raagi.Shabad;
 import com.vismaad.naad.rest.service.PlayList;
 import com.vismaad.naad.rest.service.RaagiService;
@@ -84,7 +85,7 @@ import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.STOP
 
 public class PopularShabadRaagisActivity extends AppCompatActivity implements View.OnClickListener {
 
-   // public PopularShabadRaagisActivity.ShowShabadReceiver showShabadReceiver;
+    // public PopularShabadRaagisActivity.ShowShabadReceiver showShabadReceiver;
     // private ActionBar toolbar;
     private LinearLayout layout;
     private ShabadPlayerForegroundService playerService;
@@ -105,6 +106,7 @@ public class PopularShabadRaagisActivity extends AppCompatActivity implements Vi
     private SharedPreferences mSharedPreferences;
     int count = 0;
     PlayList mCreatePlayList;
+    private ArrayList<MoreRadio> moreList = new ArrayList<>();
 
     @Override
     public void onBackPressed() {
@@ -127,7 +129,7 @@ public class PopularShabadRaagisActivity extends AppCompatActivity implements Vi
 
                     Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
                     if (currentFragment instanceof HomeFragment2) {
-                    }else {
+                    } else {
                         loadFragment(new HomeFragment2());
                     }
                     return true;
@@ -161,10 +163,10 @@ public class PopularShabadRaagisActivity extends AppCompatActivity implements Vi
 
 
         updater = new PopularShabadRaagisActivity.UpdateUIReceiver();
-      //  showShabadReceiver = new PopularShabadRaagisActivity.ShowShabadReceiver();
+        //  showShabadReceiver = new PopularShabadRaagisActivity.ShowShabadReceiver();
         FirebaseApp.initializeApp(this);
         LocalBroadcastManager.getInstance(this).registerReceiver(updater, new IntentFilter(MediaPlayerState.updateUI));
-      //  LocalBroadcastManager.getInstance(this).registerReceiver(showShabadReceiver, new IntentFilter(MediaPlayerState.SHOW_SHABAD));
+        //  LocalBroadcastManager.getInstance(this).registerReceiver(showShabadReceiver, new IntentFilter(MediaPlayerState.SHOW_SHABAD));
 
         playerService = App.getService();
 
@@ -229,7 +231,7 @@ public class PopularShabadRaagisActivity extends AppCompatActivity implements Vi
 
                 findViewById(R.id.border_line);
         MobileAds.initialize(PopularShabadRaagisActivity.this,
-getResources().getString(R.string.YOUR_ADMOB_APP_ID));
+                getResources().getString(R.string.YOUR_ADMOB_APP_ID));
 
         checkMiniPlayerVisibility();
 
@@ -258,7 +260,6 @@ getResources().getString(R.string.YOUR_ADMOB_APP_ID));
                 create(PlayList.class);
 
     }
-
 
 
     private void showAboutDialog() {
@@ -561,6 +562,41 @@ getResources().getString(R.string.YOUR_ADMOB_APP_ID));
                 shabadTitles[i] = shabadsList.get(i).getShabadEnglishTitle();
             }
         }
+
+        moreList = App.getGson().fromJson(App.getPrefranceData(MediaPlayerState.RADIO),
+                new TypeToken<MoreRadio>() {
+                }.getType());
+
+
+        if (moreList != null) {
+            if (moreList.get(0).getName() != null) {
+                miniPlayerLayout.setVisibility(View.VISIBLE);
+                //adView_mini.setVisibility(View.VISIBLE);
+                // mAdView.setVisibility(View.GONE);
+                shabadName.setText(moreList.get(0).getName());
+                raagiName.setText("");
+                AdRequest adRequest = new AdRequest.Builder().build();
+                // adView_mini.loadAd(adRequest);
+            } else {
+                miniPlayerLayout.setVisibility(View.GONE);
+                // adView_mini.setVisibility(View.GONE);
+                // mAdView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            miniPlayerLayout.setVisibility(View.GONE);
+            // adView_mini.setVisibility(View.GONE);
+            // mAdView.setVisibility(View.VISIBLE);
+        }
+        if (!JBSehajBaniPreferences.getRadioName(mSharedPreferences).equalsIgnoreCase("")) {
+            miniPlayerLayout.setVisibility(View.VISIBLE);
+
+            shabadName.setText(JBSehajBaniPreferences.getRadioName(mSharedPreferences));
+            raagiName.setText("");
+            AdRequest adRequest = new AdRequest.Builder().build();
+
+        }
+
+
     }
 
     private void loadFragment(Fragment fragment) {
@@ -578,7 +614,20 @@ getResources().getString(R.string.YOUR_ADMOB_APP_ID));
         switch (view.getId()) {
             case R.id.mini_player:
                 // redirect to shabad playing screen 3rd screen
-                create_intent();
+
+                if (JBSehajBaniPreferences.getRadioName(mSharedPreferences).equalsIgnoreCase("")) {
+                    create_intent();
+                } else {
+                    Intent intent = new Intent(PopularShabadRaagisActivity.this, RadioPlayer.class);
+                    long duration = App.getPreferenceLong(MediaPlayerState.SHABAD_DURATION);
+                    intent.putExtra("DURATION", duration);
+                    intent.putExtra("radio", "radio");
+                    intent.putExtra("RADIO_NAME", JBSehajBaniPreferences.getRadioName(mSharedPreferences));
+                    intent.putExtra("NAME", JBSehajBaniPreferences.getRadioLink(mSharedPreferences));
+                    intent.putExtra("IMAGE", JBSehajBaniPreferences.getRadioImage(mSharedPreferences));
+                    startActivity(intent);
+                }
+
                 break;
             case R.id.play_pause_mini_player:
                 playPauseShabad();

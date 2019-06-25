@@ -459,7 +459,8 @@ public class ShabadPlayerForegroundService extends Service {
 
         Intent swipeToDismissIntent = new Intent(this, ShabadPlayerForegroundService.class);
         swipeToDismissIntent.setAction(MediaPlayerState.SWIPE_TO_DISMISS);
-        PendingIntent pSwipeToDismiss = PendingIntent.getService(this, 0, swipeToDismissIntent, 0);
+        PendingIntent pSwipeToDismiss = PendingIntent.getService(this, 0,
+                swipeToDismissIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder builder;
 
@@ -542,7 +543,7 @@ public class ShabadPlayerForegroundService extends Service {
 
         Intent swipeToDismissIntent = new Intent(this, RadioPlayerService.class);
         swipeToDismissIntent.setAction(MediaPlayerState.SWIPE_TO_DISMISS);
-        PendingIntent pSwipeToDismiss = PendingIntent.getService(this, 0, swipeToDismissIntent, 0);
+        PendingIntent pSwipeToDismiss = PendingIntent.getService(this, 0, swipeToDismissIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder builder;
 

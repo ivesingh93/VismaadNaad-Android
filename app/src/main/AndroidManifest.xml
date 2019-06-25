@@ -135,11 +135,11 @@
                 <action android:name="android.intent.action.HEADSET_PLUG" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".player.service.RadioPlayerService$HeadphoneReceiver">
+       <!-- <receiver android:name=".player.service.RadioPlayerService$HeadphoneReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.HEADSET_PLUG" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
 
 
@@ -166,7 +166,7 @@
             android:launchMode="singleTop" />
 
         <service android:name=".player.service.ShabadPlayerForegroundService" />
-        <service android:name=".player.service.RadioPlayerService" />
+       <!-- <service android:name=".player.service.RadioPlayerService" />-->
 
 
         <service android:name=".google.MyFirebaseMessagingService">

@@ -69,6 +69,39 @@ public class JBSehajBaniPreferences {
         return preferences.getString(SehajBaniPreferences.YES_RATING, SehajBaniPreferences.YES_RATING_VALUE);
     }
 
+    public static void setIsPlaying(SharedPreferences preferences, String ratingGiven) {
+        preferences.edit().putString(SehajBaniPreferences.IS_PLAYING, ratingGiven).commit();
+    }
+
+    public static String getIsPlaying(SharedPreferences preferences) {
+        return preferences.getString(SehajBaniPreferences.IS_PLAYING, SehajBaniPreferences.IS_PLAYING_VALUE);
+    }
+
+
+    public static void setRadioName(SharedPreferences preferences, String ratingGiven) {
+        preferences.edit().putString(SehajBaniPreferences.RADIO_NAME, ratingGiven).commit();
+    }
+
+    public static String getRadioName(SharedPreferences preferences) {
+        return preferences.getString(SehajBaniPreferences.RADIO_NAME, SehajBaniPreferences.RADIO_NAME_VALUE);
+    }
+
+    public static void setRadioLink(SharedPreferences preferences, String ratingGiven) {
+        preferences.edit().putString(SehajBaniPreferences.RADIO_LINK, ratingGiven).commit();
+    }
+
+    public static String getRadioLink(SharedPreferences preferences) {
+        return preferences.getString(SehajBaniPreferences.RADIO_LINK, SehajBaniPreferences.RADIO_LINK_VALUE);
+    }
+
+
+    public static void setRadioImage(SharedPreferences preferences, String ratingGiven) {
+        preferences.edit().putString(SehajBaniPreferences.RADIO_IMAGE, ratingGiven).commit();
+    }
+
+    public static String getRadioImage(SharedPreferences preferences) {
+        return preferences.getString(SehajBaniPreferences.RADIO_IMAGE, SehajBaniPreferences.RADIO_IMAGE_VALUE);
+    }
 
    /* public static void setYesGiven(SharedPreferences preferences, String given) {
         preferences.edit().putString(SehajBaniPreferences.YES_GIVEN, given).commit();

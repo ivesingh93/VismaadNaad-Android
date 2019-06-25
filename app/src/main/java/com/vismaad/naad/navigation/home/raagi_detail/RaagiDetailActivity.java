@@ -456,6 +456,15 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
                 shabadTitles[i] = NavigationActivity.shabadsList.get(i).getShabadEnglishTitle();
             }
         }
+
+        if (!JBSehajBaniPreferences.getRadioName(mSharedPreferences).equalsIgnoreCase("")) {
+            miniPlayerLayout.setVisibility(View.VISIBLE);
+
+            shabadName.setText(JBSehajBaniPreferences.getRadioName(mSharedPreferences));
+            raagiName.setText("");
+            AdRequest adRequest = new AdRequest.Builder().build();
+
+        }
     }
 
     private void goToMusicPlayer() {

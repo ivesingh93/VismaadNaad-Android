@@ -32,6 +32,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.FirebaseApp;
 import com.google.gson.Gson;
@@ -41,6 +42,8 @@ import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.home.HomeFragment;
 import com.vismaad.naad.navigation.playlist.PlayListFrag;
+import com.vismaad.naad.newwork.PopularShabadRaagisActivity;
+import com.vismaad.naad.newwork.RadioPlayer;
 import com.vismaad.naad.player.ShabadPlayerActivity;
 import com.vismaad.naad.player.service.App;
 import com.vismaad.naad.player.service.MediaPlayerState;
@@ -556,6 +559,15 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                 shabadTitles[i] = shabadsList.get(i).getShabadEnglishTitle();
             }
         }
+
+        if (!JBSehajBaniPreferences.getRadioName(mSharedPreferences).equalsIgnoreCase("")) {
+            miniPlayerLayout.setVisibility(View.VISIBLE);
+
+            shabadName.setText(JBSehajBaniPreferences.getRadioName(mSharedPreferences));
+            raagiName.setText("");
+            AdRequest adRequest = new AdRequest.Builder().build();
+
+        }
     }
 
     private void loadFragment(Fragment fragment) {
@@ -573,7 +585,18 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         switch (view.getId()) {
             case R.id.mini_player:
                 // redirect to shabad playing screen 3rd screen
-                create_intent();
+                if (JBSehajBaniPreferences.getRadioName(mSharedPreferences).equalsIgnoreCase("")) {
+                    create_intent();
+                } else {
+                    Intent intent = new Intent(NavigationActivity.this, RadioPlayer.class);
+                    long duration = App.getPreferenceLong(MediaPlayerState.SHABAD_DURATION);
+                    intent.putExtra("DURATION", duration);
+                    intent.putExtra("radio", "radio");
+                    intent.putExtra("RADIO_NAME", JBSehajBaniPreferences.getRadioName(mSharedPreferences));
+                    intent.putExtra("NAME", JBSehajBaniPreferences.getRadioLink(mSharedPreferences));
+                    intent.putExtra("IMAGE", JBSehajBaniPreferences.getRadioImage(mSharedPreferences));
+                    startActivity(intent);
+                }
                 break;
             case R.id.play_pause_mini_player:
                 playPauseShabad();
