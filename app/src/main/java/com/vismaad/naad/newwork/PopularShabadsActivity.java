@@ -303,7 +303,7 @@ public class PopularShabadsActivity  extends AppCompatActivity implements IShaba
                     intent.putExtra("RADIO_NAME", JBSehajBaniPreferences.getRadioName(mSharedPreferences));
                     intent.putExtra("NAME", JBSehajBaniPreferences.getRadioLink(mSharedPreferences));
                     intent.putExtra("IMAGE", JBSehajBaniPreferences.getRadioImage(mSharedPreferences));
-                    startActivity(intent);
+                   startActivity(intent);
                 }
                 break;
             case R.id.play_pause_mini_player:

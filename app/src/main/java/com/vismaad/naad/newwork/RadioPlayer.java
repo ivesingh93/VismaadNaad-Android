@@ -673,6 +673,7 @@ public class RadioPlayer extends AppCompatActivity implements ShabadPlayerView {
             name = getIntent().getExtras().getString("RADIO_NAME");
             link = getIntent().getExtras().getString("NAME");
             image = getIntent().getExtras().getString("IMAGE");
+            long duration = getIntent().getExtras().getLong("DURATION");
 
 
 
@@ -688,7 +689,7 @@ public class RadioPlayer extends AppCompatActivity implements ShabadPlayerView {
             //NavigationActivity.shabadsList = getIntent().getExtras().getParcelableArrayList("shabads");
             //current_shabad = getIntent().getExtras().getParcelable("current_shabad");
             playSong = getIntent().getBooleanExtra(PLAY_SONG, false);
-            shabadDuration = getIntent().getLongExtra(SHABAD_DURATION, 0);
+            shabadDuration = getIntent().getLongExtra(SHABAD_DURATION, duration);
             showRadioDetails(name, link, image);
             // shabad_title_TV.setVisibility(View.GONE);
         }

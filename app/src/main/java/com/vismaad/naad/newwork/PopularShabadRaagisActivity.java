@@ -563,30 +563,7 @@ public class PopularShabadRaagisActivity extends AppCompatActivity implements Vi
             }
         }
 
-        moreList = App.getGson().fromJson(App.getPrefranceData(MediaPlayerState.RADIO),
-                new TypeToken<MoreRadio>() {
-                }.getType());
 
-
-        if (moreList != null) {
-            if (moreList.get(0).getName() != null) {
-                miniPlayerLayout.setVisibility(View.VISIBLE);
-                //adView_mini.setVisibility(View.VISIBLE);
-                // mAdView.setVisibility(View.GONE);
-                shabadName.setText(moreList.get(0).getName());
-                raagiName.setText("");
-                AdRequest adRequest = new AdRequest.Builder().build();
-                // adView_mini.loadAd(adRequest);
-            } else {
-                miniPlayerLayout.setVisibility(View.GONE);
-                // adView_mini.setVisibility(View.GONE);
-                // mAdView.setVisibility(View.VISIBLE);
-            }
-        } else {
-            miniPlayerLayout.setVisibility(View.GONE);
-            // adView_mini.setVisibility(View.GONE);
-            // mAdView.setVisibility(View.VISIBLE);
-        }
         if (!JBSehajBaniPreferences.getRadioName(mSharedPreferences).equalsIgnoreCase("")) {
             miniPlayerLayout.setVisibility(View.VISIBLE);
 
@@ -625,7 +602,7 @@ public class PopularShabadRaagisActivity extends AppCompatActivity implements Vi
                     intent.putExtra("RADIO_NAME", JBSehajBaniPreferences.getRadioName(mSharedPreferences));
                     intent.putExtra("NAME", JBSehajBaniPreferences.getRadioLink(mSharedPreferences));
                     intent.putExtra("IMAGE", JBSehajBaniPreferences.getRadioImage(mSharedPreferences));
-                    startActivity(intent);
+                   startActivity(intent);
                 }
 
                 break;

@@ -53,6 +53,7 @@ import com.google.gson.JsonElement;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.NavigationActivity;
+import com.vismaad.naad.newwork.PopularShabadRaagisActivity;
 import com.vismaad.naad.rest.instance.RetrofitClient;
 import com.vismaad.naad.rest.model.playlist.ShabadListener;
 import com.vismaad.naad.rest.model.raagi.Shabad;
@@ -455,7 +456,9 @@ public class ShabadPlayerForegroundService extends Service {
         nextIntent.setAction(MediaPlayerState.Action_Next);
         PendingIntent nextPI = PendingIntent.getBroadcast(context, MediaPlayerState.NEXT, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, NavigationActivity.class), 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, PopularShabadRaagisActivity.class), 0);
+
+
 
         Intent swipeToDismissIntent = new Intent(this, ShabadPlayerForegroundService.class);
         swipeToDismissIntent.setAction(MediaPlayerState.SWIPE_TO_DISMISS);
@@ -539,7 +542,7 @@ public class ShabadPlayerForegroundService extends Service {
         nextIntent.setAction(MediaPlayerState.Action_Next);
         PendingIntent nextPI = PendingIntent.getBroadcast(context, MediaPlayerState.NEXT, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 */
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, NavigationActivity.class), 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, PopularShabadRaagisActivity.class), 0);
 
         Intent swipeToDismissIntent = new Intent(this, RadioPlayerService.class);
         swipeToDismissIntent.setAction(MediaPlayerState.SWIPE_TO_DISMISS);

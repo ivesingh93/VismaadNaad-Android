@@ -333,13 +333,13 @@ public class MoreRadioStation extends AppCompatActivity implements
                     create_intent();
                 } else {
                     Intent intent = new Intent(MoreRadioStation.this, RadioPlayer.class);
-                    long duration = App.getPreferenceLong(MediaPlayerState.SHABAD_DURATION);
+                   long duration = App.getPreferenceLong(MediaPlayerState.SHABAD_DURATION);
                     intent.putExtra("DURATION", duration);
                     intent.putExtra("radio", "radio");
                     intent.putExtra("RADIO_NAME", JBSehajBaniPreferences.getRadioName(mSharedPreferences));
                     intent.putExtra("NAME", JBSehajBaniPreferences.getRadioLink(mSharedPreferences));
                     intent.putExtra("IMAGE", JBSehajBaniPreferences.getRadioImage(mSharedPreferences));
-                    startActivity(intent);
+                   startActivity(intent);
                 }
                 break;
             case R.id.play_pause_mini_player:
