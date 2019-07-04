@@ -180,6 +180,9 @@ public class HomeFragment2 extends Fragment implements HomeView, ShabadTutoralsA
         shabadRecycle.setAdapter(popShabadAdapter);
         radioRecycle.setAdapter(mRadioStationsAdapter);
 
+        raagi_RV.setNestedScrollingEnabled(false);
+        shabadRecycle.setNestedScrollingEnabled(false);
+        radioRecycle.setNestedScrollingEnabled(false);
 
         see_more.setOnClickListener(new View.OnClickListener() {
             @Override

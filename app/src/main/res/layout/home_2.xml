@@ -17,18 +17,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_margin="5dp"
-            >
-
+            android:layout_margin="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-
-
-
 
                 <LinearLayout
                     android:id="@+id/root_layout"
@@ -48,8 +42,7 @@
                         app:queryBackground="@android:color/transparent"
                         android:queryBackground="@android:color/transparent"
                         android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        />
+                        android:focusableInTouchMode="true" />
                 </LinearLayout>
 
 
@@ -72,16 +65,13 @@
                         android:text="Raagi"
                         android:layout_marginBottom="5dp"
                         android:textColor="@color/white"
-                        android:textSize="16sp"
-
-                        />
+                        android:textSize="20sp" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_alignParentBottom="true"
                         android:visibility="gone"
-
                         android:background="@color/gray"/>
 
                 </RelativeLayout>
@@ -103,12 +93,11 @@
                         android:id="@+id/see_more_raagis"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="see more"
+                        android:text="See All"
                         android:textColor="@color/appThemeColor"
                         android:textSize="14sp"
                         android:gravity="center_vertical|right"
-                        android:layout_marginTop="10dp"
-                        />
+                        android:layout_marginTop="10dp" />
                 </LinearLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -120,11 +109,9 @@
                         android:layout_height="match_parent"
                         android:text="Popular Shabads"
                         android:textColor="@color/white"
-                        android:textSize="16sp"
+                        android:textSize="20sp"
                         android:gravity="center"
-                        android:layout_marginLeft="10dp"
-
-                        />
+                        android:layout_marginLeft="10dp" />
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -139,15 +126,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/shabadRecycle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                        tools:listitem="@layout/card_shabad"
-                        />
+                        tools:listitem="@layout/card_shabad" />
 
                 </LinearLayout>
                 <LinearLayout
@@ -159,7 +144,7 @@
                         android:id="@+id/see_more"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="see more"
+                        android:text="See All"
                         android:textColor="@color/appThemeColor"
                         android:textSize="14sp"
                         android:layout_marginTop="10dp"
@@ -178,11 +163,9 @@
                         android:layout_height="match_parent"
                         android:text="Radio Stations"
                         android:textColor="@color/white"
-                        android:textSize="16sp"
+                        android:textSize="20sp"
                         android:gravity="center"
-                        android:layout_marginLeft="10dp"
-
-                        />
+                        android:layout_marginLeft="10dp" />
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -230,13 +213,12 @@
                         android:id="@+id/radio_see_more"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="see more"
+                        android:text="See All"
                         android:textColor="@color/appThemeColor"
                         android:textSize="14sp"
                         android:layout_marginTop="10dp"
                         android:paddingBottom="20dp"
-                        android:gravity="center_vertical|right"
-                        />
+                        android:gravity="center_vertical|right" />
                 </LinearLayout>
 
             </LinearLayout>
