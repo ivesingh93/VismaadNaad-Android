@@ -28,8 +28,8 @@ public class HomePresenterImpl implements HomePresenter{
     }
 
     @Override
-    public void prepareRaagis() {
-        RaagiInfoAdapter raagiInfoAdapter = homeInteractor.fetchRaagis();
+    public void prepareRaagis(String status) {
+        RaagiInfoAdapter raagiInfoAdapter = homeInteractor.fetchRaagis(status);
         homeView.showRaagis(raagiInfoAdapter);
     }
 }

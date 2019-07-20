@@ -8,6 +8,6 @@ import com.vismaad.naad.navigation.home.adapter.RaagiInfoAdapter;
 
 public interface HomeInteractor {
 
-    RaagiInfoAdapter fetchRaagis();
+    RaagiInfoAdapter fetchRaagis(String status);
 
 }

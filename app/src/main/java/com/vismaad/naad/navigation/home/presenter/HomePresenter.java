@@ -10,7 +10,7 @@ public interface HomePresenter {
 
     void init(View view);
 
-    void prepareRaagis();
+    void prepareRaagis(String status);
 
 
 }

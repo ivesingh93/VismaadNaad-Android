@@ -14,4 +14,5 @@ public interface HomeView {
 
     void showRaagis(RaagiInfoAdapter raagiInfoAdapter);
 
+
 }

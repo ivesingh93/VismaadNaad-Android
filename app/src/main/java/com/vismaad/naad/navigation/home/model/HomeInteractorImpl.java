@@ -18,27 +18,33 @@ import retrofit2.Response;
  * Created by ivesingh on 2/2/18.
  */
 
-public class HomeInteractorImpl implements HomeInteractor  {
+public class HomeInteractorImpl implements HomeInteractor {
 
     private List<RaagiInfo> raagiInfoList;
     private RaagiService raagiService;
     private RaagiInfoAdapter raagiInfoAdapter;
 
-    public HomeInteractorImpl(Activity context){
+    public HomeInteractorImpl(Activity context) {
         raagiInfoList = new ArrayList<>();
         raagiInfoAdapter = new RaagiInfoAdapter(context, raagiInfoList);
         raagiService = RetrofitClient.getClient().create(RaagiService.class);
     }
 
     @Override
-    public RaagiInfoAdapter fetchRaagis() {
-        Call<List<RaagiInfo>> raagiInfoCall = raagiService.raagi_info();
-
+    public RaagiInfoAdapter fetchRaagis(String status) {
+        Call<List<RaagiInfo>> raagiInfoCall = null;
+        if (status.equalsIgnoreCase("RAGGI")) {
+            raagiInfoCall = raagiService.raagi_info();
+        } else {
+            if (status.equalsIgnoreCase("KATHA")) {
+                raagiInfoCall = raagiService.morekathavaachaksInfo();
+            }
+        }
         raagiInfoCall.enqueue(new Callback<List<RaagiInfo>>() {
             @Override
             public void onResponse(Call<List<RaagiInfo>> call, Response<List<RaagiInfo>> response) {
                 raagiInfoList.clear();
-                for(RaagiInfo raagiInfo: response.body()){
+                for (RaagiInfo raagiInfo : response.body()) {
                     raagiInfoList.add(raagiInfo);
                 }
                 raagiInfoAdapter.notifyDataSetChanged();

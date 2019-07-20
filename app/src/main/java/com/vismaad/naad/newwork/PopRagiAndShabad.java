@@ -11,16 +11,16 @@ import com.vismaad.naad.rest.model.raagi.Shabad;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PopRagiAndShabad    {
+public class PopRagiAndShabad {
 
 
-        @SerializedName("popularShabads")
-        @Expose
-        public List<PopularShabad> popularShabads = new ArrayList<>();
+    @SerializedName("popularShabads")
+    @Expose
+    public List<PopularShabad> popularShabads = new ArrayList<>();
 
-        @SerializedName("raagisInfo")
-        @Expose
-        public List<RaagisInfo> raagisInfo = new ArrayList<>();
+    @SerializedName("raagisInfo")
+    @Expose
+    public List<RaagisInfo> raagisInfo = new ArrayList<>();
 
 
     @SerializedName("radioChannels")
@@ -28,6 +28,9 @@ public class PopRagiAndShabad    {
     public List<RadioChannels> radioChannels = new ArrayList<>();
 
 
+    @SerializedName("kathavaachaksInfo")
+    @Expose
+    public List<kathavaachaksInfo> kathavaachInfo = new ArrayList<>();
 
 
     public List<PopularShabad> getPopularShabads() {
@@ -43,9 +46,12 @@ public class PopRagiAndShabad    {
         return radioChannels;
     }
 
+    public List<kathavaachaksInfo> getkathavaachaksInfo() {
+        return kathavaachInfo;
+    }
 
 
-    public static class PopularShabad  implements Parcelable {
+    public static class PopularShabad implements Parcelable {
 
         @SerializedName("id")
         @Expose
@@ -228,7 +234,6 @@ public class PopRagiAndShabad    {
         public String ImageURL;
 
 
-
         public Integer getId() {
             return Id;
         }
@@ -246,6 +251,45 @@ public class PopRagiAndShabad    {
         }
 
 
+    }
+
+    public class kathavaachaksInfo {
+
+        @SerializedName("raagi_id")
+        @Expose
+        public Integer raagiId;
+        @SerializedName("raagi_name")
+        @Expose
+        public String raagiName;
+        @SerializedName("raagi_image_url")
+        @Expose
+        public String raagiImageUrl;
+        @SerializedName("shabads_count")
+        @Expose
+        public Integer shabadsCount;
+        @SerializedName("minutes_of_shabads")
+        @Expose
+        public Integer minutesOfShabads;
+
+        public Integer getRaagiId() {
+            return raagiId;
+        }
+
+        public String getRaagiName() {
+            return raagiName;
+        }
+
+        public String getRaagiImageUrl() {
+            return raagiImageUrl;
+        }
+
+        public Integer getShabadsCount() {
+            return shabadsCount;
+        }
+
+        public Integer getMinutesOfShabads() {
+            return minutesOfShabads;
+        }
     }
 
 

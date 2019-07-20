@@ -95,6 +95,8 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
     private SharedPreferences mSharedPreferences;
     int count = 0;
     PlayList mCreatePlayList;
+    Bundle extras;
+    String status;
 
     @Override
     public void onBackPressed() {
@@ -111,10 +113,16 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment;
+
+
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     //toolbar.setTitle("Home");
+
+
                     loadFragment(new HomeFragment());
+
+
                     return true;
                /* case R.id.navigation_search:
                     toolbar.setTitle("Search");
@@ -144,6 +152,10 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_navigation);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        extras = getIntent().getExtras();
+        if (extras != null) {
+            status = extras.getString("STATUS");
+        }
 
         updater = new UpdateUIReceiver();
         showShabadReceiver = new ShowShabadReceiver();
@@ -284,7 +296,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                             Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
                     try {
-                       // JBSehajBaniPreferences.setYesGiven(mSharedPreferences, "YES");
+                        // JBSehajBaniPreferences.setYesGiven(mSharedPreferences, "YES");
                         JBSehajBaniPreferences.setYesRating(mSharedPreferences, "YES");
                         startActivity(goToMarket);
                         dialog.dismiss();
@@ -370,7 +382,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
 
                             if (responseCode == 200) {
                                 //JBSehajBaniPreferences.setYesFeedback(mSharedPreferences, "YES");
-                              //  JBSehajBaniPreferences.setYesGiven(mSharedPreferences, "YES");
+                                //  JBSehajBaniPreferences.setYesGiven(mSharedPreferences, "YES");
 
                             } else {
                                 JBSehajBaniPreferences.setCount(mSharedPreferences, 0);
@@ -572,7 +584,13 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
 
     private void loadFragment(Fragment fragment) {
         if (!isFinishing()) {
+            Bundle bundle = new Bundle();
+            bundle.putString("STATUS", status);
+            //fragment.setArguments(bundle);
+
+
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            fragment.setArguments(bundle);
             transaction.replace(R.id.frame_container, fragment);
             transaction.addToBackStack(null);
 
@@ -595,7 +613,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                     intent.putExtra("RADIO_NAME", JBSehajBaniPreferences.getRadioName(mSharedPreferences));
                     intent.putExtra("NAME", JBSehajBaniPreferences.getRadioLink(mSharedPreferences));
                     intent.putExtra("IMAGE", JBSehajBaniPreferences.getRadioImage(mSharedPreferences));
-                   startActivity(intent);
+                    startActivity(intent);
                 }
                 break;
             case R.id.play_pause_mini_player:

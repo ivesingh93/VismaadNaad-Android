@@ -31,6 +31,9 @@ public interface RaagiService {
     @GET("raagiRoutes/radioChannels")
     Call<List<MoreRadio>> moreRadioStations();
 
+    //http://vismaadnaad.com/api/raagiRoutes/kathavaachak_info
+    @GET("raagiRoutes/kathavaachak_info")
+    Call<List<RaagiInfo>> morekathavaachaksInfo();
 
     @GET("raagiRoutes/popularShabads")
     Call<List<Shabad>> getPlayListShabads();

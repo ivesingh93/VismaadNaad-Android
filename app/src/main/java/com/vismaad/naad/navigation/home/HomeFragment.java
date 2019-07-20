@@ -63,6 +63,8 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
     RecyclerView recyclerView;
     ShabadTutoralsAdapter mAdapter;
     ArrayList<ShabadTutorial> list=new ArrayList();
+    Bundle bundle = this.getArguments();
+    String status;
 
     public HomeFragment() {
 
@@ -100,6 +102,9 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
         View view = inflater.inflate(R.layout.fragment_navigation_home, container, false);
         MobileAds.initialize(getActivity(),
                 getResources().getString(R.string.YOUR_ADMOB_APP_ID));
+        if (bundle != null) {
+            status = bundle.getString("STATUS");
+        }
 
         // mAdView = findViewById(R.id.adView);
         //AdRequest adRequest = new AdRequest.Builder().build();
@@ -111,7 +116,7 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
         homePresenterImpl = new HomePresenterImpl(this, getActivity());
         homePresenterImpl.init(view);
         dialog.show();
-        homePresenterImpl.prepareRaagis();
+        homePresenterImpl.prepareRaagis(status);
 
         // EditText searchEditText = (EditText) search.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         // searchEditText.setTextColor(getResources().getColor(R.color.black));

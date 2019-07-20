@@ -3,21 +3,23 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayOut"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/mainLayOut"
     android:background="@color/main_background"
     android:orientation="vertical">
+
     <LinearLayout
+        android:id="@+id/mainLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/mainLayout2"
         android:orientation="vertical">
+
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_margin="5dp">
+            android:layout_margin="5dp"
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -29,9 +31,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:focusableInTouchMode="true"
-                    android:visibility="gone"
+                    android:orientation="vertical"
 
-                    android:orientation="vertical">
+                    android:visibility="gone">
 
                     <android.support.v7.widget.SearchView
                         android:id="@+id/search"
@@ -39,10 +41,10 @@
                         android:layout_height="42dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        app:queryBackground="@android:color/transparent"
-                        android:queryBackground="@android:color/transparent"
                         android:focusable="true"
-                        android:focusableInTouchMode="true" />
+                        android:focusableInTouchMode="true"
+                        android:queryBackground="@android:color/transparent"
+                        app:queryBackground="@android:color/transparent" />
                 </LinearLayout>
 
 
@@ -53,6 +55,7 @@
                   It is used to preview it here in studio
                  -->
 
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -60,10 +63,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="Raagi"
-                        android:layout_marginBottom="5dp"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
 
@@ -71,10 +74,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_alignParentBottom="true"
-                        android:visibility="gone"
-                        android:background="@color/gray"/>
+                        android:background="@color/gray"
+                        android:visibility="gone" />
 
                 </RelativeLayout>
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/raagi_RV"
                     android:layout_width="match_parent"
@@ -93,32 +97,34 @@
                         android:id="@+id/see_more_raagis"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical|right"
                         android:text="See All"
                         android:textColor="@color/appThemeColor"
-                        android:textSize="14sp"
-                        android:gravity="center_vertical|right"
-                        android:layout_marginTop="10dp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="38dp"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:text="Popular Shabads"
                         android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:gravity="center"
-                        android:layout_marginLeft="10dp" />
+                        android:textSize="20sp" />
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_alignParentBottom="true"
-                        android:visibility="gone"
-                        android:background="@color/gray"/>
-
+                        android:background="@color/gray"
+                        android:visibility="gone" />
 
 
                 </RelativeLayout>
@@ -127,6 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/shabadRecycle"
                         android:layout_width="match_parent"
@@ -135,6 +142,7 @@
                         tools:listitem="@layout/card_shabad" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -144,35 +152,35 @@
                         android:id="@+id/see_more"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical|right"
+                        android:paddingBottom="20dp"
                         android:text="See All"
                         android:textColor="@color/appThemeColor"
-                        android:textSize="14sp"
-                        android:layout_marginTop="10dp"
-                        android:paddingBottom="20dp"
-                        android:gravity="center_vertical|right"
-                        />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="38dp"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:text="Radio Stations"
                         android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:gravity="center"
-                        android:layout_marginLeft="10dp" />
+                        android:textSize="20sp" />
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_alignParentBottom="true"
-                        android:visibility="gone"
-                        android:background="@color/gray"/>
-
+                        android:background="@color/gray"
+                        android:visibility="gone" />
 
 
                 </RelativeLayout>
@@ -180,8 +188,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
                     <!--<android.support.v7.widget.RecyclerView
                         android:id="@+id/radioRecycle"
                         android:layout_width="match_parent"
@@ -213,32 +220,75 @@
                         android:id="@+id/radio_see_more"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical|right"
+                        android:paddingBottom="20dp"
                         android:text="See All"
                         android:textColor="@color/appThemeColor"
-                        android:textSize="14sp"
-                        android:layout_marginTop="10dp"
-                        android:paddingBottom="20dp"
-                        android:gravity="center_vertical|right" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Katha Vaachaks"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/gray"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_katha"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:scrollbars="vertical"
+                    app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                    app:spanCount="3"
+                    tools:listitem="@layout/card_raagi" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp">
+
+                    <TextView
+                        android:id="@+id/see_more_katha"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical|right"
+                        android:text="See All"
+                        android:textColor="@color/appThemeColor"
+                        android:textSize="14sp" />
+                </LinearLayout>
             </LinearLayout>
+
 
         </android.support.v4.widget.NestedScrollView>
 
         <View
+            android:id="@+id/lastView"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:id="@+id/lastView"
             android:layout_above="@+id/bottom_player"
             android:background="@color/gray"></View>
 
 
-
-
-
-
     </LinearLayout>
-
 
 
 </RelativeLayout><!--
