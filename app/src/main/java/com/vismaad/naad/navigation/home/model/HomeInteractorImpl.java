@@ -23,16 +23,18 @@ public class HomeInteractorImpl implements HomeInteractor {
     private List<RaagiInfo> raagiInfoList;
     private RaagiService raagiService;
     private RaagiInfoAdapter raagiInfoAdapter;
+    String status;
 
-    public HomeInteractorImpl(Activity context) {
+    public HomeInteractorImpl(Activity context,String status) {
         raagiInfoList = new ArrayList<>();
-        raagiInfoAdapter = new RaagiInfoAdapter(context, raagiInfoList);
+        raagiInfoAdapter = new RaagiInfoAdapter(context, raagiInfoList,status);
         raagiService = RetrofitClient.getClient().create(RaagiService.class);
     }
 
     @Override
     public RaagiInfoAdapter fetchRaagis(String status) {
         Call<List<RaagiInfo>> raagiInfoCall = null;
+        this.status=status;
         if (status.equalsIgnoreCase("RAGGI")) {
             raagiInfoCall = raagiService.raagi_info();
         } else {

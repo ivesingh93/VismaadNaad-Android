@@ -102,9 +102,11 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
         View view = inflater.inflate(R.layout.fragment_navigation_home, container, false);
         MobileAds.initialize(getActivity(),
                 getResources().getString(R.string.YOUR_ADMOB_APP_ID));
-        if (bundle != null) {
-            status = bundle.getString("STATUS");
-        }
+        //if (bundle != null) {
+           // status = bundle.getString("STATUS");
+
+            status = this.getArguments().getString("STATUS");
+        //}
 
         // mAdView = findViewById(R.id.adView);
         //AdRequest adRequest = new AdRequest.Builder().build();
@@ -113,7 +115,7 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        homePresenterImpl = new HomePresenterImpl(this, getActivity());
+        homePresenterImpl = new HomePresenterImpl(this, getActivity(),status);
         homePresenterImpl.init(view);
         dialog.show();
         homePresenterImpl.prepareRaagis(status);

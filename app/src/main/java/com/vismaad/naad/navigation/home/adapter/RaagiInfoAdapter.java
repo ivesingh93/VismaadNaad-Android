@@ -73,8 +73,9 @@ public class RaagiInfoAdapter extends RecyclerView.Adapter<RaagiInfoAdapter.Raag
     private GestureDetector mGestureDetector;
     private CustomGestureDetector customGestureDetector;
     private List<RaagiInfo> contactListFiltered;
+    String status;
 
-    public RaagiInfoAdapter(Activity context, List<RaagiInfo> raagiInfoList) {
+    public RaagiInfoAdapter(Activity context, List<RaagiInfo> raagiInfoList, String status) {
         this.context = context;
         this.activity = context;
         this.raagiInfoList = raagiInfoList;
@@ -83,6 +84,7 @@ public class RaagiInfoAdapter extends RecyclerView.Adapter<RaagiInfoAdapter.Raag
         customGestureDetector = new CustomGestureDetector();
         // Create a GestureDetector
         mGestureDetector = new GestureDetector(context, customGestureDetector);
+        this.status = status;
 
     }
 
@@ -119,12 +121,15 @@ public class RaagiInfoAdapter extends RecyclerView.Adapter<RaagiInfoAdapter.Raag
                 .into(holder.raagi_thumbnail_IV);
 
         holder.raagi_name_TV.setText(raagiInfo.getRaagiName());
-        holder.shabads_count_TV.setText(raagiInfo.getShabadsCount() + " shabads");
-
+        if (status.equalsIgnoreCase("RAGGI")) {
+            holder.shabads_count_TV.setText(raagiInfo.getShabadsCount() + " shabads");
+        } else {
+            holder.shabads_count_TV.setText(raagiInfo.getShabadsCount() + " kathas");
+        }
         holder.raagi_card_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                create_intent(holder, raagiInfo);
+                create_intent(holder, raagiInfo, status);
             }
         });
 //        setOnTouchListener(new View.OnTouchListener() {
@@ -265,14 +270,14 @@ public class RaagiInfoAdapter extends RecyclerView.Adapter<RaagiInfoAdapter.Raag
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        create_intent(holder, raagiInfo);
+                        create_intent(holder, raagiInfo, status);
                     }
                 }, animationTime);
             }
         }, animationTime);
     }
 
-    private void create_intent(final RaagiInfoViewHolder holder, RaagiInfo raagiInfo) {
+    private void create_intent(final RaagiInfoViewHolder holder, RaagiInfo raagiInfo, String status) {
         Pair<View, String> p1 = Pair.create((View) holder.raagi_thumbnail_IV, "raagi_image");
         Pair<View, String> p2 = Pair.create((View) holder.raagi_name_TV, "raagi_name");
         Pair<View, String> p3 = Pair.create((View) holder.shabads_count_TV, "raagi_shabads_count");
@@ -282,6 +287,7 @@ public class RaagiInfoAdapter extends RecyclerView.Adapter<RaagiInfoAdapter.Raag
         intent.putExtra("raagi_image_url", raagiInfo.getRaagiImageURL());
         intent.putExtra("raagi_name", raagiInfo.getRaagiName());
         intent.putExtra("num_of_shabads", raagiInfo.getShabadsCount());
+        intent.putExtra("STATUS", status);
         intent.putExtra("total_shabads_length", raagiInfo.getMinutesOfShabads());
 
         context.startActivity(intent, activityOptionsCompat.toBundle());
@@ -474,7 +480,7 @@ public class RaagiInfoAdapter extends RecyclerView.Adapter<RaagiInfoAdapter.Raag
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
-            create_intent(holder, info);
+            create_intent(holder, info,status);
             return true;
         }
 

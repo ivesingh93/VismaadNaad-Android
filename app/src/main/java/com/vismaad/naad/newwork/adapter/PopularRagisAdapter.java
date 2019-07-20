@@ -96,6 +96,7 @@ public class PopularRagisAdapter extends RecyclerView.Adapter<PopularRagisAdapte
         intent.putExtra("raagi_name", raagiInfo.getRaagiName());
         intent.putExtra("num_of_shabads", raagiInfo.getShabadsCount());
         intent.putExtra("total_shabads_length", raagiInfo.getMinutesOfShabads());
+        intent.putExtra("STATUS", "RAGGI");
 
         context.startActivity(intent, activityOptionsCompat.toBundle());
     }

@@ -129,6 +129,7 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
     SearchView search;
     LinearLayout rootView;
     private AdView mAdView;
+    String status;
 
 
     @Override
@@ -152,6 +153,7 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
 
         raagi_image_url = getIntent().getStringExtra("raagi_image_url");
         raagi_name = getIntent().getStringExtra("raagi_name");
+        status= getIntent().getStringExtra("STATUS");
         num_of_shabads = getIntent().getIntExtra("num_of_shabads", 0);
         total_shabads_length = getIntent().getIntExtra("total_shabads_length", 0);
 //        toolbar.setTitle(raagi_name);
@@ -171,7 +173,13 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
 
         search.onActionViewExpanded();
         //search.setActivated(true);
-        search.setQueryHint("Search Shabads");
+        if (status.equalsIgnoreCase("RAGGI")) {
+            search.setQueryHint("Search Shabads");
+        }
+        else{
+            search.setQueryHint("Search kathas");
+        }
+
         Drawable d = getResources().getDrawable(R.drawable.bg_white_rounded);
         search.setBackground(d);
         search.setFocusable(false);
@@ -255,7 +263,6 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
 
 
     }
-
 
 
     @Override
@@ -365,8 +372,16 @@ public class RaagiDetailActivity extends AppCompatActivity implements RaagiView,
 //        textviewTitle.setText(raagi_name);
         extraRaagiName.setText(raagi_name);
         raagi_name_TV.setText(raagi_name);
-        extraShabadCount.setText(num_of_shabads + " shabads - " + total_shabads_length + " minutes");
-        shabads_count_TV.setText(num_of_shabads + " shabads - " + total_shabads_length + " minutes");
+        if (status.equalsIgnoreCase("RAGGI")) {
+            extraShabadCount.setText(num_of_shabads + " shabads - " + total_shabads_length + " minutes");
+            shabads_count_TV.setText(num_of_shabads + " shabads - " + total_shabads_length + " minutes");
+        }
+        else{
+            extraShabadCount.setText(num_of_shabads + " kathas - " + total_shabads_length + " minutes");
+            shabads_count_TV.setText(num_of_shabads + " kathas - " + total_shabads_length + " minutes");
+
+        }
+
         checkMiniPlayerVisibility();
     }
 

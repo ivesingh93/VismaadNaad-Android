@@ -86,7 +86,7 @@ public class kathavaachaksInfoAdapter extends RecyclerView.Adapter<kathavaachaks
         intent.putExtra("raagi_name", raagiInfo.getRaagiName());
         intent.putExtra("num_of_shabads", raagiInfo.getShabadsCount());
         intent.putExtra("total_shabads_length", raagiInfo.getMinutesOfShabads());
-
+        intent.putExtra("STATUS", "KATHA");
         context.startActivity(intent, activityOptionsCompat.toBundle());
     }
 

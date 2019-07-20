@@ -12,14 +12,14 @@ import com.vismaad.naad.navigation.home.view.HomeView;
  * Created by ivesingh on 2/2/18.
  */
 
-public class HomePresenterImpl implements HomePresenter{
+public class HomePresenterImpl implements HomePresenter {
 
     private HomeView homeView;
     private HomeInteractor homeInteractor;
 
-    public HomePresenterImpl(HomeView homeView, Activity context){
+    public HomePresenterImpl(HomeView homeView, Activity context, String status) {
         this.homeView = homeView;
-        homeInteractor = new HomeInteractorImpl(context);
+        homeInteractor = new HomeInteractorImpl(context, status);
     }
 
     @Override
