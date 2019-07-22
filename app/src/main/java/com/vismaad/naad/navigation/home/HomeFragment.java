@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
 
     RecyclerView recyclerView;
     ShabadTutoralsAdapter mAdapter;
-    ArrayList<ShabadTutorial> list=new ArrayList();
+    ArrayList<ShabadTutorial> list = new ArrayList();
     Bundle bundle = this.getArguments();
     String status;
 
@@ -103,10 +103,19 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
         MobileAds.initialize(getActivity(),
                 getResources().getString(R.string.YOUR_ADMOB_APP_ID));
         //if (bundle != null) {
-           // status = bundle.getString("STATUS");
+        // status = bundle.getString("STATUS");
 
-            status = this.getArguments().getString("STATUS");
+        status = this.getArguments().getString("STATUS");
         //}
+
+        if (status.equalsIgnoreCase("RAGGI")) {
+            getActivity().setTitle("Raggis");
+        } else {
+            if (status.equalsIgnoreCase("KATHA")) {
+                getActivity().setTitle("Katha vachaks");
+            }
+        }
+
 
         // mAdView = findViewById(R.id.adView);
         //AdRequest adRequest = new AdRequest.Builder().build();
@@ -115,7 +124,7 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        homePresenterImpl = new HomePresenterImpl(this, getActivity(),status);
+        homePresenterImpl = new HomePresenterImpl(this, getActivity(), status);
         homePresenterImpl.init(view);
         dialog.show();
         homePresenterImpl.prepareRaagis(status);
@@ -153,8 +162,6 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
         });
 
 
-
-
 // by Shivam
 
         /*
@@ -177,7 +184,6 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
     }
 
 
-
     public void loadList() {
 
         ShabadTutorialsService tutorialsService = RetrofitClient.getClient().create(ShabadTutorialsService.class);
@@ -187,7 +193,7 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
             @Override
             public void onResponse(Call<List<ShabadTutorial>> call, Response<List<ShabadTutorial>> response) {
                 list.clear();
-                for(ShabadTutorial raagiInfo: response.body()){
+                for (ShabadTutorial raagiInfo : response.body()) {
                     list.add(raagiInfo);
                 }
                 dialog.dismiss();
@@ -250,9 +256,9 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
 
     @Override
     public void onItemClick(ShabadTutorial item) {
-        Intent intent=new Intent(getActivity(), YoutubeScreen.class);
-        intent.putExtra("video_url",item.getUrl());
-        intent.putExtra("title",item.getTitle()+" - "+item.getHarmoniumScale());
+        Intent intent = new Intent(getActivity(), YoutubeScreen.class);
+        intent.putExtra("video_url", item.getUrl());
+        intent.putExtra("title", item.getTitle() + " - " + item.getHarmoniumScale());
         startActivity(intent);
     }
 

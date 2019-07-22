@@ -145,7 +145,7 @@ public class MoreRadioStation extends AppCompatActivity implements
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        getSupportActionBar().setTitle("Radios");
         updater = new MoreRadioStation.UpdateUIReceiver();
         mSharedPreferences = MoreRadioStation.this.getSharedPreferences(
                 SehajBaniPreferences.Atree_PREFERENCES, Context.MODE_PRIVATE);

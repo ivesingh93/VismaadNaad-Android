@@ -261,6 +261,7 @@ public class PopularShabadsActivity  extends AppCompatActivity implements IShaba
         adView_mini = findViewById(R.id.adView_mini);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+        getSupportActionBar().setTitle("Popular Shabads");
     }
 
     public void showRaagiInfo() {
