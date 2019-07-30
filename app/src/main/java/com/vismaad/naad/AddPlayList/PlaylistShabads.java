@@ -197,7 +197,7 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
     private PipelineDraweeController controller;
 
     //static variables
-    private int BLUR_PRECENTAGE = 10;
+    private int BLUR_PRECENTAGE = 20;
 
     private SharedPreferences mSharedPreferences;
     PlayListShabadsAdapter mShabadsListAdaters;
@@ -208,7 +208,7 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
     android.support.v7.widget.SearchView search;
     LinearLayout rootView;
     private AdView mAdView;
-    // ShabadsListAdaters mShabadsListAdaters;
+    private ArrayList<String> imagesList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -351,12 +351,32 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
                 .load(R.drawable.iotrack_black_24dp)
                 .into(extraRaagiImage);
 
-        final TypedArray imgs = getResources().obtainTypedArray(R.array.apptour);
+      //  final TypedArray imgs = getResources().obtainTypedArray(R.array.apptour);
+
+        imagesList.add("https://vismaadnaad.s3.eu-west-2.amazonaws.com/darbarsahib_1.jpg");
+        imagesList.add("https://vismaadnaad.s3.eu-west-2.amazonaws.com/darbarsahib_2.jpg");
+        imagesList.add("https://vismaadnaad.s3.eu-west-2.amazonaws.com/darbarsahib_3.jpg");
+        imagesList.add("https://vismaadnaad.s3.eu-west-2.amazonaws.com/darbarsahib_4.jpg");
+        imagesList.add("https://vismaadnaad.s3.eu-west-2.amazonaws.com/darbarsahib_8.jpg");
         final Random rand = new Random();
-        final int rndInt = rand.nextInt(imgs.length());
-        final int resID = imgs.getResourceId(rndInt, 0);
-        String name = getResources().getResourceEntryName(resID);
-       // Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), resID);
+        final int rndInt = rand.nextInt(imagesList.size());
+
+        // final int resID = imgs.getResourceId(rndInt, 0);
+       // String name = getResources().getResourceEntryName(resID);
+
+
+
+
+    /*    [30/07, 07:12] Ivkaran Gurbani: https://vismaadnaad.s3.eu-west-2.amazonaws.com/darbarsahib_1.jpg
+[30/07, 07:12] Ivkaran Gurbani: https://vismaadnaad.s3.eu-west-2.amazonaws.com/darbarsahib_2.jpg
+[30/07, 07:12] Ivkaran Gurbani: https://vismaadnaad.s3.eu-west-2.amazonaws.com/darbarsahib_3.jpg
+[30/07, 07:12] Ivkaran Gurbani: https://vismaadnaad.s3.eu-west-2.amazonaws.com/darbarsahib_4.jpg
+[30/07, 07:13] Ivkaran Gurbani: https://vismaadnaad.s3.eu-west-2.amazonaws.com/darbarsahib_8.jpg*/
+
+
+
+
+        // Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), resID);
        // Bitmap blurredBitmap = BlurBuilder.blur(this, originalBitmap);
        // blurImageView.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
         /*Uri imageUri = (new Uri.Builder())
@@ -366,13 +386,13 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
                 .appendPath(getResources().getResourceEntryName(resID))
                 .build();*/
 
-        Uri imageUri = new Uri.Builder()
+        /*Uri imageUri = new Uri.Builder()
                 .scheme(UriUtil.LOCAL_RESOURCE_SCHEME) // "res"
                 .path(String.valueOf(resID))
-                .build();
+                .build();*/
 
         postprocessor = new BlurPostprocessor(this, BLUR_PRECENTAGE);
-        imageRequest = ImageRequestBuilder.newBuilderWithSource(imageUri)
+        imageRequest = ImageRequestBuilder.newBuilderWithSource(Uri.parse(imagesList.get(rndInt)))
                 .setPostprocessor(postprocessor)
                 .build();
         controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
