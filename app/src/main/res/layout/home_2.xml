@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="5dp"
@@ -35,7 +35,7 @@
 
                     android:visibility="gone">
 
-                    <android.support.v7.widget.SearchView
+                    <androidx.appcompat.widget.SearchView
                         android:id="@+id/search"
                         android:layout_width="match_parent"
                         android:layout_height="42dp"
@@ -79,13 +79,13 @@
 
                 </RelativeLayout>
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/raagi_RV"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipToPadding="false"
                     android:scrollbars="vertical"
-                    app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="3"
                     tools:listitem="@layout/card_raagi" />
 
@@ -134,11 +134,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/shabadRecycle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/card_shabad" />
 
                 </LinearLayout>
@@ -182,13 +182,13 @@
                         android:visibility="gone" />
 
                 </RelativeLayout>
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_katha"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipToPadding="false"
                     android:scrollbars="vertical"
-                    app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="3"
                     tools:listitem="@layout/card_raagi" />
 
@@ -247,13 +247,13 @@
                         />-->
 
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/radioRecycle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:clipToPadding="false"
                         android:scrollbars="vertical"
-                        app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="3"
                         tools:listitem="@layout/card_raagi" />
 
@@ -282,7 +282,7 @@
             </LinearLayout>
 
 
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <View
             android:id="@+id/lastView"

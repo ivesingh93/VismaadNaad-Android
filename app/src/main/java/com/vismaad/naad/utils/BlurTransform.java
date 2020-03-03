@@ -11,14 +11,11 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 
 import android.renderscript.ScriptIntrinsicBlur;
-import android.support.annotation.NonNull;
-import android.util.Log;
+import androidx.annotation.NonNull;
 
 
-import com.bumptech.glide.load.engine.Resource;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-import com.squareup.picasso.Transformation;
 
 import java.security.MessageDigest;
 

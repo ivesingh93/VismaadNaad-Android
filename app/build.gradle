@@ -1,25 +1,24 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-
+apply plugin: 'kotlin-kapt'
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.vismaad.naad"
         minSdkVersion 19
         multiDexEnabled true
-        targetSdkVersion 27
+        targetSdkVersion 29
         versionCode 22
         versionName "1.6"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 19
-        renderscriptSupportModeEnabled true
         aaptOptions.cruncherEnabled = false
         aaptOptions.useNewCruncher = false
     }
     dataBinding {
-        enabled true
+        enabled = true
     }
     buildTypes {
         release {
@@ -37,14 +36,14 @@ android {
         implementation 'com.google.firebase:firebase-core:16.0.1'
 
         implementation fileTree(dir: 'libs', include: ['*.jar'])
-        implementation 'com.android.support:appcompat-v7:27.1.1'
+        implementation 'androidx.appcompat:appcompat:1.0.0'
         implementation 'com.android.support.constraint:constraint-layout:1.0.2'
         testImplementation 'junit:junit:4.12'
         androidTestImplementation 'com.android.support.test:runner:1.0.1'
         androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
         implementation 'com.google.android.gms:play-services-auth:16.0.1'
-        implementation 'com.android.support:animated-vector-drawable:27.1.1'
-        implementation 'com.android.support:design:27.1.1'
+/*        implementation 'androidx.vectordrawable:vectordrawable::1.0.0'*/
+        implementation 'com.google.android.material:material:1.0.0'
 
         // HTTP REST API calls dependencies.
         implementation 'com.squareup.retrofit2:retrofit:2.1.0'
@@ -52,10 +51,10 @@ android {
         implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
 
         // RecyclerView
-        implementation 'com.android.support:recyclerview-v7:27.1.1'
+        implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
         // CardView
-        implementation 'com.android.support:cardview-v7:27.1.1'
+   /*     implementation 'androidx.cardview.widget.CardView:1.0.0'*/
 
         // Image
         implementation 'com.squareup.picasso:picasso:2.4.0'

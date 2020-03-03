@@ -1,14 +1,13 @@
-package com.vismaad.naad.AddPlayList;
+package com.vismaad.naad.addPlayList;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,17 +16,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.vismaad.naad.AddPlayList.adapter.ShabadsAdapter;
-import com.vismaad.naad.AddPlayList.presenter.GetPlayListSelectionPresenterCompl;
-import com.vismaad.naad.AddPlayList.presenter.IGetPlayListSelectionPresenter;
-import com.vismaad.naad.AddPlayList.view.IPlayListSelectionView;
-import com.vismaad.naad.AddPlayList.view.IShabadsSelected;
+import com.vismaad.naad.addPlayList.adapter.ShabadsAdapter;
+import com.vismaad.naad.addPlayList.presenter.GetPlayListSelectionPresenterCompl;
+import com.vismaad.naad.addPlayList.presenter.IGetPlayListSelectionPresenter;
+import com.vismaad.naad.addPlayList.view.IPlayListSelectionView;
 import com.vismaad.naad.R;
 import com.vismaad.naad.addshabads.model.AddShabadsList;
 import com.vismaad.naad.addshabads.presenter.ShabadsPresenterCompl;
-import com.vismaad.naad.navigation.fetchplaylist.presenter.GetPlayListPresenterCompl;
-import com.vismaad.naad.navigation.playlist.presenter.PlayListPresenterCompl;
-import com.vismaad.naad.navigation.playlist.view.IPlayListView;
 import com.vismaad.naad.player.ShabadPlayerActivity;
 import com.vismaad.naad.player.service.MediaPlayerState;
 import com.vismaad.naad.rest.model.raagi.Shabad;

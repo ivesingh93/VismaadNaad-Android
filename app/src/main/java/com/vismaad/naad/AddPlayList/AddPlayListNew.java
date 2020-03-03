@@ -1,35 +1,32 @@
-package com.vismaad.naad.navigation.playlist;
+package com.vismaad.naad.addPlayList;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import androidx.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.vismaad.naad.addPlayList.AddPlayListPopup;
-import com.vismaad.naad.addPlayList.adapter.PlayListLibrayAdapter;
 import com.vismaad.naad.addPlayList.adapter.PlaylistAdapter;
 import com.vismaad.naad.addPlayList.model.JBPlaylistCount;
+
 import com.vismaad.naad.R;
+import com.vismaad.naad.addshabads.model.AddShabadsList;
+import com.vismaad.naad.addshabads.presenter.ShabadsPresenterCompl;
+
 import com.vismaad.naad.navigation.fetchplaylist.presenter.GetPlayListPresenterCompl;
 import com.vismaad.naad.navigation.playlist.presenter.IPlayListPresenter;
 import com.vismaad.naad.navigation.playlist.presenter.PlayListPresenterCompl;
@@ -48,75 +45,102 @@ import java.util.ArrayList;
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressFlower;
 
-/**
- * Created by satnamsingh on 14/06/18.
- */
+public class AddPlayListNew extends AppCompatActivity implements IPlayListView, View.OnClickListener, com.vismaad.naad.addshabads.view.IPlayListView {
 
-public class PlayListFrag extends Fragment implements IPlayListView, View.OnClickListener
 
-{
-  //  AddPlaylistNewVBinding binding;
-    View view;
+    //AddPlaylistNewBinding mBinding;
+    //AddPlayBinding mBinding;
+    // FragmentPlayListBinding mBinding;
     private SharedPreferences mSharedPreferences;
     ACProgressFlower dialog;
     IPlayListPresenter playListPresenterCompl;
     GetPlayListPresenterCompl mGetPlayListPresenterCompl;
     ArrayList<JBPlaylistCount> mPlayListArrayList;
-    JBPlaylistCount mJbPlaylistCount;
     PlaylistAdapter mPlayListAdapter;
+    Bundle extras;
+    String raggiName, shabadID, shabadName;
     boolean isHas;
-    PlayListLibrayAdapter mPlayListLibrayAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    ArrayList<AddShabadsList> mAddShabadsLists;
+    AddShabadsList mAddShabadsList;
+    ShabadsPresenterCompl mShabadsPresenterCompl;
     private AdView mAdView;
+    int pos = 0;
+    JBPlaylistCount mJbPlaylistCount;
+
+    //----
+
     Button btnCreatePlayList;
-    RecyclerView raagi_RV;
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        //binding = DataBindingUtil.inflate(inflater,
-         //       R.layout.add_playlist_new_v, container, false);
-          view = inflater.inflate(R.layout.add_playlist_new_v, container, false);
+    ListView raagi_RV;
+    AdView adView;
 
-     //   view = binding.getRoot();
-        initial(view);
 
-        fetchData();
-        return view;
-    }
+
 
 
     @Override
-    public void onResume() {
-        super.onResume();
-       /* ((AppCompatActivity) getActivity()).getSupportActionBar().hide();*/
-        fetchData();
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //mBinding = DataBindingUtil.setContentView(this, R.layout.add_play_n);
+        setContentView(R.layout.add_play_n);
+        initial();
+        if (extras != null) {
+
+            raggiName = extras.getString("RAGGI_NAME");
+            shabadID = extras.getString("SHABAD_ID");
+            shabadName = extras.getString("SHABAD_NAME");
+
+
+
+
+
+            raagi_RV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> mAdapter, View view, int i, long l) {
+
+                    mAddShabadsLists= new ArrayList<AddShabadsList>();
+                    pos = i;
+                    mAddShabadsList = new AddShabadsList();
+                    mAddShabadsList.setId(shabadID);
+                    mAddShabadsList.setPlaylist_name(mPlayListArrayList.get(i).getName());
+                    mAddShabadsList.setUserName(JBSehajBaniPreferences.getLoginId(mSharedPreferences));
+                    mAddShabadsLists.add(mAddShabadsList);
+                    mShabadsPresenterCompl.doAddShabads(mAddShabadsLists);
+
+                }
+            });
+
+        }
+
+
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-       /* ((AppCompatActivity) getActivity()).getSupportActionBar().show();*/
-    }
+    private void initial() {
+        mShabadsPresenterCompl = new ShabadsPresenterCompl(this);
 
-    private void initial(View view) {
-        MobileAds.initialize(getActivity(),
-                getResources().getString(R.string.YOUR_ADMOB_APP_ID));
-        mAdView = view.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-        // mPlayListArrayList = new ArrayList<JBPlaylistCount>();
-        mSharedPreferences = getActivity().getSharedPreferences(
+        extras = getIntent().getExtras();
+       // mPlayListArrayList = new ArrayList<String>();
+        mSharedPreferences = AddPlayListNew.this.getSharedPreferences(
                 SehajBaniPreferences.Atree_PREFERENCES, Context.MODE_PRIVATE);
 
-        btnCreatePlayList=(Button)view.findViewById(R.id.btnCreatePlayList);
 
-        raagi_RV =(RecyclerView)view.findViewById(R.id.raagi_RV);
+        btnCreatePlayList = (Button) findViewById(R.id.btnCreatePlayList) ;
+        raagi_RV = (ListView) findViewById(R.id.raagi_RV) ;
+        adView = (AdView) findViewById(R.id.adView) ;
+
+
+
+
+
+
+
+
+
 
         btnCreatePlayList.setOnClickListener(this);
-        btnCreatePlayList.setText("Create playlist");
-        //binding.btnCreatePlayList.setVisibility(View.GONE);
-        dialog = new ACProgressFlower.Builder(getActivity())
+
+
+
+        dialog = new ACProgressFlower.Builder(AddPlayListNew.this)
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
                 .themeColor(Color.WHITE)
                 .bgColor(Color.TRANSPARENT)
@@ -126,8 +150,29 @@ public class PlayListFrag extends Fragment implements IPlayListView, View.OnClic
         dialog.setCanceledOnTouchOutside(true);
         playListPresenterCompl = new PlayListPresenterCompl(this);
         mGetPlayListPresenterCompl = new GetPlayListPresenterCompl(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Add to playlist");
+        mAddShabadsLists = new ArrayList<AddShabadsList>();
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+    }
 
-        layoutManager = new GridLayoutManager(getActivity(), 1);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchData();
     }
 
     @Override
@@ -140,10 +185,11 @@ public class PlayListFrag extends Fragment implements IPlayListView, View.OnClic
                     int responseCode = (int) json.get("ResponseCode");
                     String msg = (String) json.get("Message");
                     if (responseCode == 200) {
+
                         fetchData();
                     }
 
-                    Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(AddPlayListNew.this, msg, Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
 
@@ -156,9 +202,6 @@ public class PlayListFrag extends Fragment implements IPlayListView, View.OnClic
             try {
                 mPlayListArrayList = new ArrayList<JBPlaylistCount>();
 
-                //JSONArray json = new JSONArray(code);
-
-
                 JSONArray jArr = new JSONArray(code);
 
                 for (int count = 0; count < jArr.length(); count++) {
@@ -169,26 +212,50 @@ public class PlayListFrag extends Fragment implements IPlayListView, View.OnClic
                     //so on
                     mJbPlaylistCount.setName(obj.getString("name"));
                     mJbPlaylistCount.setShabads_count(obj.getString("shabads_count"));
-
-                    // as
                     mPlayListArrayList.add(mJbPlaylistCount);
+                    // as
+
                 }
 
+                //fetchData();
 
-
-                isHas = true;
-                raagi_RV.setLayoutManager(layoutManager);
-                raagi_RV.setItemAnimator(new DefaultItemAnimator());
-                raagi_RV.setNestedScrollingEnabled(false);
-                mPlayListLibrayAdapter = new PlayListLibrayAdapter(getActivity(), mPlayListArrayList, isHas);
-                raagi_RV.setAdapter(mPlayListLibrayAdapter);
-                mPlayListLibrayAdapter.notifyDataSetChanged();
+                mPlayListAdapter = new PlaylistAdapter(AddPlayListNew.this, mPlayListArrayList, isHas);
+                raagi_RV.setAdapter(mPlayListAdapter);
+                mPlayListAdapter.notifyDataSetChanged();
 
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+
+        if (pageID == 3) {
+            if (!code.equalsIgnoreCase("")) {
+                try {
+                    JSONObject json = (JSONObject) new JSONTokener(code).nextValue();
+                    int responseCode = (int) json.get("ResponseCode");
+                    String msg = (String) json.get("Message");
+                    if (responseCode == 200) {
+                        //finish();
+                         fetchData();
+
+                        Toast toast = Toast.makeText(AddPlayListNew.this, shabadName + " added to " + mPlayListArrayList.get(pos).getName(), Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+
+                    } else {
+
+                        Toast toast = Toast.makeText(AddPlayListNew.this, msg, Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
     }
 
     @Override
@@ -196,8 +263,8 @@ public class PlayListFrag extends Fragment implements IPlayListView, View.OnClic
         switch (view.getId()) {
             case R.id.btnCreatePlayList:
 
-                // createDialog();
-                Intent mIntent = new Intent(getActivity(), AddPlayListPopup.class);
+                //createDialog();
+                Intent mIntent = new Intent(AddPlayListNew.this, AddPlayListPopup.class);
                 mIntent.putExtra("PLAY_LIST_ARRAYLIST", mPlayListArrayList);
                 startActivity(mIntent);
                 break;
@@ -210,7 +277,7 @@ public class PlayListFrag extends Fragment implements IPlayListView, View.OnClic
 
     public void createDialog() {
         // dialog.show();
-        final Dialog dialog = new Dialog(getActivity());
+        final Dialog dialog = new Dialog(AddPlayListNew.this);
         dialog.setContentView(R.layout.dialog);
         dialog.setTitle("Create Playlist");
 
@@ -233,16 +300,16 @@ public class PlayListFrag extends Fragment implements IPlayListView, View.OnClic
             @Override
             public void onClick(View v) {
                 // Close dialog
-                if (Utils.isNetworkAvailable(getActivity()) == true) {
+                if (Utils.isNetworkAvailable(AddPlayListNew.this) == true) {
                     if (editName.getText().toString().equalsIgnoreCase("")) {
-                        Utils.showSnackBar(getActivity(), "Please enter name");
+                        Utils.showSnackBar(AddPlayListNew.this, "Please enter name");
                     } else {
                         dialog.show();
                         playListPresenterCompl.doCreatePlayList1(JBSehajBaniPreferences.getLoginId(mSharedPreferences)
                                 , editName.getText().toString());
                     }
                 } else {
-                    Utils.showSnackBar(getActivity(), "No internet connection");
+                    Utils.showSnackBar(AddPlayListNew.this, "No internet connection");
                 }
                 dialog.dismiss();
             }
@@ -251,10 +318,11 @@ public class PlayListFrag extends Fragment implements IPlayListView, View.OnClic
     }
 
     public void fetchData() {
-        if (Utils.isNetworkAvailable(getActivity()) == true) {
+        if (Utils.isNetworkAvailable(AddPlayListNew.this) == true) {
             mGetPlayListPresenterCompl.doFetchList(JBSehajBaniPreferences.getLoginId(mSharedPreferences));
         } else {
-            Utils.showSnackBar(getActivity(), "No internet connection");
+            Utils.showSnackBar(AddPlayListNew.this, "No internet connection");
         }
     }
+
 }

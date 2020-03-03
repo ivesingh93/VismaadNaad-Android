@@ -1,22 +1,20 @@
-package com.vismaad.naad.AddPlayList;
+package com.vismaad.naad.addPlayList;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.vismaad.naad.AddPlayList.adapter.PopularShabdsAdapter;
+import com.vismaad.naad.addPlayList.adapter.PopularShabdsAdapter;
 import com.vismaad.naad.R;
 import com.vismaad.naad.rest.instance.RetrofitClient;
 import com.vismaad.naad.rest.model.playlist.JBPopularShabads;
-import com.vismaad.naad.rest.model.raagi.Shabad;
 import com.vismaad.naad.rest.service.PopularShabads;
 
 import java.util.ArrayList;

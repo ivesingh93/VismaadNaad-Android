@@ -1,5 +1,6 @@
 package com.vismaad.naad.player.service;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.KeyguardManager;
 import android.app.Notification;
@@ -19,14 +20,15 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import android.support.v4.media.*;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Log;
 import android.util.Patterns;
 import android.widget.Toast;
 
@@ -48,11 +50,9 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
-import com.vismaad.naad.navigation.NavigationActivity;
 import com.vismaad.naad.newwork.PopularShabadRaagisActivity;
 import com.vismaad.naad.rest.instance.RetrofitClient;
 import com.vismaad.naad.rest.model.playlist.ShabadListener;
@@ -485,12 +485,15 @@ public class ShabadPlayerForegroundService extends Service {
         KeyguardManager keyguardManager =
                 (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
 
-        android.support.v4.media.app.NotificationCompat.MediaStyle mediaStyle = new android.support.v4.media.app.NotificationCompat.MediaStyle()
+        androidx.media.app.NotificationCompat.MediaStyle mediaStyle = new androidx.media.app.NotificationCompat.MediaStyle()
                 .setShowActionsInCompactView(0, 1, 2);
 
         if (mMediaSession != null) {
             mediaStyle.setMediaSession(mMediaSession.getSessionToken());
         }
+
+        //builder.setStyle(new androidx.media.app.NotificationCompat.MediaStyle());
+
         //posting notification fails for huawei devices in case of mediastyle notification
         boolean isHuawei = (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP_MR1
                 || android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP)
@@ -509,7 +512,10 @@ public class ShabadPlayerForegroundService extends Service {
         builder.addAction(new NotificationCompat.Action(R.drawable.ic_close_white_24dp, "Close", stopPI));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setVisibility(Notification.VISIBILITY_PUBLIC);
+
+
+            builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+
         }
 
         if (keyguardManager.isKeyguardLocked() && Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
@@ -568,7 +574,7 @@ public class ShabadPlayerForegroundService extends Service {
         KeyguardManager keyguardManager =
                 (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
 
-        android.support.v4.media.app.NotificationCompat.MediaStyle mediaStyle = new android.support.v4.media.app.NotificationCompat.MediaStyle()
+        androidx.media.app.NotificationCompat.MediaStyle mediaStyle = new androidx.media.app.NotificationCompat.MediaStyle()
                 .setShowActionsInCompactView(0);
 
         if (mMediaSession != null) {
@@ -591,7 +597,7 @@ public class ShabadPlayerForegroundService extends Service {
         //builder.addAction(new NotificationCompat.Action(R.drawable.ic_skip_next_black_24dp, "Next", nextPI));
         builder.addAction(new NotificationCompat.Action(R.drawable.ic_close_white_24dp, "Close", stopPI));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setVisibility(Notification.VISIBILITY_PUBLIC);
+            builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
         }
 
         if (keyguardManager.isKeyguardLocked() && Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
@@ -780,6 +786,7 @@ public class ShabadPlayerForegroundService extends Service {
     };
 
 
+    @SuppressLint("WrongConstant")
     @TargetApi(21)
     private void InitializeMediaSession() {
         mMediaSession = new MediaSessionCompat(getApplicationContext(), getPackageName() + "." + TAG);

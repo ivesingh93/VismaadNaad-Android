@@ -11,14 +11,13 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
@@ -31,34 +30,26 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.vismaad.naad.AddPlayList.AddPlayList;
+import com.vismaad.naad.addPlayList.AddPlayListNew;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.NavigationActivity;
 import com.vismaad.naad.player.ShabadDialog;
-import com.vismaad.naad.player.ShabadPlayerActivity;
 import com.vismaad.naad.player.presenter.ShabadPlayerPresenterImpl;
 import com.vismaad.naad.player.service.App;
 import com.vismaad.naad.player.service.MediaPlayerState;
@@ -67,7 +58,6 @@ import com.vismaad.naad.player.service.ShabadPlayerForegroundService;
 import com.vismaad.naad.player.view.ShabadPlayerView;
 import com.vismaad.naad.rest.instance.RetrofitClient;
 import com.vismaad.naad.rest.model.playlist.LikeShabad;
-import com.vismaad.naad.rest.model.raagi.MoreRadio;
 import com.vismaad.naad.rest.model.raagi.Shabad;
 import com.vismaad.naad.rest.service.PlayList;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
@@ -80,7 +70,6 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
@@ -99,9 +88,7 @@ import static com.vismaad.naad.Constants.SINGLE_BREAK;
 import static com.vismaad.naad.Constants.TEEKA_ARTH_FONT;
 import static com.vismaad.naad.Constants.TEEKA_PAD_ARTH_FONT;
 import static com.vismaad.naad.player.service.MediaPlayerState.SHABAD_DURATION;
-import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.PAUSED;
 import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.PLAYING;
-import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.STOPPED;
 
 public class RadioPlayer extends AppCompatActivity implements ShabadPlayerView {
 
@@ -247,7 +234,7 @@ public class RadioPlayer extends AppCompatActivity implements ShabadPlayerView {
 
             case R.id.add_to_playlist:
                 if (!JBSehajBaniPreferences.getLoginId(mSharedPreferences).equalsIgnoreCase("")) {
-                    Intent mIntent = new Intent(RadioPlayer.this, AddPlayList.class);
+                    Intent mIntent = new Intent(RadioPlayer.this, AddPlayListNew.class);
                     mIntent.putExtra("RAGGI_NAME", current_shabad.getRaagiName());
                     mIntent.putExtra("SHABAD_ID", current_shabad.getShabadId());
                     mIntent.putExtra("SHABAD_NAME", current_shabad.getShabadEnglishTitle());

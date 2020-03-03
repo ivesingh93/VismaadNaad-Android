@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <data>
-
-        <variable
-            name="user_welcome"
-            type="com.vismaad.naad.welcome.WelcomeActivity" />
-    </data>
-
-
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -189,5 +181,5 @@
 
 
 
-    </android.support.constraint.ConstraintLayout>
-</layout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

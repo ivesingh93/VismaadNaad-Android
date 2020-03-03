@@ -4,12 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.cardview.widget.CardView;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,16 +24,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.google.gson.Gson;
-import com.vismaad.naad.AddPlayList.SelectPlayListShabads;
-import com.vismaad.naad.AddPlayList.ShabadsPlayList;
+import com.vismaad.naad.addPlayList.SelectPlayListShabads;
+import com.vismaad.naad.addPlayList.ShabadsPlayList;
 import com.vismaad.naad.R;
-import com.vismaad.naad.navigation.fetchplaylist.presenter.GetPlayListPresenterCompl;
-import com.vismaad.naad.navigation.home.adapter.RaagiInfoAdapter;
-import com.vismaad.naad.navigation.home.raagi_detail.RaagiDetailActivity;
 import com.vismaad.naad.navigation.playlist.delete.PlayListDeletePresenterCompl;
 import com.vismaad.naad.navigation.playlist.view.IPlayListView;
-import com.vismaad.naad.rest.model.raagi.RaagiInfo;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 import com.vismaad.naad.utils.Utils;
@@ -43,7 +37,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

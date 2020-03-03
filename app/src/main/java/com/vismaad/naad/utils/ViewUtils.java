@@ -1,12 +1,8 @@
 package com.anton46.whatsapp_profile;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
-import android.support.design.widget.Snackbar;
-import android.util.TypedValue;
 import android.view.Display;
-import android.view.View;
 import android.view.WindowManager;
 
 public class ViewUtils {

@@ -1,9 +1,9 @@
-package com.vismaad.naad.AddPlayList.adapter;
+package com.vismaad.naad.addPlayList.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,25 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
 import com.vismaad.naad.R;
-import com.vismaad.naad.navigation.home.raagi_detail.adapter.ShabadAdapter;
-import com.vismaad.naad.player.ShabadPlayerActivity;
-import com.vismaad.naad.player.service.MediaPlayerState;
 import com.vismaad.naad.rest.model.playlist.JBPopularShabads;
-import com.vismaad.naad.rest.model.raagi.Shabad;
 import com.vismaad.naad.rest.model.raagi.ShabadTutorial;
-import com.vismaad.naad.shabadtutorials.ShabadTutoralsAdapter;
-import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 
 import java.util.ArrayList;
-
-import static com.vismaad.naad.Constants.PLAY_SONG;
 
 public class PopularShabdsAdapter extends RecyclerView.Adapter<PopularShabdsAdapter.MyViewHolder> {
 

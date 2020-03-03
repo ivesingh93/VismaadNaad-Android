@@ -21,7 +21,7 @@
 
 
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 >
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/grid"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
@@ -97,7 +97,7 @@ android:visibility="gone"
                 android:focusableInTouchMode="true"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.SearchView
+                <androidx.appcompat.widget.SearchView
                     android:id="@+id/search"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
@@ -115,7 +115,7 @@ android:visibility="gone"
               already created from the class file. So it will not affect the app.
               It is used to preview it here in studio
              -->
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/raagi_RV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -130,7 +130,7 @@ android:visibility="gone"
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout><!--
 </android.support.design.widget.CoordinatorLayout>-->

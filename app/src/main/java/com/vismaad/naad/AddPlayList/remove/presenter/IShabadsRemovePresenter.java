@@ -1,4 +1,4 @@
-package com.vismaad.naad.AddPlayList.remove.presenter;
+package com.vismaad.naad.addPlayList.remove.presenter;
 
 import com.vismaad.naad.addshabads.model.AddShabadsList;
 

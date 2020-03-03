@@ -1,4 +1,4 @@
-package com.vismaad.naad.AddPlayList.model;
+package com.vismaad.naad.addPlayList.model;
 
 import java.io.Serializable;
 
