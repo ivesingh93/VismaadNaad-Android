@@ -1,44 +1,33 @@
-package com.vismaad.naad.AddPlayList.adapter;
+package com.vismaad.naad.addPlayList.adapter;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.vismaad.naad.AddPlayList.PlaylistShabads;
-import com.vismaad.naad.AddPlayList.model.JBPlaylistCount;
-import com.vismaad.naad.AddPlayList.presenter.HolderInterface;
-import com.vismaad.naad.AddPlayList.presenter.IGetShabadsListHolder;
-import com.vismaad.naad.AddPlayList.remove.presenter.ShabadsRemovePresenterCompl;
+import com.vismaad.naad.addPlayList.PlaylistShabads;
+import com.vismaad.naad.addPlayList.model.JBPlaylistCount;
+import com.vismaad.naad.addPlayList.presenter.HolderInterface;
+import com.vismaad.naad.addPlayList.presenter.IGetShabadsListHolder;
 import com.vismaad.naad.R;
-import com.vismaad.naad.addshabads.model.AddShabadsList;
 import com.vismaad.naad.navigation.playlist.delete.PlayListDeletePresenterCompl;
-import com.vismaad.naad.player.ShabadPlayerActivity;
-import com.vismaad.naad.player.service.MediaPlayerState;
 import com.vismaad.naad.rest.model.raagi.Shabad;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 import com.vismaad.naad.utils.Utils;
-import com.vismaad.naad.welcome.signup.SignupActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,8 +35,6 @@ import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.vismaad.naad.Constants.PLAY_SONG;
 
 /**
  * Created by satnamsingh on 07/07/18.

@@ -4,22 +4,20 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -27,14 +25,11 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.vismaad.naad.AddPlayList.AddPlayListPopup;
-import com.vismaad.naad.AddPlayList.PlaylistShabads;
-import com.vismaad.naad.AddPlayList.adapter.PlayListLibrayAdapter;
-import com.vismaad.naad.AddPlayList.adapter.PlayListShabadsAdapter;
-import com.vismaad.naad.AddPlayList.adapter.PlaylistAdapter;
-import com.vismaad.naad.AddPlayList.model.JBPlaylistCount;
+import com.vismaad.naad.addPlayList.AddPlayListPopup;
+import com.vismaad.naad.addPlayList.adapter.PlayListLibrayAdapter;
+import com.vismaad.naad.addPlayList.adapter.PlaylistAdapter;
+import com.vismaad.naad.addPlayList.model.JBPlaylistCount;
 import com.vismaad.naad.R;
-import com.vismaad.naad.databinding.AddPlaylistNewBinding;
 import com.vismaad.naad.navigation.fetchplaylist.presenter.GetPlayListPresenterCompl;
 import com.vismaad.naad.navigation.playlist.presenter.IPlayListPresenter;
 import com.vismaad.naad.navigation.playlist.presenter.PlayListPresenterCompl;
@@ -60,7 +55,7 @@ import cc.cloudist.acplibrary.ACProgressFlower;
 public class PlayListFrag extends Fragment implements IPlayListView, View.OnClickListener
 
 {
-    AddPlaylistNewBinding binding;
+  //  AddPlaylistNewVBinding binding;
     View view;
     private SharedPreferences mSharedPreferences;
     ACProgressFlower dialog;
@@ -73,15 +68,18 @@ public class PlayListFrag extends Fragment implements IPlayListView, View.OnClic
     PlayListLibrayAdapter mPlayListLibrayAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private AdView mAdView;
-
+    Button btnCreatePlayList;
+    RecyclerView raagi_RV;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater,
-                R.layout.add_playlist_new, container, false);
-        view = binding.getRoot();
-        initial();
+        //binding = DataBindingUtil.inflate(inflater,
+         //       R.layout.add_playlist_new_v, container, false);
+          view = inflater.inflate(R.layout.add_playlist_new_v, container, false);
+
+     //   view = binding.getRoot();
+        initial(view);
 
         fetchData();
         return view;
@@ -101,7 +99,7 @@ public class PlayListFrag extends Fragment implements IPlayListView, View.OnClic
        /* ((AppCompatActivity) getActivity()).getSupportActionBar().show();*/
     }
 
-    private void initial() {
+    private void initial(View view) {
         MobileAds.initialize(getActivity(),
                 getResources().getString(R.string.YOUR_ADMOB_APP_ID));
         mAdView = view.findViewById(R.id.adView);
@@ -110,8 +108,13 @@ public class PlayListFrag extends Fragment implements IPlayListView, View.OnClic
         // mPlayListArrayList = new ArrayList<JBPlaylistCount>();
         mSharedPreferences = getActivity().getSharedPreferences(
                 SehajBaniPreferences.Atree_PREFERENCES, Context.MODE_PRIVATE);
-        binding.btnCreatePlayList.setOnClickListener(this);
-        binding.btnCreatePlayList.setText("Create playlist");
+
+        btnCreatePlayList=(Button)view.findViewById(R.id.btnCreatePlayList);
+
+        raagi_RV =(RecyclerView)view.findViewById(R.id.raagi_RV);
+
+        btnCreatePlayList.setOnClickListener(this);
+        btnCreatePlayList.setText("Create playlist");
         //binding.btnCreatePlayList.setVisibility(View.GONE);
         dialog = new ACProgressFlower.Builder(getActivity())
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
@@ -174,11 +177,11 @@ public class PlayListFrag extends Fragment implements IPlayListView, View.OnClic
 
 
                 isHas = true;
-                binding.raagiRV.setLayoutManager(layoutManager);
-                binding.raagiRV.setItemAnimator(new DefaultItemAnimator());
-                binding.raagiRV.setNestedScrollingEnabled(false);
+                raagi_RV.setLayoutManager(layoutManager);
+                raagi_RV.setItemAnimator(new DefaultItemAnimator());
+                raagi_RV.setNestedScrollingEnabled(false);
                 mPlayListLibrayAdapter = new PlayListLibrayAdapter(getActivity(), mPlayListArrayList, isHas);
-                binding.raagiRV.setAdapter(mPlayListLibrayAdapter);
+                raagi_RV.setAdapter(mPlayListLibrayAdapter);
                 mPlayListLibrayAdapter.notifyDataSetChanged();
 
 

@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
+import com.google.android.material.snackbar.Snackbar;
+
 import android.view.View;
 
 import com.google.gson.reflect.TypeToken;

@@ -1,4 +1,4 @@
-package com.vismaad.naad.AddPlayList.model;
+package com.vismaad.naad.addPlayList.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

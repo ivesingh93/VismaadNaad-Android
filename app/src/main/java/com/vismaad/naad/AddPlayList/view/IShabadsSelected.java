@@ -1,4 +1,4 @@
-package com.vismaad.naad.AddPlayList.view;
+package com.vismaad.naad.addPlayList.view;
 
 /**
  * Created by satnamsingh on 25/06/18.

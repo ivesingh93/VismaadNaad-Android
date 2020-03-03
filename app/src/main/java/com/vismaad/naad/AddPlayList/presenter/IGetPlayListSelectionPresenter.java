@@ -1,6 +1,4 @@
-package com.vismaad.naad.AddPlayList.presenter;
-
-import com.vismaad.naad.AddPlayList.adapter.ShabadsAdapter;
+package com.vismaad.naad.addPlayList.presenter;
 
 /**
  * Created by satnamsingh on 31/05/18.

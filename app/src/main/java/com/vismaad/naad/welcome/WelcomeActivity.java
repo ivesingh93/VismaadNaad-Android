@@ -8,15 +8,17 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.databinding.DataBindingUtil;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,7 +42,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.vismaad.naad.R;
-import com.vismaad.naad.databinding.ActivityWelcomeBinding;
 import com.vismaad.naad.newwork.PopularShabadRaagisActivity;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
@@ -69,7 +70,7 @@ import cc.cloudist.acplibrary.ACProgressFlower;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener,
         GoogleApiClient.OnConnectionFailedListener, ILoginFB {
-    ActivityWelcomeBinding binding;
+    //ActivityWelcomeBinding binding;
     private SharedPreferences mSharedPreferences;
     Intent mIntent;
     ACProgressFlower dialog_progress;
@@ -82,11 +83,14 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     String firstName, secondName, email;
     String id, FBfirstName, FBLastName, FBEmail;
     public static Activity welcomeActivity;
+    Button sign_up_free_button,continue_with_facebook_button,connect_using_google_button,login_B,btnSkip;
+    ConstraintLayout rl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_welcome);
+        //binding = DataBindingUtil.setContentView(this, R.layout.activity_welcome);
+        setContentView(R.layout.activity_welcome);
         generateKeyHash();
         initial();
         if (!JBSehajBaniPreferences.getLoginId(mSharedPreferences).equalsIgnoreCase("")) {
@@ -105,7 +109,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         //binding.rl.setImageBitmap
         Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.gold);
         Bitmap blurredBitmap = BlurBuilder.blur(this, originalBitmap);
-        binding.rl.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
+        rl.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                        .requestIdToken(getString(R.string.server_client_id))
@@ -134,11 +138,23 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     private void initial() {
         mSharedPreferences = WelcomeActivity.this.getSharedPreferences(
                 SehajBaniPreferences.Atree_PREFERENCES, Context.MODE_PRIVATE);
-        binding.btnSkip.setOnClickListener(this);
-        binding.connectUsingGoogleButton.setOnClickListener(this);
-        binding.continueWithFacebookButton.setOnClickListener(this);
-        binding.signUpFreeButton.setOnClickListener(this);
-        binding.loginB.setOnClickListener(this);
+        sign_up_free_button =(Button)findViewById(R.id.sign_up_free_button);
+
+        continue_with_facebook_button =(Button)findViewById(R.id.continue_with_facebook_button);
+
+        connect_using_google_button =(Button)findViewById(R.id.connect_using_google_button);
+        login_B =(Button)findViewById(R.id.login_B);
+        btnSkip =(Button)findViewById(R.id.btnSkip);
+
+
+rl=(ConstraintLayout)findViewById(R.id.rl);
+
+
+        btnSkip.setOnClickListener(this);
+        connect_using_google_button.setOnClickListener(this);
+        continue_with_facebook_button.setOnClickListener(this);
+        sign_up_free_button.setOnClickListener(this);
+        login_B.setOnClickListener(this);
         dialog_progress = new ACProgressFlower.Builder(WelcomeActivity.this)
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
                 .themeColor(Color.WHITE)

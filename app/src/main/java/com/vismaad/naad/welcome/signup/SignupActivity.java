@@ -8,8 +8,8 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.Scene;
@@ -26,14 +26,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import android.transition.Scene;
-
 import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.NavigationActivity;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 import com.vismaad.naad.utils.Utils;
-import com.vismaad.naad.welcome.login.LoginActivity;
 import com.vismaad.naad.welcome.signup.presenter.SignupPresenterComp;
 import com.vismaad.naad.welcome.signup.view.ISignupView;
 
@@ -43,8 +40,6 @@ import org.json.JSONTokener;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressFlower;
-
-import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
 
 public class SignupActivity extends AppCompatActivity implements ISignupView {
     SignupPresenterComp mISignupPresenter;

@@ -1,89 +1,47 @@
-package com.vismaad.naad.AddPlayList;
+package com.vismaad.naad.addPlayList;
 
-import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
-import android.databinding.DataBindingUtil;
-import android.graphics.BitmapFactory;
+
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
+
+import com.google.android.material.appbar.AppBarLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.facebook.common.util.UriUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.vismaad.naad.AddPlayList.adapter.PlayListShabadsAdapter;
-import com.vismaad.naad.AddPlayList.adapter.ShabadsListAdaters;
-import com.vismaad.naad.AddPlayList.presenter.IGetShabadsList;
-import com.vismaad.naad.AddPlayList.remove.presenter.ShabadsRemovePresenterCompl;
-import com.vismaad.naad.AddPlayList.view.IShabadsList;
+import com.vismaad.naad.addPlayList.adapter.PlayListShabadsAdapter;
+import com.vismaad.naad.addPlayList.presenter.IGetShabadsList;
+import com.vismaad.naad.addPlayList.view.IShabadsList;
 import com.vismaad.naad.R;
-import com.vismaad.naad.addshabads.model.AddShabadsList;
-import com.vismaad.naad.databinding.ActivityPlaylistBinding;
-import com.vismaad.naad.databinding.AddPlaylistNewBinding;
-import com.vismaad.naad.navigation.NavigationActivity;
-import com.vismaad.naad.navigation.home.HomeFragment;
-import com.vismaad.naad.navigation.home.raagi_detail.RaagiDetailActivity;
 import com.vismaad.naad.rest.model.raagi.Shabad;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
-import com.vismaad.naad.utils.BlurBuilder;
 import com.vismaad.naad.utils.Utils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.util.ArrayList;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Transformation;
-import android.widget.FrameLayout;
+
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
+
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -91,39 +49,18 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestBuilder;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.facebook.imagepipeline.request.Postprocessor;
 import com.google.gson.reflect.TypeToken;
-import com.vismaad.naad.AddPlayList.AddPlayList;
 import com.vismaad.naad.Constants;
-import com.vismaad.naad.R;
-import com.vismaad.naad.custom_views.BlurTransformation;
 import com.vismaad.naad.custom_views.HeaderView;
-import com.vismaad.naad.navigation.home.raagi_detail.adapter.ShabadAdapter;
-import com.vismaad.naad.navigation.home.raagi_detail.presenter.RaagiPresenterImpl;
-import com.vismaad.naad.navigation.home.raagi_detail.view.RaagiView;
 import com.vismaad.naad.player.service.App;
 import com.vismaad.naad.player.service.MediaPlayerState;
 import com.vismaad.naad.player.service.ShabadPlayerForegroundService;
-import com.vismaad.naad.rest.model.raagi.Shabad;
-import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
-import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
-import com.vismaad.naad.utils.BlurTransform;
-import com.vismaad.naad.utils.Utils;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import jp.wasabeef.fresco.processors.BlurPostprocessor;
@@ -205,7 +142,7 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
     String strRaggiName, playlistName;
     ACProgressFlower dialog;
     AdView adView_mini;
-    android.support.v7.widget.SearchView search;
+    androidx.appcompat.widget.SearchView search;
     LinearLayout rootView;
     private AdView mAdView;
     private ArrayList<String> imagesList = new ArrayList<>();
@@ -254,7 +191,7 @@ public class PlaylistShabads extends AppCompatActivity implements IShabadsList,
         search.setFocusable(false);
         search.clearFocus();
 
-        search.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+        search.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;

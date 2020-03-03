@@ -12,15 +12,15 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.appbar.AppBarLayout;
+
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -39,9 +39,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.gson.reflect.TypeToken;
-import com.vismaad.naad.AddPlayList.PlaylistShabads;
-import com.vismaad.naad.AddPlayList.presenter.IGetShabadsList;
-import com.vismaad.naad.AddPlayList.view.IShabadsList;
+import com.vismaad.naad.addPlayList.view.IShabadsList;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
 import com.vismaad.naad.custom_views.HeaderView;
@@ -129,7 +127,7 @@ public class PopularShabadsActivity  extends AppCompatActivity implements IShaba
     String strRaggiName, playlistName;
     ACProgressFlower dialog;
     AdView adView_mini;
-    android.support.v7.widget.SearchView search;
+    androidx.appcompat.widget.SearchView search;
     LinearLayout rootView;
     private AdView mAdView;
     // ShabadsListAdaters mShabadsListAdaters;
@@ -178,7 +176,7 @@ public class PopularShabadsActivity  extends AppCompatActivity implements IShaba
         search.setFocusable(false);
         search.clearFocus();
 
-        search.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+        search.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;

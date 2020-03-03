@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <!--
     To support mutiple screen devices and any density screen sizes.
@@ -21,6 +22,7 @@
         android:xlargeScreens="false" />
 
     <application
+        android:usesCleartextTraffic="true"
         android:name=".player.service.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -53,7 +55,7 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".AddPlayList.AddPlayListPopup">
+        <activity android:name=".addPlayList.AddPlayListPopup">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -90,9 +92,9 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity android:name=".AddPlayList.ShabadsPlayList" />
-        <activity android:name=".AddPlayList.AddPlayList" />
-        <activity android:name=".AddPlayList.SelectPlayListShabads" />
+        <activity android:name=".addPlayList.ShabadsPlayList" />
+        <activity android:name=".addPlayList.AddPlayListNew" />
+        <activity android:name=".addPlayList.SelectPlayListShabads" />
         <activity android:name=".youtubelinks.YoutubeScreen" />
         <activity
             android:name=".welcome.signup.SignupActivity"
@@ -106,7 +108,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".AddPlayList.PlaylistShabads"
+            android:name=".addPlayList.PlaylistShabads"
             android:theme="@style/AppThemes.StatusBarTransparent" />
         <activity
             android:name=".shabadtutorials.AllShabadTutorials"

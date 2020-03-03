@@ -7,21 +7,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import androidx.annotation.NonNull;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -36,22 +32,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.FirebaseApp;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
-import com.vismaad.naad.AddPlayList.view.IShabadsList;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.Settings;
-import com.vismaad.naad.navigation.home.HomeFragment;
-import com.vismaad.naad.navigation.home.adapter.RaagiInfoAdapter;
 import com.vismaad.naad.navigation.playlist.PlayListFrag;
-import com.vismaad.naad.newwork.adapter.PopularShabadAdapter;
-import com.vismaad.naad.newwork.adapter.PopularRagisAdapter;
-import com.vismaad.naad.newwork.adapter.ShabadListAdapterNew;
 import com.vismaad.naad.player.service.App;
 import com.vismaad.naad.player.service.MediaPlayerState;
 import com.vismaad.naad.player.service.ShabadPlayerForegroundService;
@@ -60,7 +49,6 @@ import com.vismaad.naad.rest.model.JBfeedback.JBFeedback;
 import com.vismaad.naad.rest.model.raagi.MoreRadio;
 import com.vismaad.naad.rest.model.raagi.Shabad;
 import com.vismaad.naad.rest.service.PlayList;
-import com.vismaad.naad.rest.service.RaagiService;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 import com.vismaad.naad.utils.Utils;
@@ -71,10 +59,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import cc.cloudist.acplibrary.ACProgressConstant;
-import cc.cloudist.acplibrary.ACProgressFlower;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -260,6 +245,8 @@ public class PopularShabadRaagisActivity extends AppCompatActivity implements Vi
                 create(PlayList.class);
 
     }
+
+
 
 
     private void showAboutDialog() {

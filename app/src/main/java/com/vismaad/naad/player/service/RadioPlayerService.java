@@ -1,5 +1,6 @@
 package com.vismaad.naad.player.service;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.KeyguardManager;
 import android.app.Notification;
@@ -18,26 +19,24 @@ import android.media.session.MediaSession;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
-import android.os.CountDownTimer;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Patterns;
 import android.widget.Toast;
 
-import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
-import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
@@ -48,24 +47,14 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.google.gson.JsonElement;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.NavigationActivity;
-import com.vismaad.naad.rest.instance.RetrofitClient;
-import com.vismaad.naad.rest.model.playlist.ShabadListener;
 import com.vismaad.naad.rest.model.raagi.Shabad;
-import com.vismaad.naad.rest.service.PlayList;
 
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.Executors;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.vismaad.naad.player.ShabadPlayerActivity.current_shabad;
 
 public class RadioPlayerService extends Service {
     static public final int STOPPED = -1, PAUSED = 0, PLAYING = 1;
@@ -441,7 +430,7 @@ public class RadioPlayerService extends Service {
         KeyguardManager keyguardManager =
                 (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
 
-        android.support.v4.media.app.NotificationCompat.MediaStyle mediaStyle = new android.support.v4.media.app.NotificationCompat.MediaStyle()
+         androidx.media.app.NotificationCompat.MediaStyle mediaStyle = new  androidx.media.app.NotificationCompat.MediaStyle()
                 .setShowActionsInCompactView(0);
 
         if (mMediaSession != null) {
@@ -625,6 +614,7 @@ public class RadioPlayerService extends Service {
     };
 
 
+    @SuppressLint("WrongConstant")
     @TargetApi(21)
     private void InitializeMediaSession() {
         mMediaSession = new MediaSessionCompat(getApplicationContext(), getPackageName() + "." + TAG);

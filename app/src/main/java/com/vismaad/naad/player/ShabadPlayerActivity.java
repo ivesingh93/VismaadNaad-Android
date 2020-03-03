@@ -11,13 +11,11 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -25,43 +23,27 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.PlaybackParameters;
-import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
-import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.vismaad.naad.AddPlayList.AddPlayList;
+import com.vismaad.naad.addPlayList.AddPlayListNew;
 import com.vismaad.naad.Constants;
 import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.NavigationActivity;
-import com.vismaad.naad.navigation.home.raagi_detail.RaagiDetailActivity;
-import com.vismaad.naad.navigation.home.raagi_detail.adapter.ShabadAdapter;
-import com.vismaad.naad.navigation.playlist.PlayListFrag;
 import com.vismaad.naad.newwork.PopRagiAndShabad;
 import com.vismaad.naad.player.presenter.ShabadPlayerPresenterImpl;
 import com.vismaad.naad.player.service.App;
@@ -70,18 +52,13 @@ import com.vismaad.naad.player.service.RadioPlayerService;
 import com.vismaad.naad.player.service.ShabadPlayerForegroundService;
 import com.vismaad.naad.player.view.ShabadPlayerView;
 import com.vismaad.naad.rest.instance.RetrofitClient;
-import com.vismaad.naad.rest.model.playlist.CreatePlayList;
 import com.vismaad.naad.rest.model.playlist.LikeShabad;
-import com.vismaad.naad.rest.model.playlist.ShabadListener;
 import com.vismaad.naad.rest.model.raagi.Shabad;
 import com.vismaad.naad.rest.service.PlayList;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 import com.vismaad.naad.utils.Utils;
 import com.vismaad.naad.welcome.WelcomeActivity;
-import com.vismaad.naad.welcome.signup.SignupActivity;
-
-import android.support.v7.app.AlertDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -106,10 +83,7 @@ import static com.vismaad.naad.Constants.SINGLE_BREAK;
 import static com.vismaad.naad.Constants.TEEKA_ARTH_FONT;
 import static com.vismaad.naad.Constants.TEEKA_PAD_ARTH_FONT;
 import static com.vismaad.naad.player.service.MediaPlayerState.SHABAD_DURATION;
-import static com.vismaad.naad.player.service.MediaPlayerState.shabad_list;
-import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.PAUSED;
 import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.PLAYING;
-import static com.vismaad.naad.player.service.ShabadPlayerForegroundService.STOPPED;
 
 public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPlayerView {
 
@@ -250,7 +224,7 @@ public class ShabadPlayerActivity extends AppCompatActivity implements ShabadPla
 
             case R.id.add_to_playlist:
                 if (!JBSehajBaniPreferences.getLoginId(mSharedPreferences).equalsIgnoreCase("")) {
-                    Intent mIntent = new Intent(ShabadPlayerActivity.this, AddPlayList.class);
+                    Intent mIntent = new Intent(ShabadPlayerActivity.this, AddPlayListNew.class);
                     mIntent.putExtra("RAGGI_NAME", current_shabad.getRaagiName());
                     mIntent.putExtra("SHABAD_ID", current_shabad.getShabadId());
                     mIntent.putExtra("SHABAD_NAME", current_shabad.getShabadEnglishTitle());

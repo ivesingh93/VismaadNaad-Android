@@ -1,4 +1,4 @@
-package com.vismaad.naad.AddPlayList.presenter;
+package com.vismaad.naad.addPlayList.presenter;
 
 import android.widget.TextView;
 

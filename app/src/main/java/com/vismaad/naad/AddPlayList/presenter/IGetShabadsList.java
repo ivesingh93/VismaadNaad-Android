@@ -1,12 +1,6 @@
-package com.vismaad.naad.AddPlayList.presenter;
+package com.vismaad.naad.addPlayList.presenter;
 
-import android.util.Log;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.vismaad.naad.AddPlayList.model.JBShabadsList;
-import com.vismaad.naad.AddPlayList.view.IPlayListSelectionView;
-import com.vismaad.naad.AddPlayList.view.IShabadsList;
+import com.vismaad.naad.addPlayList.view.IShabadsList;
 import com.vismaad.naad.rest.instance.RetrofitClient;
 import com.vismaad.naad.rest.model.raagi.Shabad;
 import com.vismaad.naad.rest.service.PlayList;

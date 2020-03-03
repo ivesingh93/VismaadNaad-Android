@@ -4,14 +4,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,7 +31,6 @@ import com.vismaad.naad.navigation.home.view.HomeView;
 import com.vismaad.naad.rest.instance.RetrofitClient;
 import com.vismaad.naad.rest.model.raagi.ShabadTutorial;
 import com.vismaad.naad.rest.service.ShabadTutorialsService;
-import com.vismaad.naad.shabadtutorials.AllShabadTutorials;
 import com.vismaad.naad.shabadtutorials.ShabadTutoralsAdapter;
 import com.vismaad.naad.youtubelinks.YoutubeScreen;
 
@@ -225,7 +224,7 @@ public class HomeFragment extends Fragment implements HomeView, ShabadTutoralsAd
 
         rootView = view.findViewById(R.id.root_layout);
         search = view.findViewById(R.id.search);
-        EditText searchEditText = (EditText) search.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        EditText searchEditText = (EditText) search.findViewById(R.id.search_src_text);
         searchEditText.setTextColor(getResources().getColor(R.color.black));
         searchEditText.setHintTextColor(getResources().getColor(R.color.gray));
         search.setIconified(true);

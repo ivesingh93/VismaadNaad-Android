@@ -3,21 +3,15 @@ package com.vismaad.naad.newwork;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,22 +19,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.vismaad.naad.AddPlayList.ShabadsPlayList;
-import com.vismaad.naad.AddPlayList.view.IShabadsList;
 import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.NavigationActivity;
 import com.vismaad.naad.navigation.home.HomeFragment;
 import com.vismaad.naad.navigation.home.adapter.RaagiInfoAdapter;
-import com.vismaad.naad.navigation.home.presenter.HomePresenterImpl;
 import com.vismaad.naad.navigation.home.view.HomeView;
 import com.vismaad.naad.newwork.adapter.PopularRagisAdapter;
 import com.vismaad.naad.newwork.adapter.PopularShabadAdapter;
@@ -53,13 +42,10 @@ import com.vismaad.naad.player.service.ShabadPlayerForegroundService;
 import com.vismaad.naad.rest.instance.RetrofitClient;
 import com.vismaad.naad.rest.model.raagi.Shabad;
 import com.vismaad.naad.rest.model.raagi.ShabadTutorial;
-import com.vismaad.naad.rest.service.PlayList;
 import com.vismaad.naad.rest.service.RaagiService;
-import com.vismaad.naad.rest.service.ShabadTutorialsService;
 import com.vismaad.naad.shabadtutorials.ShabadTutoralsAdapter;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
-import com.vismaad.naad.youtubelinks.YoutubeScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,9 +104,9 @@ public class HomeFragment2 extends Fragment implements HomeView, ShabadTutoralsA
 
     }
 
-    public static HomeFragment newInstance(int player_state) {
+ /*   public static HomeFragment newInstance(int player_state) {
         return new HomeFragment();
-    }
+    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

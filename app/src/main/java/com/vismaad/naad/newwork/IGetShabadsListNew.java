@@ -1,10 +1,9 @@
 package com.vismaad.naad.newwork;
 
-import com.vismaad.naad.AddPlayList.presenter.IGetShabadsInterface;
-import com.vismaad.naad.AddPlayList.view.IShabadsList;
+import com.vismaad.naad.addPlayList.presenter.IGetShabadsInterface;
+import com.vismaad.naad.addPlayList.view.IShabadsList;
 import com.vismaad.naad.rest.instance.RetrofitClient;
 import com.vismaad.naad.rest.model.raagi.Shabad;
-import com.vismaad.naad.rest.service.PlayList;
 import com.vismaad.naad.rest.service.RaagiService;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.vismaad.naad.AddPlayList.view;
+package com.vismaad.naad.addPlayList.view;
 
 import com.vismaad.naad.rest.model.raagi.Shabad;
 

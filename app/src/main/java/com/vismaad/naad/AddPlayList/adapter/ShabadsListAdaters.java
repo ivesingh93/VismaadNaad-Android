@@ -1,10 +1,10 @@
-package com.vismaad.naad.AddPlayList.adapter;
+package com.vismaad.naad.addPlayList.adapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.widget.CardView;
-import android.util.Log;
+import androidx.cardview.widget.CardView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +18,6 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.reward.RewardedVideoAd;
-import com.vismaad.naad.AddPlayList.model.JBShabadsList;
 import com.vismaad.naad.R;
 import com.vismaad.naad.player.ShabadPlayerActivity;
 import com.vismaad.naad.player.service.MediaPlayerState;
@@ -28,7 +26,6 @@ import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import static com.vismaad.naad.Constants.PLAY_SONG;
 

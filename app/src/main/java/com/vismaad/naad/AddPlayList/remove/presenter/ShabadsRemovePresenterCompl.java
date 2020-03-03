@@ -1,6 +1,4 @@
-package com.vismaad.naad.AddPlayList.remove.presenter;
-
-import android.util.Log;
+package com.vismaad.naad.addPlayList.remove.presenter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

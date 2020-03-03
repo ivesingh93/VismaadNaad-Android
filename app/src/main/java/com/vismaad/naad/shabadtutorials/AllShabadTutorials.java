@@ -3,18 +3,16 @@ package com.vismaad.naad.shabadtutorials;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
 import com.vismaad.naad.R;
 import com.vismaad.naad.rest.instance.RetrofitClient;
-import com.vismaad.naad.rest.model.raagi.RaagiInfo;
 import com.vismaad.naad.rest.model.raagi.ShabadTutorial;
-import com.vismaad.naad.rest.service.RaagiService;
 import com.vismaad.naad.rest.service.ShabadTutorialsService;
 import com.vismaad.naad.youtubelinks.YoutubeScreen;
 

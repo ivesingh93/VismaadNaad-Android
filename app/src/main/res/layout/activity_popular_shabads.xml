@@ -8,7 +8,7 @@
 
 
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/main_background"
@@ -33,7 +33,7 @@
                         android:visibility="gone"
                         android:orientation="vertical">
 
-                        <android.support.v7.widget.SearchView
+                        <androidx.appcompat.widget.SearchView
                             android:id="@+id/search"
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
@@ -46,7 +46,7 @@
                             app:queryBackground="@android:color/transparent" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/shabad_RV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
 
             </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
 
     <View

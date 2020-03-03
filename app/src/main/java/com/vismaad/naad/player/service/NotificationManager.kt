@@ -4,7 +4,7 @@ import android.app.NotificationChannel
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 
 /**
  * Created by ivesingh on 2/6/18.

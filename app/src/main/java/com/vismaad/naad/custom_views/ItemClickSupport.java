@@ -1,6 +1,6 @@
 package com.vismaad.naad.custom_views;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.vismaad.naad.R;

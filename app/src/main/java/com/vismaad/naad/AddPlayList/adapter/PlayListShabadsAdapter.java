@@ -1,13 +1,13 @@
-package com.vismaad.naad.AddPlayList.adapter;
+package com.vismaad.naad.addPlayList.adapter;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,12 +26,9 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
-import com.vismaad.naad.AddPlayList.AddPlayList;
-import com.vismaad.naad.AddPlayList.ShabadsPlayList;
-import com.vismaad.naad.AddPlayList.remove.presenter.ShabadsRemovePresenterCompl;
+import com.vismaad.naad.addPlayList.remove.presenter.ShabadsRemovePresenterCompl;
 import com.vismaad.naad.R;
 import com.vismaad.naad.addshabads.model.AddShabadsList;
-import com.vismaad.naad.navigation.playlist.view.IPlayListView;
 import com.vismaad.naad.player.ShabadPlayerActivity;
 import com.vismaad.naad.player.service.MediaPlayerState;
 import com.vismaad.naad.rest.model.raagi.Shabad;
@@ -45,7 +41,6 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.vismaad.naad.Constants.PLAY_SONG;
 

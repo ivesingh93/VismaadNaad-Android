@@ -1,13 +1,13 @@
-package com.vismaad.naad.AddPlayList;
+package com.vismaad.naad.addPlayList;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,17 +16,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.vismaad.naad.AddPlayList.adapter.ShabadsAdapter;
-import com.vismaad.naad.AddPlayList.adapter.ShabadsListAdaters;
-import com.vismaad.naad.AddPlayList.model.JBShabadsList;
-import com.vismaad.naad.AddPlayList.presenter.IGetShabadsList;
-import com.vismaad.naad.AddPlayList.remove.presenter.ShabadsRemovePresenterCompl;
-import com.vismaad.naad.AddPlayList.view.IShabadsList;
+import com.vismaad.naad.addPlayList.adapter.ShabadsListAdaters;
+import com.vismaad.naad.addPlayList.presenter.IGetShabadsList;
+import com.vismaad.naad.addPlayList.remove.presenter.ShabadsRemovePresenterCompl;
+import com.vismaad.naad.addPlayList.view.IShabadsList;
 import com.vismaad.naad.R;
 import com.vismaad.naad.addshabads.model.AddShabadsList;
 import com.vismaad.naad.player.ShabadPlayerActivity;
 import com.vismaad.naad.player.service.MediaPlayerState;
-import com.vismaad.naad.rest.model.playlist.AddShabads;
 import com.vismaad.naad.rest.model.raagi.Shabad;
 import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;

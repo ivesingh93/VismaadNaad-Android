@@ -1,18 +1,18 @@
-package com.vismaad.naad.AddPlayList;
+package com.vismaad.naad.addPlayList;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.vismaad.naad.AddPlayList.model.JBPlaylistCount;
+import com.vismaad.naad.addPlayList.model.JBPlaylistCount;
 import com.vismaad.naad.R;
 import com.vismaad.naad.navigation.playlist.presenter.IPlayListPresenter;
 import com.vismaad.naad.navigation.playlist.presenter.PlayListPresenterCompl;

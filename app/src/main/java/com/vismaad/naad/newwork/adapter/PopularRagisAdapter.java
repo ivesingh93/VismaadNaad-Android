@@ -5,10 +5,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,24 +20,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
 import com.vismaad.naad.R;
-import com.vismaad.naad.navigation.home.adapter.RaagiInfoAdapter;
 import com.vismaad.naad.navigation.home.raagi_detail.RaagiDetailActivity;
 import com.vismaad.naad.newwork.PopRagiAndShabad;
-import com.vismaad.naad.player.ShabadPlayerActivity;
-import com.vismaad.naad.player.service.MediaPlayerState;
-import com.vismaad.naad.rest.model.raagi.RaagiInfo;
-import com.vismaad.naad.sharedprefrences.JBSehajBaniPreferences;
 import com.vismaad.naad.sharedprefrences.SehajBaniPreferences;
 import com.vismaad.naad.welcome.signup.SignupActivity;
 
 import java.util.List;
-
-import static com.vismaad.naad.Constants.PLAY_SONG;
 
 public class PopularRagisAdapter extends RecyclerView.Adapter<PopularRagisAdapter.ShabadViewHolder>  {
 
